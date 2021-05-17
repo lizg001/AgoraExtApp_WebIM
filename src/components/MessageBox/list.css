@@ -1,0 +1,55 @@
+.message_tab {
+    margin-top: 5px;
+    width     : 280px;
+    height    : 360px;
+    background: #263340;
+}
+
+.ant-tabs-nav-list {
+    display        : flex;
+    justify-content: space-between;
+    height         : 44px;
+    border-radius  : 8px 8px 0px 0px;
+    padding        : 0 30px;
+    border-bottom  : 1px solid #263340;
+}
+
+.ant-tabs-ink-bar-animated {
+    display: none;
+}
+
+.ant-tabs-tab {
+    width      : 28px;
+    height     : 40px;
+    font-size  : 14px;
+    font-family: "PingFangSC-Medium";
+    font-weight: 500;
+    color      : #D3D6D8;
+    line-height: 40px;
+}
+
+.ant-tabs-nav-operations-hidden {
+    display: none;
+}
+
+.message_list {
+    padding: 10px 30px;
+    height : 340px;
+}
+
+/* antd 样式 */
+.ant-tabs-card>.ant-tabs-nav .ant-tabs-tab-active,
+.ant-tabs-card>div>.ant-tabs-nav .ant-tabs-tab-active {
+    color     : #1890ff;
+    background: #fff;
+}
+
+.ant-tabs-card.ant-tabs-bottom>.ant-tabs-nav .ant-tabs-tab-active,
+.ant-tabs-card.ant-tabs-bottom>div>.ant-tabs-nav .ant-tabs-tab-active {
+    border-top-color: #fff;
+}
+
+.ant-tabs-tab.ant-tabs-tab-active .ant-tabs-tab-btn {
+    color      : #1890ff;
+    text-shadow: 0 0 0.25px currentColor;
+}

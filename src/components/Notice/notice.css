@@ -1,0 +1,55 @@
+.notice {
+  width: 250px;
+  height: 80px;
+  background: #263340;
+  border-radius: 8px;
+  padding: 10px 15px;
+  margin-top: 15px;
+}
+
+.notice__isEdit {
+  height: 220px;
+  background: none;
+}
+
+.notice .content {
+  width: 256px;
+  height: 40px;
+  background: #263340;
+  border-radius: 8px;
+}
+
+.notice .content .content_box {
+  width: auto;
+  /* height        : 36px; */
+  font-size: 12px;
+  font-family: "PingFangSC-Regular";
+  font-weight: 400;
+  color: #a8adb2;
+  /* line-height   : 18px; */
+  padding: 12px 0;
+}
+
+.notice .content .content_no {
+  padding: 5px;
+  text-align: center;
+  width: auto;
+  height: 18px;
+  font-size: 12px;
+  font-family: "PingFangSC-Regular";
+  font-weight: 400;
+  color: #515b66;
+  line-height: 18px;
+}
+
+.title_center {
+  text-align: center;
+  width: auto;
+}
+
+.ant-input-borderless {
+  font-size: 12px;
+  font-family: "PingFangSC-Regular";
+  font-weight: 400;
+  color: white;
+}
