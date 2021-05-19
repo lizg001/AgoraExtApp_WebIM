@@ -1,14 +1,13 @@
 import { useSelector } from 'react-redux'
 import { Tabs } from 'antd';
 import MessageItem from './MessageItem'
-import ToolBar from '../ToolBar'
-import ChatBox from '../ChatBox'
 import './list.css'
 
 const { TabPane } = Tabs;
 
-
+// 列表项
 const MessageList = () => {
+    // const roomCount = useSelector((state) => state.room.info.affiliations);
     const messageList = useSelector(state => state.message?.list) || []
     return (
         <div>
@@ -20,11 +19,11 @@ const MessageList = () => {
                     <div className="message_list">提问页</div>
                 </TabPane>
                 <TabPane tab="成员" key="3">
-                    <div className="message_list">成员页</div>
+                    <div className="message_list">
+                        成员列表
+                    </div>
                 </TabPane>
             </Tabs>
-            <ToolBar />
-            <ChatBox />
             {messageList.map(message => (
                 <MessageItem message={message} />
             ))}

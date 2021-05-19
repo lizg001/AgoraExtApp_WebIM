@@ -1,3 +1,30 @@
 .box {
-    height: 100px;
+    height: 160px;
+}
+
+textarea {
+    outline: none;
+    resize: none;
+    border: none;
+}
+
+.msg-box {
+    padding: 5px;
+    font-size: 14px;
+    width: 260px;
+    background: #1F2933;
+    color: #D3D6D8;
+    margin: 0 5px;
+
+}
+
+.msg-btn {
+    margin-left: 3px;
+    background: #7ECBFF;
+    border-radius: 10px;
+    width: 60px;
+    height: 28px;
+    font-size: 14px;
+    text-align: center;
+    cursor: pointer;
 }

@@ -11,22 +11,23 @@
     "antd": "^4.15.5",
     "classnames": "^2.3.1",
     "easemob-websdk": "^3.5.2",
+    "qiankun": "^2.4.1",
     "react": "^17.0.2",
     "react-dom": "^17.0.2",
     "react-redux": "^7.2.4",
     "react-router": "^5.2.0",
     "react-router-dom": "^5.2.0",
-    "react-scripts": "4.0.3",
     "react-sticky": "^6.0.3",
     "rebass": "^4.0.7",
     "redux": "^4.1.0",
+    "rescripts": "4.0.3",
     "web-vitals": "^1.0.1"
   },
   "scripts": {
-    "start": "react-scripts start",
-    "build": "react-scripts build",
-    "test": "react-scripts test",
-    "eject": "react-scripts eject"
+    "start": "rescripts start",
+    "build": "rescripts build",
+    "test": "rescripts test",
+    "eject": "rescripts eject"
   },
   "eslintConfig": {
     "extends": [
@@ -45,5 +46,9 @@
       "last 1 firefox version",
       "last 1 safari version"
     ]
+  },
+  "devDependencies": {
+    "@rescripts/cli": "0.0.16",
+    "react-scripts": "^4.0.3"
   }
 }

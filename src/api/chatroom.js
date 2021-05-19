@@ -1,4 +1,5 @@
 import WebIM from "../utils/WebIM";
+import { message } from 'antd'
 import { roomInfo, roomNotice, roomAdmins } from '../redux/aciton'
 import store from '../redux/store'
 
@@ -43,13 +44,14 @@ export const GetRoomNotice = (roomId) => {
 };
 
 // 上传/修改 群组公告
-export const UpdateRoomNotice = roomId => {
+export const UpdateRoomNotice = (roomId, noticeCentent) => {
     let options = {
-        roomId: '148364667715585',                 // 聊天室id   
-        announcement: '家辉培优以高中辅导为核心，包含从预初到高三的课程内容，用线上直播与线下面授相结合的模式。现已拓展为中学全科综合课外辅导机构，成为近几年立足于上海的新晋教育品牌。家辉培优以高中辅导为核心，包含从预初到高三的课程内容，用线上直播与线下面授相结合的模式。现已拓展为中学全科综合课外辅导机构，成为近几年立足于上海的新晋教育品牌。家辉培优以高中辅导为核心，包含从预初到高三的课程内容，用线上直播与线下面授相结合的模式。现已拓展为中学全科综合课外辅导机构，成为近几年立足于上海的新晋教育品牌。家辉培优以高中辅导为核心，包含从预初到高三的课程内容，用线上直播与线下面授相结合的模式。现已拓展为中学全科综合课外辅导机'    // 公告内容                        
+        roomId: roomId,                 // 聊天室id   
+        announcement: noticeCentent // 公告内容                        
     };
     WebIM.conn.updateChatRoomAnnouncement(options).then((res) => {
         console.log('>>> updateNotice', res);
+        // message.info('修改群组成功！')
         GetRoomNotice(res.data.id);
     })
 }

@@ -4,7 +4,9 @@ import LoginIM from './api/login'
 import Notice from './components/Notice/Notice'
 import MessageBox from './components/MessageBox'
 import useIMListen from './hooks/useIMListen'
-// import ToolBar from './components/ToolBar'
+import ToolBar from './components/ToolBar'
+import ChatBox from './components/ChatBox'
+
 
 import './app.css'
 
@@ -21,6 +23,8 @@ const App = function () {
       {!isEditNotice && (
         <MessageBox />
       )}
+      <ToolBar />
+      <ChatBox />
       {/* <ToolBar /> */}
       {/* <BrowserRouter>
           <Switch>

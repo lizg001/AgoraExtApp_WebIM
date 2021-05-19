@@ -17,6 +17,9 @@ const useIMListen = () => {
                     history.push('/chatroom')
                 }, 500);
             },
+            onTextMessage: (message) => {
+                console.log('onTextMessage', message);
+            },
             onError: (message) => {
                 console.log('onError', message);
             },

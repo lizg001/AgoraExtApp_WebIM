@@ -30,7 +30,7 @@ export const Notice = ({ content }) => {
         setVisible(false);
     };
     const roleId = useSelector((state) => state.roleId);
-    const hasEditPermission = roleId === ROLE.assistant.id;
+    // const hasEditPermission = roleId === ROLE.assistant.id;
     // 假设最多展示 20 个字符
     const shouldShowEllipsis = content?.length > 20;
     const toEdit = () => {

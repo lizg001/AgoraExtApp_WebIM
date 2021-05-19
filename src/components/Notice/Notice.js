@@ -1,32 +1,35 @@
+import React, { useState } from 'react'
 import { useSelector } from "react-redux";
 import cx from 'classnames'
 import { Input } from 'antd'
 import { Flex, Text, Image, Button } from 'rebass'
 import { LeftOutlined, RightOutlined } from '@ant-design/icons'
-// import { UpdateRoomNotice } from '../../api/chatroom'
+import { UpdateRoomNotice } from '../../api/chatroom'
 import icon_notice from '../../themes/img/icon_notice.png'
 import './notice.css'
 
 const { TextArea } = Input;
 const Notice = ({ isEdit, isEditNoticeChange }) => {
+    // 编辑时，显示公告字数
+    const [count, setCount] = useState(0);
+    // 编辑时，公告内容
+    const [noticeCentent, setNoticeContent] = useState('')
     const userName = useSelector((state) => state.loginName);
-    const noticeAdmins = useSelector((state) => state.room.admins);
+    const roomId = useSelector((state) => state.room.info.id);
+    const roomAdmins = useSelector((state) => state.room.admins);
     const noticeContent = useSelector((state) => state.room.notice);
     // 显示公告编辑框  
     const onEdit = () => {
         isEditNoticeChange(true);
     };
-    //  关闭公告编辑框
+    // 关闭公告编辑框
     const onView = () => {
         isEditNoticeChange(false);
     };
-    // 修改公告
-
-    // 判断权限
-    const hasEditPermisson = userName.includes(noticeAdmins);
+    // 判断权限是否为 admin
+    const hasEditPermisson = userName.includes(roomAdmins);
     // 判断公告字数，显示更多
     const shouldShowEllipsis = noticeContent?.length > 43;
-    console.log('shouldShowEllipsis', shouldShowEllipsis);
     // 助教权限，可直接展示编辑
     const Edit = () => {
         return (
@@ -40,8 +43,11 @@ const Notice = ({ isEdit, isEditNoticeChange }) => {
         )
     };
 
-    const changeText = (e) => {
-        // console.log(e.target.defaultValue);
+    const changeCount = (e) => {
+        let noticeCentent = e.target.value;
+        let noticeCount = noticeCentent.length;
+        setCount(noticeCount);
+        setNoticeContent(noticeCentent);
 
     }
     const More = () => {
@@ -65,30 +71,34 @@ const Notice = ({ isEdit, isEditNoticeChange }) => {
                     <div>
                         <Flex alignItems="center" color="#A8ADB2" mb="10px">
                             <LeftOutlined onClick={onView} />
-                            <Text fontSize="14px" fontWeight="500" color="#D3D6D8" className="title_center">公告</Text>
+                            <Text ml='90px' fontSize="14px" fontWeight="500" color="#D3D6D8" className="title_center">公告</Text>
                         </Flex>
                         <TextArea
                             placeholder="请输入公告..."
-                            bordered={false}
-                            onClick={(value) => changeText(value)}
+                            onChange={(e) => changeCount(e)}
                             style={{
                                 height: '180px',
                                 width: '100%',
-                                background: '#263340',
+                                background: '#1F2933',
                                 color: '#a8adb2',
-                                fontSize: "14px",
+                                fontSize: "12px",
                                 fontWeight: "400",
-                                marginBottom: '5px'
+                                marginBottom: '5px',
+                                paddingLeft: '3px'
                             }}
                         />
+                        <Flex justifyContent='flex-end' mb='5px' color='#999999'>{count}/300</Flex>
                         <Button
                             variant='primary'
-                            mr={2}
                             css={{
                                 background: '#7ECBFF',
                                 borderRadius: '18px',
                                 width: '100%',
                                 cursor: 'pointer'
+                            }}
+                            onClick={() => {
+                                UpdateRoomNotice(roomId, noticeCentent);
+                                onView();
                             }}
                         >保存</Button>
                     </div>

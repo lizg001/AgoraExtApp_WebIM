@@ -1,6 +1,6 @@
 .toolbar {
-    width     : 280px;
-    height    : 36px;
+    width: auto;
+    height: 36px;
     background: #263340;
 }
 
@@ -9,34 +9,34 @@
 }
 
 .ant-switch {
-    margin               : 0;
-    padding              : 0;
-    color                : rgba(0, 0, 0, 0.85);
-    font-size            : 14px;
-    font-variant         : tabular-nums;
-    line-height          : 1.5715;
-    list-style           : none;
+    margin: 0;
+    padding: 0;
+    color: rgba(0, 0, 0, 0.85);
+    font-size: 14px;
+    font-variant: tabular-nums;
+    line-height: 1.5715;
+    list-style: none;
     font-feature-settings: 'tnum';
-    position             : relative;
-    display              : inline-block;
-    box-sizing           : border-box;
-    min-width            : 44px;
-    height               : 22px;
-    line-height          : 22px;
-    vertical-align       : middle;
-    background-color     : rgba(0, 0, 0, 0.25);
-    border               : 0;
-    border-radius        : 100px;
-    cursor               : pointer;
-    transition           : all 0.2s;
-    -webkit-user-select  : none;
-    -moz-user-select     : none;
-    -ms-user-select      : none;
-    user-select          : none;
+    position: relative;
+    display: inline-block;
+    box-sizing: border-box;
+    min-width: 44px;
+    height: 22px;
+    line-height: 22px;
+    vertical-align: middle;
+    background-color: rgba(0, 0, 0, 0.25);
+    border: 0;
+    border-radius: 100px;
+    cursor: pointer;
+    transition: all 0.2s;
+    -webkit-user-select: none;
+    -moz-user-select: none;
+    -ms-user-select: none;
+    user-select: none;
 }
 
 .ant-switch:focus {
-    outline   : 0;
+    outline: 0;
     box-shadow: 0 0 0 2px rgba(0, 0, 0, 0.1);
 }
 
@@ -54,21 +54,21 @@
 
 .ant-switch-loading,
 .ant-switch-disabled {
-    cursor : not-allowed;
+    cursor: not-allowed;
     opacity: 0.4;
 }
 
 .ant-switch-loading *,
 .ant-switch-disabled * {
     box-shadow: none;
-    cursor    : not-allowed;
+    cursor: not-allowed;
 }
 
 .ant-switch-inner {
-    display   : block;
-    margin    : 0 7px 0 25px;
-    color     : #fff;
-    font-size : 12px;
+    display: block;
+    margin: 0 7px 0 25px;
+    color: #fff;
+    font-size: 12px;
     transition: margin 0.2s;
 }
 
@@ -77,25 +77,25 @@
 }
 
 .ant-switch-handle {
-    position  : absolute;
-    top       : 2px;
-    left      : 2px;
-    width     : 18px;
-    height    : 18px;
+    position: absolute;
+    top: 2px;
+    left: 2px;
+    width: 18px;
+    height: 18px;
     transition: all 0.2s ease-in-out;
 }
 
 .ant-switch-handle::before {
-    position        : absolute;
-    top             : 0;
-    right           : 0;
-    bottom          : 0;
-    left            : 0;
+    position: absolute;
+    top: 0;
+    right: 0;
+    bottom: 0;
+    left: 0;
     background-color: #fff;
-    border-radius   : 9px;
-    box-shadow      : 0 2px 4px 0 rgba(0, 35, 11, 0.2);
-    transition      : all 0.2s ease-in-out;
-    content         : '';
+    border-radius: 9px;
+    box-shadow: 0 2px 4px 0 rgba(0, 35, 11, 0.2);
+    transition: all 0.2s ease-in-out;
+    content: '';
 }
 
 .ant-switch-checked .ant-switch-handle {
@@ -104,18 +104,18 @@
 
 .ant-switch:not(.ant-switch-disabled):active .ant-switch-handle::before {
     right: -30%;
-    left : 0;
+    left: 0;
 }
 
 .ant-switch:not(.ant-switch-disabled):active.ant-switch-checked .ant-switch-handle::before {
     right: 0;
-    left : -30%;
+    left: -30%;
 }
 
 .ant-switch-loading-icon {
-    position      : relative;
-    top           : 2px;
-    color         : rgba(0, 0, 0, 0.65);
+    position: relative;
+    top: 2px;
+    color: rgba(0, 0, 0, 0.65);
     vertical-align: top;
 }
 
@@ -124,23 +124,23 @@
 }
 
 .ant-switch-small {
-    min-width  : 28px;
-    height     : 16px;
+    min-width: 28px;
+    height: 16px;
     line-height: 16px;
 }
 
 .ant-switch-small .ant-switch-inner {
-    margin   : 0 5px 0 18px;
+    margin: 0 5px 0 18px;
     font-size: 12px;
 }
 
 .ant-switch-small .ant-switch-handle {
-    width : 12px;
+    width: 12px;
     height: 12px;
 }
 
 .ant-switch-small .ant-switch-loading-icon {
-    top      : 1.5px;
+    top: 1.5px;
     font-size: 9px;
 }
 
@@ -162,17 +162,17 @@
 
 .ant-switch-rtl .ant-switch-handle {
     right: 2px;
-    left : auto;
+    left: auto;
 }
 
 .ant-switch-rtl:not(.ant-switch-rtl-disabled):active .ant-switch-handle::before {
     right: 0;
-    left : -30%;
+    left: -30%;
 }
 
 .ant-switch-rtl:not(.ant-switch-rtl-disabled):active.ant-switch-checked .ant-switch-handle::before {
     right: -30%;
-    left : 0;
+    left: 0;
 }
 
 .ant-switch-rtl.ant-switch-checked .ant-switch-inner {

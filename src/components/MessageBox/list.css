@@ -1,17 +1,22 @@
 .message_tab {
-    margin-top: 5px;
-    width     : 280px;
-    height    : 360px;
+    margin-top: 8px;
+    width: 280px;
+    height: 408px;
     background: #263340;
 }
 
 .ant-tabs-nav-list {
-    display        : flex;
+    display: flex;
     justify-content: space-between;
-    height         : 44px;
-    border-radius  : 8px 8px 0px 0px;
-    padding        : 0 30px;
-    border-bottom  : 1px solid #263340;
+    height: 44px;
+    border-radius: 8px 8px 0px 0px;
+    padding: 0 30px;
+    border-bottom: 1px solid #263340;
+    cursor: pointer;
+}
+
+.ant-tabs-nav-list :hover {
+    color: #1890ff;
 }
 
 .ant-tabs-ink-bar-animated {
@@ -19,12 +24,12 @@
 }
 
 .ant-tabs-tab {
-    width      : 28px;
-    height     : 40px;
-    font-size  : 14px;
+    width: 28px;
+    height: 40px;
+    font-size: 14px;
     font-family: "PingFangSC-Medium";
     font-weight: 500;
-    color      : #D3D6D8;
+    color: #D3D6D8;
     line-height: 40px;
 }
 
@@ -33,14 +38,14 @@
 }
 
 .message_list {
-    padding: 10px 30px;
-    height : 340px;
+    padding: 10px 15px;
+    height: 340px;
 }
 
 /* antd 样式 */
 .ant-tabs-card>.ant-tabs-nav .ant-tabs-tab-active,
 .ant-tabs-card>div>.ant-tabs-nav .ant-tabs-tab-active {
-    color     : #1890ff;
+    color: #1890ff;
     background: #fff;
 }
 
@@ -50,6 +55,6 @@
 }
 
 .ant-tabs-tab.ant-tabs-tab-active .ant-tabs-tab-btn {
-    color      : #1890ff;
+    color: #1890ff;
     text-shadow: 0 0 0.25px currentColor;
 }

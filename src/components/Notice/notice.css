@@ -1,10 +1,10 @@
 .notice {
-  width: 250px;
+  width: 240px;
   height: 80px;
   background: #263340;
-  border-radius: 8px;
+  border-radius: 15px;
   padding: 10px 15px;
-  margin-top: 15px;
+  margin: 28px 5px 0 5px;
 }
 
 .notice__isEdit {
@@ -13,21 +13,19 @@
 }
 
 .notice .content {
-  width: 256px;
+  width: auto;
   height: 40px;
   background: #263340;
   border-radius: 8px;
 }
 
 .notice .content .content_box {
-  width: auto;
-  /* height        : 36px; */
   font-size: 12px;
   font-family: "PingFangSC-Regular";
   font-weight: 400;
   color: #a8adb2;
-  /* line-height   : 18px; */
-  padding: 12px 0;
+  line-height: 18px;
+  padding: 10px 0;
 }
 
 .notice .content .content_no {
@@ -45,11 +43,4 @@
 .title_center {
   text-align: center;
   width: auto;
-}
-
-.ant-input-borderless {
-  font-size: 12px;
-  font-family: "PingFangSC-Regular";
-  font-weight: 400;
-  color: white;
 }

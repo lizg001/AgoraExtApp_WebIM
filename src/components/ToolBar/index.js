@@ -1,3 +1,4 @@
+import { useSelector } from "react-redux";
 import { Flex, Text } from 'rebass'
 import { Switch } from 'antd';
 import './index.css'
@@ -11,23 +12,39 @@ function onChangeMute(checked) {
     console.log('onChangeMute', `switch to ${checked}`);
 }
 
+function onChangeQa(checked) {
+    console.log('onChangeQa', `switch to ${checked}`);
+}
+
 const ToolBar = () => {
+    const userName = useSelector((state) => state.loginName);
+    const roomAdmins = useSelector((state) => state.room.admins);
+    const roomOwner = useSelector((state) => state.room.info.owner);
+    const isAdmins = userName.includes(roomAdmins) || userName !== roomOwner;
     return (
-        <Flex justifyContent="space-between">
+
+        <Flex justifyContent="space-between" alignItems='center' m='5px' height='36px'>
             <Flex>
                 <Switch
                     size="small"
                     onChange={onChangeMessage}
                 />
-                <Text ml="2px" fontSize="12px" fontWeight="400" color="#7C848C">隐藏赞赏</Text>
+                <Text ml="3px" fontSize="14px" fontWeight="400" color="#7C848C">隐藏赞赏</Text>
             </Flex>
             <Flex>
                 <Switch
                     size="small"
                     onChange={onChangeMute}
                 />
-                <Text ml="2px" fontSize="12px" fontWeight="400" color="#7C848C">全员禁言</Text>
+                <Text ml="3px" fontSize="14px" fontWeight="400" color="#7C848C">全员禁言</Text>
             </Flex>
+            {!isAdmins && <Flex>
+                <Switch
+                    size="small"
+                    onChange={onChangeQa}
+                />
+                <Text ml="3px" fontSize="14px" fontWeight="400" color="#7C848C">提问模式</Text>
+            </Flex>}
         </Flex>
     )
 }

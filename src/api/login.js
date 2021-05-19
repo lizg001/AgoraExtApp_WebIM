@@ -5,7 +5,7 @@ import { LoginName } from '../redux/aciton'
 // 登陆
 const LoginIM = () => {
     let potions = {
-        user: "lizg3",
+        user: "lizg2",
         pwd: "123456",
         appKey: WebIM.config.appkey,
         success: () => {
