@@ -27,7 +27,8 @@ const Notice = ({ isEdit, isEditNoticeChange }) => {
         isEditNoticeChange(false);
     };
     // 判断权限是否为 admin
-    const hasEditPermisson = userName.includes(roomAdmins);
+    const hasEditPermisson = roomAdmins.includes(userName);
+
     // 判断公告字数，显示更多
     const shouldShowEllipsis = noticeContent?.length > 43;
     // 助教权限，可直接展示编辑
@@ -42,7 +43,7 @@ const Notice = ({ isEdit, isEditNoticeChange }) => {
             </Flex>
         )
     };
-
+    // 公告内容修改
     const changeCount = (e) => {
         let noticeCentent = e.target.value;
         let noticeCount = noticeCentent.length;
@@ -50,6 +51,7 @@ const Notice = ({ isEdit, isEditNoticeChange }) => {
         setNoticeContent(noticeCentent);
 
     }
+    // 展示更多
     const More = () => {
         return (
             <Flex alignItems="center" justifyContent="space-between" color="#A8ADB2" css={{
@@ -58,10 +60,8 @@ const Notice = ({ isEdit, isEditNoticeChange }) => {
                 <Text fontSize="12px" fontWeight="500" onClick={onEdit}>更多</Text>
                 <RightOutlined />
             </Flex>
-
         )
     }
-
     return (
         <div className={cx("notice", {
             'notice__isEdit': isEdit

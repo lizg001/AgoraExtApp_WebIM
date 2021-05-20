@@ -1,5 +1,5 @@
 .box {
-    height: 160px;
+    height: 130px;
 }
 
 textarea {
@@ -12,10 +12,18 @@ textarea {
     padding: 5px;
     font-size: 14px;
     width: 260px;
-    background: #1F2933;
+    background: #263340;
     color: #D3D6D8;
     margin: 0 5px;
 
+}
+
+.emoji-icon {
+    width: 20px;
+    height: 20px;
+    color: #D3D6D8;
+    margin-left: 5px;
+    cursor: 'pointer'
 }
 
 .msg-btn {

@@ -1,3 +1,9 @@
+.message {
+    margin-top: 10px;
+    background: #263340;
+    border-radius: 8px;
+}
+
 .message_tab {
     margin-top: 8px;
     width: 280px;
@@ -37,9 +43,22 @@
     display: none;
 }
 
-.message_list {
+.message-list {
     padding: 10px 15px;
     height: 340px;
+    overflow: auto;
+}
+
+.user-list {
+    height: 520px;
+    padding: 10px 15px;
+    overflow: auto;
+}
+
+.member-msg {
+    padding: 10px 15px;
+    height: 386px;
+    overflow: auto;
 }
 
 /* antd 样式 */

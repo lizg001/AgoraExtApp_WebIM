@@ -1,0 +1,26 @@
+.msg {
+    width: 224px;
+    height: auto;
+    font-size: 14px;
+    font-family: 'PingFangSC-Regular';
+    font-weight: 400;
+    color: #D3D6D8;
+    line-height: 20px;
+    margin-left: 28px;
+}
+
+.msg-sender {
+    margin-left: 5px;
+    width: 24px;
+    height: 18px;
+    font-size: 12px;
+    font-weight: 400;
+    color: #7C848C
+}
+
+.msg-img {
+    width: 24px;
+    height: 24px;
+    background: #B2E0FF;
+    border-radius: 50%
+}

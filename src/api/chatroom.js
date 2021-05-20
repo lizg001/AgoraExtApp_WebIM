@@ -1,5 +1,5 @@
 import WebIM from "../utils/WebIM";
-import { message } from 'antd'
+// import { message } from 'antd'
 import { roomInfo, roomNotice, roomAdmins } from '../redux/aciton'
 import store from '../redux/store'
 
@@ -43,11 +43,28 @@ export const GetRoomNotice = (roomId) => {
     })
 };
 
+let newNotice = '';
+function httpString(str) {
+    var textR = str;
+    var reg = /(http:\/\/|https:\/\/)((\w|=|\?|\.|\/|&|-)+)/g;
+    if (reg.exec('')) {
+        console.log('1111');
+    } else {
+        newNotice = textR.replace(reg, "<a href='$1$2'>$1$2</a>");
+        console.log('textR---', textR);
+        return newNotice
+    }
+}
+
+
+
 // 上传/修改 群组公告
 export const UpdateRoomNotice = (roomId, noticeCentent) => {
+    console.log('UpdateRoomNotice', roomId, noticeCentent);
+    httpString(noticeCentent)
     let options = {
         roomId: roomId,                 // 聊天室id   
-        announcement: noticeCentent // 公告内容                        
+        announcement: newNotice // 公告内容                        
     };
     WebIM.conn.updateChatRoomAnnouncement(options).then((res) => {
         console.log('>>> updateNotice', res);
