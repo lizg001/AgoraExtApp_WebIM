@@ -1,5 +1,8 @@
 .box {
     height: 130px;
+    position: relative;
+    left: 0;
+    bottom: 0;
 }
 
 textarea {
@@ -26,6 +29,16 @@ textarea {
     cursor: 'pointer'
 }
 
+
+.btn-tool {
+    display: flex;
+    align-items: center;
+    color: #D3D6D8;
+    position: absolute;
+    right: 5px;
+    bottom: 5px;
+}
+
 .msg-btn {
     margin-left: 3px;
     background: #7ECBFF;
@@ -35,4 +48,33 @@ textarea {
     font-size: 14px;
     text-align: center;
     cursor: pointer;
+}
+
+.msg-box-mute {
+    justify-content: center;
+    height: 130px;
+    align-items: center;
+}
+
+.mute-msg {
+    width: 60px;
+    height: 18px;
+    font-size: 12px;
+    font-family: "PingFangSC-Regular";
+    font-weight: 400;
+    color: #7C848C;
+    line-height: 18px;
+}
+
+.emoji-all {
+    position: absolute;
+    left: 0;
+    bottom: 140px;
+    background: #263340;
+    border-radius: 8px;
+    cursor: pointer;
+}
+
+.emoji-content {
+    margin-left: 5px;
 }

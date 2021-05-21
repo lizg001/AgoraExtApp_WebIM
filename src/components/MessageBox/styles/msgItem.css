@@ -1,5 +1,5 @@
 .msg {
-    width: 224px;
+    width: auto;
     height: auto;
     font-size: 14px;
     font-family: 'PingFangSC-Regular';
@@ -10,7 +10,6 @@
 }
 
 .msg-sender {
-    margin-left: 5px;
     width: 24px;
     height: 18px;
     font-size: 12px;

@@ -67,7 +67,7 @@ const reducer = (state = defaultState, action) => {
                 isReward: data
             };
         case 'SAVE_QA_MESSAGE':
-            let qaMsgs = state.messages.qa.concat(data)
+            let qaMsgs = state.messages.qaList.concat(data)
             return {
                 ...state,
                 messages: {

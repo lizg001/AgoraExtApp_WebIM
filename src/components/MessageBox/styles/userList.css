@@ -1,0 +1,56 @@
+.search-back {
+    position: relative;
+    left: 0;
+    top: 0;
+    background: #2D3D4D;
+    border-radius: 16px;
+
+    cursor: pointer;
+}
+
+.search-user {
+    width: auto;
+    height: 32px;
+    padding-left: 30px;
+    border-radius: 16px;
+    background: #2D3D4D;
+    color: #515B66;
+    border: none;
+    outline: none;
+}
+
+.search-icon {
+    position: absolute;
+    left: 10px;
+    top: 8px;
+}
+
+.only-mute {
+    width: 48px;
+    height: 18px;
+    font-size: 12px;
+    font-weight: 400;
+    color: #7C848C;
+    line-height: 18px;
+}
+
+.tags {
+    margin-left: 8px;
+    background: blue;
+    width: 48px;
+    height: 16px;
+    font-size: 12px;
+    font-weight: 400;
+    color: #FFFFFF;
+    line-height: 16px;
+}
+
+.username {
+    margin-left: 8px;
+    width: 56px;
+    height: 20px;
+    font-size: 14px;
+    font-weight: 400;
+    color: #D3D6D8;
+    line-height: 20px;
+}

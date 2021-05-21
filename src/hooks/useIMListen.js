@@ -1,9 +1,9 @@
 import { useEffect } from 'react'
 import store from '../redux/store'
-import { roomMessages } from '../redux/aciton'
+import { roomMessages, qaMessages } from '../redux/aciton'
 import WebIM from '../utils/WebIM';
 import { useHistory } from 'react-router-dom'
-import { JoinRoom } from '../api/chatroom'
+import { JoinRoom, GetRoomInfo } from '../api/chatroom'
 
 
 
@@ -22,7 +22,11 @@ const useIMListen = () => {
             // 文本消息
             onTextMessage: (message) => {
                 console.log('onTextMessage', message);
-                store.dispatch(roomMessages(message))
+                if (message.ext.msgType === 0) {
+                    store.dispatch(roomMessages(message))
+                } else if (message.ext.msgType === 2) {
+                    store.dispatch(qaMessages(message))
+                }
             },
             // 异常回调
             onError: (message) => {
@@ -31,6 +35,16 @@ const useIMListen = () => {
             // 聊天室相关监听
             onPresence: (message) => {
                 console.log('onPresence', message);
+                console.log('type-----', message.type);
+                switch (message.type) {
+                    case "memberJoinChatRoomSuccess":
+                        GetRoomInfo(message.gid);
+                        break;
+                    case "leaveChatRoom":
+                        GetRoomInfo(message.gid);
+                    default:
+                        break;
+                }
             },
             onCustomMessage: (message) => {
                 console.log('onCustomMessage', message);
