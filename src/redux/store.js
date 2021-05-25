@@ -1,5 +1,7 @@
 import { createStore } from 'redux'
 import reducer from './reducer'
 
+const store = createStore(reducer);
+window.store = store
 
-export default createStore(reducer);
+export default store

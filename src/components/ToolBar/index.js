@@ -1,5 +1,5 @@
-import { useState } from 'react'
 import { useSelector } from "react-redux";
+import { message } from 'antd'
 import WebIM from '../../utils/WebIM'
 import store from '../../redux/store'
 import { isReward, isQa } from '../../redux/aciton'
@@ -10,38 +10,29 @@ import { GetRoomInfo } from '../../api/chatroom'
 import './index.css'
 
 
-
-
-const ToolBar = ({ hide, isTool }) => {
-    console.log('ToolBar----hide', hide);
-    console.log('ToolBar----isTool', isTool);
-    const [isImg, setIsImg] = useState(false)
+const ToolBar = ({ hide, isTool, qaUser, activeKey }) => {
     const userName = useSelector((state) => state.loginName);
     const roomId = useSelector((state) => state.room.info.id);
     const roomAdmins = useSelector((state) => state.room.admins);
     const roomOwner = useSelector((state) => state.room.info.owner);
     const isMute = useSelector((state) => state.room.info.mute);
-    console.log('isMute---', isMute);
     const isAdmins = roomAdmins.includes(userName) || userName === roomOwner;
 
     // 赞赏消息
     function onChangeMessage(checked) {
-        console.log('onChangeMessage', `switch to ${checked}`);
         store.dispatch(isReward({ checked }))
     }
-    // 
+    // 全局禁言
     function onChangeMute(checked) {
-        console.log('onChangeMute', `switch to ${checked}`);
         if (checked) {
             setAllmute();
         } else {
             removeAllmute();
         }
-
     }
-
+    // 提问消息
     function onChangeQa(checked) {
-        console.log('onChangeQa', `switch to ${checked}`);
+        console.log('onChangeQa', checked);
         store.dispatch(isQa({ checked }))
     }
 
@@ -51,8 +42,11 @@ const ToolBar = ({ hide, isTool }) => {
             chatRoomId: roomId    // 聊天室id
         };
         WebIM.conn.disableSendChatRoomMsg(options).then((res) => {
-            console.log('禁言----', res)
             GetRoomInfo(roomId);
+            message.success('已设置全局禁言');
+            setTimeout(() => {
+                message.destroy();
+            }, 3000);
         })
     }
     // 解除一键禁言
@@ -61,8 +55,11 @@ const ToolBar = ({ hide, isTool }) => {
             chatRoomId: roomId    // 聊天室id
         };
         WebIM.conn.enableSendChatRoomMsg(options).then((res) => {
-            console.log('解除禁言---', res)
             GetRoomInfo(roomId);
+            message.success('已解除全局禁言');
+            setTimeout(() => {
+                message.destroy();
+            }, 3000);
         })
     }
     return (
@@ -83,20 +80,19 @@ const ToolBar = ({ hide, isTool }) => {
                                     </Flex>
                                 </Flex>
                             </div>}
-                            <ChatBox isMute={isMute} isAdmins={isAdmins} isImg={isImg} />
                         </div>
                     ) : (
                             <div>
-                                <Flex justifyContent="flex-end" alignItems='center' m='5px' height='36px'>
-                                    <Switch size="small" onChange={onChangeQa}
-                                    />
-                                    <Text ml="3px" fontSize="14px" fontWeight="400" color="#7C848C">提问模式</Text>
-                                </Flex>
-                                <ChatBox isMute={isMute} isAdmins={isAdmins} />
+                                <div>
+                                    <Flex justifyContent="flex-end" alignItems='center' m='5px' height='36px'>
+                                        <Switch size="small" onChange={onChangeQa}
+                                        />
+                                        <Text ml="3px" fontSize="14px" fontWeight="400" color="#7C848C">提问模式</Text>
+                                    </Flex>
+                                </div>
                             </div>
-
                         )}
-
+                    <ChatBox isMute={isMute} isAdmins={isAdmins} isTool={isTool} qaUser={qaUser} activeKey={activeKey} />
                 </div>
             ) : (
                     <div></div>

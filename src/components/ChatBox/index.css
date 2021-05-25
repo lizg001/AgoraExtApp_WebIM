@@ -1,4 +1,4 @@
-.box {
+.footer {
     height: 130px;
     position: relative;
     left: 0;
@@ -12,12 +12,13 @@ textarea {
 }
 
 .msg-box {
-    padding: 5px;
+    margin: 5px 0;
+    padding-left: 10px;
     font-size: 14px;
-    width: 260px;
+    width: auto;
+    height: 70px;
     background: #263340;
     color: #D3D6D8;
-    margin: 0 5px;
 
 }
 
@@ -26,6 +27,14 @@ textarea {
     height: 20px;
     color: #D3D6D8;
     margin-left: 5px;
+    cursor: 'pointer'
+}
+
+.img-icon {
+    margin-left: 5px;
+    width: 16px;
+    height: 16px;
+    color: #D3D6D8;
     cursor: 'pointer'
 }
 

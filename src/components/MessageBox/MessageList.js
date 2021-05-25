@@ -1,99 +1,118 @@
 import { useState } from 'react'
 import { useSelector } from 'react-redux'
 import { Tabs } from 'antd';
-import { Text } from 'rebass'
+import { Text, Flex } from 'rebass'
 import ToolBar from '../ToolBar'
-import MessageItem from './MessageItem'
-import UserItem from './UserItem'
-import QaMessage from './QaMessage'
+import MessageItem from './Message/MessageItem'
+import QuestionMessage from './QaList/QuestionMessage'
+import { CHAT_TABS, CHAT_TABS_KEYS } from './constants'
+import store from '../../redux/store'
+import { removeChatNotification, removeQaNotification } from '../../redux/aciton'
 
-import './styles/list.css'
+import './list.css'
+import { FastBackwardFilled } from '@ant-design/icons';
 
 const { TabPane } = Tabs;
 
-
 // 列表项
-const MessageList = () => {
-    // 控制 Toolbar 组件是否展示
-    const [hide, sethide] = useState(false);
-    // 控制 Toolbar 组件是否展示图片 
-    const [isTool, setIsTool] = useState(false);
-    const userName = useSelector((state) => state.loginName);
-    const roomAdmins = useSelector((state) => state.room.admins);
-    const roomOwner = useSelector((state) => state.room.info.owner);
-    const messageList = useSelector(state => state.messages.list) || [];
-    const userList = useSelector(state => state.room.info.affiliations);
-    const qaList = useSelector(state => state.messages.qaList) || [];
-    const isHide = useSelector(state => state.isReward).checked;
-    let arrCount = (messageList.length !== 0);
-    let qaCount = (qaList.length !== 0)
+const MessageList = ({ activeKey, setActiveKey }) => {
+  // 控制 Toolbar 组件是否展示
+  const [hide, sethide] = useState(false);
+  // 控制 Toolbar 组件是否展示图片 
+  const [isTool, setIsTool] = useState(false);
+  const [qaUser, setQaUser] = useState('');
+  // const [question,serQuestion] = useState(false);
+  const userName = useSelector((state) => state.loginName);
+  const roomAdmins = useSelector((state) => state.room.admins);
+  const roomOwner = useSelector((state) => state.room.info.owner);
+  const messageList = useSelector(state => state.messages.list) || [];
+  const notification = useSelector(state => state.messages.notification);
+  const userList = useSelector(state => state.room.users);
+  // 是够隐藏赞赏消息
+  const isHiedReward = useSelector(state => state.isReward).checked;
+  // 是否为提供消息
+  const isHiedQuestion = useSelector(state => state.isQa).checked;
+  // 是否有权限
+  let hasEditPermisson = roomAdmins.includes(userName) || userName === roomOwner;
 
-    let hasEditPermisson = roomAdmins.includes(userName) || userName === roomOwner;
-
-    const callback = (key) => {
-        switch (key) {
-            case "1":
-                sethide(false)
-                break;
-            case "2":
-                sethide(false);
-                setIsTool(true)
-                break;
-            case "3":
-                sethide(true)
-                break;
-            default:
-                break;
-        }
+  const handleTabChange = (key) => {
+    setActiveKey(key)
+    switch (key) {
+      case "CHAT":
+        sethide(false);
+        setIsTool(false);
+        store.dispatch(removeChatNotification(false))
+        break;
+      case "QA":
+        sethide(false);
+        setIsTool(true);
+        store.dispatch(removeQaNotification(false))
+        break;
+      case "USER":
+        sethide(true)
+        break;
+      default:
+        break;
     }
-    return (
-        <div className='message'>
-            {hasEditPermisson ? (
-                <Tabs defaultActiveKey="1" onChange={callback}>
-                    <TabPane tab="聊天" key="1">
-                        <div className="message-list">
-                            {
-                                arrCount ? (
-                                    <MessageItem messageList={messageList} isHide={isHide} />
-                                ) : (
-                                        <Text textAlign='center' color='#D3D6D8'>暂无消息</Text>
-                                    )
-                            }
-                        </div>
-                        <ToolBar hide={hide} />
-                    </TabPane>
-                    <TabPane tab="提问" key="2">
-                        <div className="message-list">
-                            {
-                                qaCount ? (
-                                    <QaMessage qaList={qaList} />
-                                ) : (
-                                        <Text textAlign='center' color='#D3D6D8'>暂无提问消息</Text>
-                                    )
-                            }
-                        </div>
-                        <ToolBar hide={hide} isTool={isTool} />
-                    </TabPane>
-                    <TabPane tab="成员" key="3">
-                        <div className="user-list">
-                            <UserItem userList={userList} />
-                        </div>
-                    </TabPane>
-                </Tabs>
-            ) : (
-                    <div className="member-msg">
-                        {
-                            arrCount ? (
-                                <MessageItem messageList={messageList} isHide={isHide} />
-                            ) : (
-                                    <Text textAlign='center' color='#D3D6D8'>暂无消息</Text>
-                                )
-                        }
-                    </div>
+  }
+
+  // 需要拿到选中的提问者id
+  const getClickUser = (user) => {
+    setQaUser(user)
+  }
+
+  return (
+    <div className='message'>
+      {hasEditPermisson ? (
+        <Tabs activeKey={activeKey} onChange={handleTabChange}>
+          {
+            CHAT_TABS.map(({ key, name, component: Component, className }) => (
+              <TabPane tab={<Flex>
+                <Text whiteSpace="nowrap">{name}</Text>
+                {Boolean(notification[key]) && (
+                  console.log('notification', notification[key]),
+                  <Text ml="6px" whiteSpace="nowrap" color="red">*</Text>
                 )}
+              </Flex>} key={key}>
+                <div className={className}>
+                  <Component {
+                    ...key === CHAT_TABS_KEYS.chat && {
+                      messageList,
+                      isHiedReward,
+                      hasEditPermisson,
+                      activeKey
+                    }
+                  } {...key === CHAT_TABS_KEYS.qa && {
+                    getClickUser
+                  }} {...key === CHAT_TABS_KEYS.user && {
+                    userList
+                  }} />
+                </div>
+              </TabPane>
+            ))
+          }
+        </Tabs>
+      ) : (
+          isHiedQuestion ? (
+            <div className="member-msg">
+              <QuestionMessage userName={userName} />
+            </div>
+          ) : (
+              <div className="member-msg">
+                {
+                  messageList.length > 0 ? (
+                    <MessageItem messageList={messageList} isHiedReward={isHiedReward} />
+                  ) : (
+                      <Text textAlign='center' color='#D3D6D8'>暂无消息</Text>
+                    )
+                }
+              </div>
+            )
 
-        </div>
-    )
+
+        )}
+      <ToolBar hide={hide} isTool={isTool} qaUser={qaUser} activeKey={activeKey} />
+    </div>
+  )
 }
-
 export default MessageList

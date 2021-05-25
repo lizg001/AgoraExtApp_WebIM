@@ -4,6 +4,7 @@ import cx from 'classnames'
 import { Input } from 'antd'
 import { Flex, Text, Image, Button } from 'rebass'
 import { LeftOutlined, RightOutlined } from '@ant-design/icons'
+// import {role} from '../../constants/role'
 import { UpdateRoomNotice } from '../../api/chatroom'
 import icon_notice from '../../themes/img/icon_notice.png'
 import './notice.css'
@@ -87,14 +88,16 @@ const Notice = ({ isEdit, isEditNoticeChange }) => {
                                 paddingLeft: '3px'
                             }}
                         />
+                        {/* css={{ position: 'absolute', right: '15px' }} */}
                         <Flex justifyContent='flex-end' mb='5px' color='#999999'>{count}/300</Flex>
                         <Button
                             variant='primary'
                             css={{
-                                background: '#7ECBFF',
+                                // background: '#1F2933',
                                 borderRadius: '18px',
                                 width: '100%',
-                                cursor: 'pointer'
+                                cursor: 'pointer',
+                                // position: 'absolute'
                             }}
                             onClick={() => {
                                 UpdateRoomNotice(roomId, noticeCentent);

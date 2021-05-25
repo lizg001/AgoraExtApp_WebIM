@@ -47,7 +47,7 @@
 
 .username {
     margin-left: 8px;
-    width: 56px;
+    width: auto;
     height: 20px;
     font-size: 14px;
     font-weight: 400;

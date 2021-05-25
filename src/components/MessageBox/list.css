@@ -31,7 +31,6 @@
 }
 
 .ant-tabs-tab {
-    width: 28px;
     height: 40px;
     font-size: 14px;
     font-family: "PingFangSC-Medium";
@@ -47,6 +46,12 @@
 .message-list {
     padding: 10px 15px;
     height: 340px;
+    overflow: auto;
+}
+
+.qa-list {
+    padding: 10px 15px;
+    height: 386px;
     overflow: auto;
 }
 

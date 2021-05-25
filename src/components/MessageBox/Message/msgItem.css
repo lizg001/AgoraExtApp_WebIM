@@ -6,11 +6,16 @@
     font-weight: 400;
     color: #D3D6D8;
     line-height: 20px;
-    margin-left: 28px;
+    margin-left: 5px;
+}
+
+.msg-text {
+    margin-left: 28px !important;
 }
 
 .msg-sender {
-    width: 24px;
+    margin-right: 3px;
+    width: auto;
     height: 18px;
     font-size: 12px;
     font-weight: 400;
@@ -22,4 +27,13 @@
     height: 24px;
     background: #B2E0FF;
     border-radius: 50%
+}
+
+
+.delete-icon {
+    margin-left: 5px;
+    height: 16px;
+    color: white;
+    background: #000000;
+    cursor: pointer;
 }

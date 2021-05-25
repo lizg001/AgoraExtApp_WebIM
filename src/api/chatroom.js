@@ -1,7 +1,8 @@
 import WebIM from "../utils/WebIM";
-// import { message } from 'antd'
-import { roomInfo, roomNotice, roomAdmins } from '../redux/aciton'
+import { message } from 'antd'
+import { roomInfo, roomNotice, roomAdmins, roomUsers, roomMuteUsers } from '../redux/aciton'
 import store from '../redux/store'
+import { setUserInfo } from './userInfo'
 
 
 // 加入聊天室
@@ -11,8 +12,12 @@ export const JoinRoom = () => {
         message: 'reason'   // 原因（可选参数）
     }
     WebIM.conn.joinChatRoom(options).then((res) => {
-        console.log('>>> JoinRoom', res);
+        message.success('已成功加入聊天室！');
+        setTimeout(() => {
+            message.destroy();
+        }, 3000);
         GetRoomInfo(options.roomId);
+        setUserInfo();
     })
 
 };
@@ -23,10 +28,11 @@ export const GetRoomInfo = (roomId) => {
         chatRoomId: roomId   // 聊天室id
     }
     WebIM.conn.getChatRoomDetails(options).then((res) => {
-        console.log('>>> getChatroomInfo', res);
         store.dispatch(roomInfo(res.data[0]));
         GetRoomNotice(roomId);
         GetRoomAdmins(roomId);
+        GetRoomUsers(roomId);
+        GetRoomMuteList(roomId);
     })
 }
 
@@ -38,7 +44,6 @@ export const GetRoomNotice = (roomId) => {
         roomId       // 聊天室id                          
     };
     WebIM.conn.fetchChatRoomAnnouncement(options).then((res) => {
-        console.log('>>> getRoomAnnouncement', res);
         store.dispatch(roomNotice(res.data.announcement));
     })
 };
@@ -60,14 +65,12 @@ function httpString(str) {
 
 // 上传/修改 群组公告
 export const UpdateRoomNotice = (roomId, noticeCentent) => {
-    console.log('UpdateRoomNotice', roomId, noticeCentent);
     httpString(noticeCentent)
     let options = {
         roomId: roomId,                 // 聊天室id   
         announcement: newNotice // 公告内容                        
     };
     WebIM.conn.updateChatRoomAnnouncement(options).then((res) => {
-        console.log('>>> updateNotice', res);
         // message.info('修改群组成功！')
         GetRoomNotice(res.data.id);
     })
@@ -79,7 +82,28 @@ export const GetRoomAdmins = (roomId) => {
         chatRoomId: roomId   // 聊天室id
     }
     WebIM.conn.getChatRoomAdmin(options).then((res) => {
-        console.log('>>> GetRoomAdmins', res)
         store.dispatch(roomAdmins(res.data));
     })
 };
+
+// 获取聊天室成员列表
+export const GetRoomUsers = (roomId) => {
+    let options = {
+        pageNum: 1,
+        pageSize: 100,
+        chatRoomId: roomId
+    }
+    WebIM.conn.listChatRoomMember(options).then((res) => {
+        store.dispatch(roomUsers(res.data));
+    })
+}
+
+// 获取聊天室禁言成员列表
+export const GetRoomMuteList = (roomId) => {
+    let options = {
+        chatRoomId: roomId // 聊天室id
+    };
+    WebIM.conn.getChatRoomMuted(options).then((res) => {
+        store.dispatch(roomMuteUsers(res.data));
+    })
+}
