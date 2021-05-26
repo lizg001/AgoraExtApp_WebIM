@@ -3,7 +3,7 @@ import { useHistory } from 'react-router-dom'
 import store from '../redux/store'
 import { roomMessages, qaMessages } from '../redux/aciton'
 import WebIM from '../utils/WebIM';
-import { JoinRoom, GetRoomInfo } from '../api/chatroom'
+import { joinRoom, getRoomInfo } from '../api/chatroom'
 import { CHAT_TABS_KEYS } from '../components/MessageBox/constants'
 
 // WebIM 注册监听回调
@@ -12,7 +12,7 @@ const useIMListen = ({ currentTab }) => {
     useEffect(() => {
         WebIM.conn.listen({
             onOpened: () => {
-                JoinRoom();
+                joinRoom();
                 setTimeout(() => {
                     history.push('/chatroom')
                 }, 500);
@@ -35,14 +35,14 @@ const useIMListen = ({ currentTab }) => {
                 console.log('type-----', message.type);
                 switch (message.type) {
                     case "memberJoinChatRoomSuccess":
-                        GetRoomInfo(message.gid);
+                        getRoomInfo(message.gid);
                         message.success(message.from + '已成功加入聊天室！');
                         setTimeout(() => {
                             message.destroy();
                         }, 3000);
                         break;
                     case "leaveChatRoom":
-                        GetRoomInfo(message.gid);
+                        getRoomInfo(message.gid);
                         message.success(message.from + '已离开聊天室！');
                         setTimeout(() => {
                             message.destroy();
@@ -63,8 +63,8 @@ const useIMListen = ({ currentTab }) => {
             }, //收到图片消息
             onCmdMessage: (message) => {
                 console.log('onCmdMessage', message);
-                store.dispatch(roomMessages(message))
-                // store.dispatch(delectMessages(message))
+                // store.dispatch(roomMessages(message))
+                store.dispatch(roomMessages(message, { showNotice: currentTab !== CHAT_TABS_KEYS.chat }))
             },
         })
     }, [history, currentTab])

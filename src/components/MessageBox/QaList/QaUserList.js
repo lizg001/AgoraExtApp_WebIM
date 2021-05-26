@@ -1,6 +1,6 @@
 import { useState, useEffect } from 'react'
 import { useSelector } from 'react-redux'
-import { Text, Image, Flex } from 'rebass'
+import { Image, Flex } from 'rebass'
 import QaMessage from './QaMessage'
 import './qaMessage.css'
 
@@ -25,7 +25,7 @@ const QaUserList = ({ getClickUser }) => {
             {
                 isQaList ? (
                     // <Text justifyContent='center' color='#D3D6D8'>暂无提问消息</Text>
-                    <div></div>
+                    <></>
                 ) : (
                         <div>
                             {
@@ -39,7 +39,6 @@ const QaUserList = ({ getClickUser }) => {
                                     )
                                 })
                             }
-                            {/* < QaMessage currentUser={currentUser} /> */}
                         </div>
                     )
             }

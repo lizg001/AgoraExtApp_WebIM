@@ -10,7 +10,7 @@ import store from '../../redux/store'
 import { removeChatNotification, removeQaNotification } from '../../redux/aciton'
 
 import './list.css'
-import { FastBackwardFilled } from '@ant-design/icons';
+// import { FastBackwardFilled } from '@ant-design/icons';
 
 const { TabPane } = Tabs;
 
@@ -35,6 +35,7 @@ const MessageList = ({ activeKey, setActiveKey }) => {
   // 是否有权限
   let hasEditPermisson = roomAdmins.includes(userName) || userName === roomOwner;
 
+  // 切换 tab 
   const handleTabChange = (key) => {
     setActiveKey(key)
     switch (key) {
@@ -71,7 +72,7 @@ const MessageList = ({ activeKey, setActiveKey }) => {
                 <Text whiteSpace="nowrap">{name}</Text>
                 {Boolean(notification[key]) && (
                   console.log('notification', notification[key]),
-                  <Text ml="6px" whiteSpace="nowrap" color="red">*</Text>
+                  <Text ml="6px" whiteSpace="nowrap" color="red" fontSize='20px'>·</Text>
                 )}
               </Flex>} key={key}>
                 <div className={className}>

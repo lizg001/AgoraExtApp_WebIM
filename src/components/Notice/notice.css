@@ -7,9 +7,15 @@
   margin: 28px 5px 0 5px;
 }
 
-.notice__isEdit {
+.notice-isEdit {
   height: 220px;
   background: none;
+}
+
+.notice-img {
+  width: 14px;
+  height: 14px;
+  object-fit: 'cover'
 }
 
 .notice .content {
@@ -19,16 +25,17 @@
   border-radius: 8px;
 }
 
-.notice .content .content_box {
+.notice .content .content-box {
   font-size: 12px;
   font-family: "PingFangSC-Regular";
   font-weight: 400;
   color: #a8adb2;
   line-height: 18px;
+  height: 40px;
   padding: 10px 0;
 }
 
-.notice .content .content_no {
+.notice .content .content-no {
   padding: 5px;
   text-align: center;
   width: auto;
@@ -43,4 +50,15 @@
 .title_center {
   text-align: center;
   width: auto;
+}
+
+.update-content {
+  height: 180px;
+  width: 100%;
+  background: #1F2933;
+  color: #a8adb2;
+  font-size: 12px;
+  font-weight: 400;
+  margin-bottom: 5px;
+  padding-left: 3px
 }

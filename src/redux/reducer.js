@@ -142,8 +142,6 @@ const reducer = (state = defaultState, action) => {
                 loginInfo: data
             };
         case 'SAVE_MEMBER_INFO':
-            // let roomListInfo = _.values(data)
-            // console.log('abc>>', roomListInfo);
             return {
                 ...state,
                 userListInfo: data

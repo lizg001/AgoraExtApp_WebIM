@@ -44,7 +44,6 @@ export const removeQaNotification = (data) => {
     return { type: 'REMOVE_QA_NOTIFICATION', data }
 }
 
-
 // 聊天室提问消息
 export const qaMessages = (data, qaSender, options) => {
     return { type: 'SAVE_QA_MESSAGE', data, qaSender, options }

@@ -1,20 +1,15 @@
-import React, { useState } from 'react'
+import React from 'react'
 import { useSelector } from "react-redux";
 import cx from 'classnames'
-import { Input } from 'antd'
-import { Flex, Text, Image, Button } from 'rebass'
-import { LeftOutlined, RightOutlined } from '@ant-design/icons'
+import { Flex, Text, Image } from 'rebass'
+import { RightOutlined } from '@ant-design/icons'
 // import {role} from '../../constants/role'
-import { UpdateRoomNotice } from '../../api/chatroom'
+import EditNotice from './EditNotice'
 import icon_notice from '../../themes/img/icon_notice.png'
 import './notice.css'
 
-const { TextArea } = Input;
+
 const Notice = ({ isEdit, isEditNoticeChange }) => {
-    // 编辑时，显示公告字数
-    const [count, setCount] = useState(0);
-    // 编辑时，公告内容
-    const [noticeCentent, setNoticeContent] = useState('')
     const userName = useSelector((state) => state.loginName);
     const roomId = useSelector((state) => state.room.info.id);
     const roomAdmins = useSelector((state) => state.room.admins);
@@ -31,7 +26,7 @@ const Notice = ({ isEdit, isEditNoticeChange }) => {
     const hasEditPermisson = roomAdmins.includes(userName);
 
     // 判断公告字数，显示更多
-    const shouldShowEllipsis = noticeContent?.length > 43;
+    const shouldShowEllipsis = noticeContent?.length > 41;
     // 助教权限，可直接展示编辑
     const Edit = () => {
         return (
@@ -44,14 +39,6 @@ const Notice = ({ isEdit, isEditNoticeChange }) => {
             </Flex>
         )
     };
-    // 公告内容修改
-    const changeCount = (e) => {
-        let noticeCentent = e.target.value;
-        let noticeCount = noticeCentent.length;
-        setCount(noticeCount);
-        setNoticeContent(noticeCentent);
-
-    }
     // 展示更多
     const More = () => {
         return (
@@ -65,45 +52,12 @@ const Notice = ({ isEdit, isEditNoticeChange }) => {
     }
     return (
         <div className={cx("notice", {
-            'notice__isEdit': isEdit
+            'notice-isEdit': isEdit
         })}>
             {
                 isEdit ? (
                     <div>
-                        <Flex alignItems="center" color="#A8ADB2" mb="10px">
-                            <LeftOutlined onClick={onView} />
-                            <Text ml='90px' fontSize="14px" fontWeight="500" color="#D3D6D8" className="title_center">公告</Text>
-                        </Flex>
-                        <TextArea
-                            placeholder="请输入公告..."
-                            onChange={(e) => changeCount(e)}
-                            style={{
-                                height: '180px',
-                                width: '100%',
-                                background: '#1F2933',
-                                color: '#a8adb2',
-                                fontSize: "12px",
-                                fontWeight: "400",
-                                marginBottom: '5px',
-                                paddingLeft: '3px'
-                            }}
-                        />
-                        {/* css={{ position: 'absolute', right: '15px' }} */}
-                        <Flex justifyContent='flex-end' mb='5px' color='#999999'>{count}/300</Flex>
-                        <Button
-                            variant='primary'
-                            css={{
-                                // background: '#1F2933',
-                                borderRadius: '18px',
-                                width: '100%',
-                                cursor: 'pointer',
-                                // position: 'absolute'
-                            }}
-                            onClick={() => {
-                                UpdateRoomNotice(roomId, noticeCentent);
-                                onView();
-                            }}
-                        >保存</Button>
+                        < EditNotice roomId={roomId} noticeContent={noticeContent} onView={onView} />
                     </div>
                 ) : (
                         <>
@@ -121,11 +75,11 @@ const Notice = ({ isEdit, isEditNoticeChange }) => {
                             </Flex >
                             <div className="content">
                                 {noticeContent ? (
-                                    <div className="content_box">
+                                    <div className="content-box">
                                         {shouldShowEllipsis ? noticeContent.slice(0, 40) + "..." : noticeContent}
                                     </div>
                                 ) : (
-                                        <div className="content_no">
+                                        <div className="content-no">
                                             <span>暂无公告</span>
                                         </div>
                                     )}

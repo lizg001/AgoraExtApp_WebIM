@@ -3,11 +3,10 @@ import store from '../redux/store'
 import { LoginName } from '../redux/aciton'
 
 // 登陆
-const LoginIM = () => {
-    const username = localStorage.getItem("userName") || '';
-    const studentUser = '111222';
+const loginIM = () => {
+    const username = localStorage.getItem("userName") || '111222';
     let potions = {
-        user: username || studentUser,
+        user: username,
         pwd: "123456",
         appKey: WebIM.config.appkey,
         success: () => {
@@ -17,5 +16,5 @@ const LoginIM = () => {
     WebIM.conn.open(potions);
 };
 
-export default LoginIM;
+export default loginIM;
 

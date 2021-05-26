@@ -22,7 +22,7 @@ const QaMessage = (props) => {
     const [newUser, setNewUser] = useState([]);
     useEffect(() => {
         setNewUser(qaList[props.currentUser])
-    }, [[qaList, props]])
+    }, [])
 
     return (
         <div>

@@ -1,7 +1,7 @@
 import React, { useState, useRef } from 'react'
 import { useSelector } from "react-redux";
 import { Button, Input, message } from 'antd'
-import { SmileOutlined, LeftSquareOutlined } from '@ant-design/icons';
+import { SmileOutlined } from '@ant-design/icons';
 import { Flex, Text } from 'rebass'
 import WebIM from '../../utils/WebIM'
 import store from '../../redux/store'
@@ -43,18 +43,19 @@ const ChatBox = ({ isMute, isAdmins, isTool, qaUser, activeKey }) => {
     const isOwner = logName === roomOwner;
     const isAdmin = roomAdmins.includes(logName);
 
+    // 整体都要改
     let roomUid = localStorage.getItem("roomUuid")
-    let qaType = 0;
+    let msgType = 0;  //消息类型
     let requestUser = '';
     let loginId = WebIM.conn.context.userId;
     let avatarUrl = userInfo.avatarurl;
     let userNickName = userInfo.nickname;
-    let roleType = 2;
+    let roleType = 2;  //加注释修改
     if (isTool) {
-        qaType = 2;
+        msgType = 2;
         requestUser = qaUser || loginId
     } else if (isQa) {
-        qaType = 1;
+        msgType = 1;
         requestUser = qaUser || loginId
     }
     if (!userInfo.avatarurl) {
@@ -98,12 +99,12 @@ const ChatBox = ({ isMute, isAdmins, isTool, qaUser, activeKey }) => {
             to: roomId,               // 接收消息对象(聊天室id)
             chatType: 'chatRoom',            // 群聊类型设置为聊天室
             ext: {
-                msgtype: qaType,   // 消息类型
+                msgtype: msgType,   // 消息类型
                 roomUuid: roomUid,
                 asker: requestUser,
                 role: roleType,
                 avatarUrl: avatarUrl,
-                nickName: userInfo.nickname
+                nickName: userNickName
             },                         // 扩展消息
             success: function (id, serverId) {
                 if (msg.body.ext.msgtype === 2) {
@@ -124,10 +125,6 @@ const ChatBox = ({ isMute, isAdmins, isTool, qaUser, activeKey }) => {
                         message.destroy();
                     }, 3000);
                 }
-                // message.error('发送失败，消息内容包含非法字符！');
-                // setTimeout(() => {
-                //     message.destroy();
-                // }, 3000);
             }                                // 对失败的相关定义，sdk会将消息id登记到日志进行备份处理
         };
         msg.set(option);
@@ -150,7 +147,7 @@ const ChatBox = ({ isMute, isAdmins, isTool, qaUser, activeKey }) => {
                 length: '3000',                       // 视频文件时，单位(ms)
                 to: roomId,
                 ext: {
-                    msgtype: qaType,   // 消息类型
+                    msgtype: msgType,   // 消息类型
                     roomUuid: '课堂id',
                     asker: requestUser,
                     role: roleType
@@ -236,7 +233,6 @@ const ChatBox = ({ isMute, isAdmins, isTool, qaUser, activeKey }) => {
                 )}
         </div>
     )
-    // }
 }
 
 export default ChatBox;

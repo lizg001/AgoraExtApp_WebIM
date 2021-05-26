@@ -28,9 +28,7 @@ const QuestionMessage = ({ userName }) => {
                         )
                     }
                     )) : (
-                        <div>
-
-                        </div>
+                        <></>
                     )
             }
         </div>

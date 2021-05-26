@@ -6,7 +6,7 @@ import { isReward, isQa } from '../../redux/aciton'
 import { Flex, Text } from 'rebass'
 import { Switch } from 'antd';
 import ChatBox from '../ChatBox'
-import { GetRoomInfo } from '../../api/chatroom'
+import { getRoomInfo } from '../../api/chatroom'
 import './index.css'
 
 
@@ -18,11 +18,11 @@ const ToolBar = ({ hide, isTool, qaUser, activeKey }) => {
     const isMute = useSelector((state) => state.room.info.mute);
     const isAdmins = roomAdmins.includes(userName) || userName === roomOwner;
 
-    // 赞赏消息
+    // 渲染赞赏开关
     function onChangeMessage(checked) {
         store.dispatch(isReward({ checked }))
     }
-    // 全局禁言
+    // 全局禁言开关
     function onChangeMute(checked) {
         if (checked) {
             setAllmute();
@@ -30,7 +30,7 @@ const ToolBar = ({ hide, isTool, qaUser, activeKey }) => {
             removeAllmute();
         }
     }
-    // 提问消息
+    // 提问消息开关
     function onChangeQa(checked) {
         console.log('onChangeQa', checked);
         store.dispatch(isQa({ checked }))
@@ -42,7 +42,7 @@ const ToolBar = ({ hide, isTool, qaUser, activeKey }) => {
             chatRoomId: roomId    // 聊天室id
         };
         WebIM.conn.disableSendChatRoomMsg(options).then((res) => {
-            GetRoomInfo(roomId);
+            getRoomInfo(roomId);
             message.success('已设置全局禁言');
             setTimeout(() => {
                 message.destroy();
@@ -55,7 +55,7 @@ const ToolBar = ({ hide, isTool, qaUser, activeKey }) => {
             chatRoomId: roomId    // 聊天室id
         };
         WebIM.conn.enableSendChatRoomMsg(options).then((res) => {
-            GetRoomInfo(roomId);
+            getRoomInfo(roomId);
             message.success('已解除全局禁言');
             setTimeout(() => {
                 message.destroy();

@@ -3,9 +3,10 @@ import { Input, Switch, Tag } from 'antd';
 import { SearchOutlined } from '@ant-design/icons';
 import { Flex, Text, Image } from 'rebass'
 import { useSelector } from 'react-redux'
-import { GetRoomMuteList } from '../../../api/chatroom'
+import { getRoomMuteList } from '../../../api/chatroom'
 import WebIM from '../../../utils/WebIM'
 import MuteList from './MuteList'
+import SearchList from './SearchList'
 import { getUserInfo } from '../../../api/userInfo'
 // import SearchMember from './SearchMember'
 import './userList.css'
@@ -18,7 +19,7 @@ const setUserMute = (roomId, selectUser) => {
         muteDuration: -1000       // 被禁言的时长，单位ms，如果是“-1000”代表永久
     };
     WebIM.conn.muteChatRoomMember(options).then((res) => {
-        GetRoomMuteList(roomId)
+        getRoomMuteList(roomId)
     })
 }
 // 移除个人禁言
@@ -28,13 +29,13 @@ const removeUserMute = (roomId, selectUser) => {
         username: selectUser        // 解除禁言的聊天室成员的id
     };
     WebIM.conn.removeMuteChatRoomMember(options).then((res) => {
-        GetRoomMuteList(roomId)
+        getRoomMuteList(roomId)
     })
 }
 
 const UserList = ({ userList }) => {
     // 禁言列表
-    const [isTool, setIsTool] = useState(false);
+    const [isMute, setIsMute] = useState(false);
     const [searchUser, setSearchUser] = useState('');
     const [selectUser, setSelectuser] = useState('');
     const roomId = useSelector((state) => state.room.info.id)
@@ -48,14 +49,13 @@ const UserList = ({ userList }) => {
         getUserInfo(userList)
     }, [userList])
 
-
     const getUserId = (key) => {
         console.log('getUserId--', key);
         setSelectuser(key)
     }
     // 禁言开关
     const onMute = checked => {
-        setIsTool(checked);
+        setIsMute(checked);
     }
     // 搜索值
     const onSearch = e => {
@@ -70,8 +70,6 @@ const UserList = ({ userList }) => {
         }
     }
 
-
-    const newArr = [];
     return (
         <div>
             <div className='search-back'>
@@ -89,46 +87,17 @@ const UserList = ({ userList }) => {
             {
                 <div>
                     {
-                        // 是否为禁言
-                        isTool ? (
-                            <MuteList searchUser={searchUser} roomMuteList={roomMuteList} isTool={isTool} />
+                        // 是否为禁言列表
+                        isMute ? (
+                            <MuteList searchUser={searchUser} roomMuteList={roomMuteList} roomOwner={roomOwner} roomAdmins={roomAdmins} />
                         ) : (
                                 <div>
                                     {
                                         //是否搜索成员
                                         searchUser ? (
-                                            <div>
-                                                {Object.keys(roomListInfo).map(key => {
-                                                    console.log('roomListInfo---', roomListInfo[key].nickname);
-                                                    if (roomListInfo[key].nickname) {
-                                                        newArr.push(roomListInfo[key].nickname)
-                                                    }
-                                                    console.log('newArr', newArr);
-                                                    // return (<div>
-                                                    //     {
-                                                    //         newArr.map((item) => {
-                                                    //             return (
-                                                    //                 <Flex alignItems='center' mt='10px'>
-                                                    //                     <Image className='msg-img'
-                                                    //                         src={roomListInfo[key].avatarurl}
-                                                    //                     />
-                                                    //                     <Text className='username' ml='5px' >{item}</Text>
-                                                    //                 </Flex>
-                                                    //             )
-                                                    //         })
-                                                    //     }
-                                                    // {/* {roomListInfo[key].nickname.includes(searchUser) && <Flex alignItems='center' mt='10px'>
-                                                    //         <Image className='msg-img'
-                                                    //             src={roomListInfo[key].avatarurl}
-                                                    //         />
-                                                    //         <Text className='username' ml='5px' >{roomListInfo[key].nickname}</Text>
-                                                    //     </Flex>} */}
-                                                    // </div>)
-                                                })}
-                                            </div>
+                                            <SearchList roomListInfo={roomListInfo} searchUser={searchUser} onSetMute={onSetMute} />
                                         ) : (
                                                 Object.keys(roomListInfo).map(key => {
-                                                    console.log('Object', key);
                                                     return (
                                                         <Flex key={key} justifyContent='space-between' mt='5px' onClick={() => getUserId(key)}>
                                                             <Flex alignItems='center'>

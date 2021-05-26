@@ -1,9 +1,8 @@
 import React, { useEffect, useState } from 'react';
-// import { useSelector } from 'react-redux'
 import LoginIM from './api/login'
 import Notice from './components/Notice/Notice'
 import MessageBox from './components/MessageBox/MessageList'
-import useIMListen from './hooks/useIMListen'
+import useIMListen from './IMListen/useIMListen'
 import { CHAT_TABS_KEYS } from './components/MessageBox/constants'
 
 import './app.css'

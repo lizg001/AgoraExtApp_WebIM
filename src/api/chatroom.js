@@ -6,7 +6,7 @@ import { setUserInfo } from './userInfo'
 
 
 // 加入聊天室
-export const JoinRoom = () => {
+export const joinRoom = () => {
     let options = {
         roomId: '148364667715585',   // 聊天室id
         message: 'reason'   // 原因（可选参数）
@@ -16,30 +16,30 @@ export const JoinRoom = () => {
         setTimeout(() => {
             message.destroy();
         }, 3000);
-        GetRoomInfo(options.roomId);
+        getRoomInfo(options.roomId);
         setUserInfo();
     })
 
 };
 
 // 获取聊天室详情
-export const GetRoomInfo = (roomId) => {
+export const getRoomInfo = (roomId) => {
     let options = {
         chatRoomId: roomId   // 聊天室id
     }
     WebIM.conn.getChatRoomDetails(options).then((res) => {
         store.dispatch(roomInfo(res.data[0]));
-        GetRoomNotice(roomId);
-        GetRoomAdmins(roomId);
-        GetRoomUsers(roomId);
-        GetRoomMuteList(roomId);
+        getRoomNotice(roomId);
+        getRoomAdmins(roomId);
+        getRoomUsers(roomId);
+        getRoomMuteList(roomId);
     })
 }
 
 
 
 // 获取群组公告
-export const GetRoomNotice = (roomId) => {
+export const getRoomNotice = (roomId) => {
     let options = {
         roomId       // 聊天室id                          
     };
@@ -64,7 +64,7 @@ function httpString(str) {
 
 
 // 上传/修改 群组公告
-export const UpdateRoomNotice = (roomId, noticeCentent) => {
+export const updateRoomNotice = (roomId, noticeCentent) => {
     httpString(noticeCentent)
     let options = {
         roomId: roomId,                 // 聊天室id   
@@ -72,12 +72,12 @@ export const UpdateRoomNotice = (roomId, noticeCentent) => {
     };
     WebIM.conn.updateChatRoomAnnouncement(options).then((res) => {
         // message.info('修改群组成功！')
-        GetRoomNotice(res.data.id);
+        getRoomNotice(res.data.id);
     })
 }
 
 // 获取聊天室管理员
-export const GetRoomAdmins = (roomId) => {
+export const getRoomAdmins = (roomId) => {
     let options = {
         chatRoomId: roomId   // 聊天室id
     }
@@ -87,7 +87,7 @@ export const GetRoomAdmins = (roomId) => {
 };
 
 // 获取聊天室成员列表
-export const GetRoomUsers = (roomId) => {
+export const getRoomUsers = (roomId) => {
     let options = {
         pageNum: 1,
         pageSize: 100,
@@ -99,7 +99,7 @@ export const GetRoomUsers = (roomId) => {
 }
 
 // 获取聊天室禁言成员列表
-export const GetRoomMuteList = (roomId) => {
+export const getRoomMuteList = (roomId) => {
     let options = {
         chatRoomId: roomId // 聊天室id
     };
