@@ -34,7 +34,6 @@ const MessageItem = ({ messageList, isHiedReward, hasEditPermisson, activeKey })
 
     // 删除消息
     const deleteMsg = (roomId, recallId, activeKey) => {
-        debugger
         let id = WebIM.conn.getUniqueId();            //生成本地消息id
         let msg = new WebIM.message('cmd', id); //创建命令消息
         msg.set({
