@@ -63,11 +63,11 @@ const ToolBar = ({ hide, isTool, qaUser, activeKey }) => {
         })
     }
     return (
-        <div>
+        <div className='footer'>
             {!hide ? (
                 <div>
                     {isAdmins ? (
-                        <div className='toolBar'>
+                        <div className='footer-toolBar'>
                             {!isTool && <div>
                                 <Flex justifyContent="space-between" alignItems='center' m='5px' height='36px'>
                                     <Flex>

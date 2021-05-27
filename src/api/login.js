@@ -4,9 +4,9 @@ import { LoginName } from '../redux/aciton'
 
 // 登陆
 const loginIM = () => {
-    const username = localStorage.getItem("userName") || '111222';
+    const userName = store.getState().extData.userUuid;
     let potions = {
-        user: username,
+        user: userName,
         pwd: "123456",
         appKey: WebIM.config.appkey,
         success: () => {

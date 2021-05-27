@@ -7,8 +7,9 @@ import { setUserInfo } from './userInfo'
 
 // 加入聊天室
 export const joinRoom = () => {
+    const roomId = store.getState().extData.chatRoomId;
     let options = {
-        roomId: '148364667715585',   // 聊天室id
+        roomId: roomId,   // 聊天室id
         message: 'reason'   // 原因（可选参数）
     }
     WebIM.conn.joinChatRoom(options).then((res) => {

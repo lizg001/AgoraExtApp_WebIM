@@ -1,5 +1,6 @@
 import { CHAT_TABS_KEYS } from '../components/MessageBox/constants'
 const defaultState = {
+    extData: {},
     loginName: '',  //当前登陆ID
     loginInfo: {},
     room: {         //聊天室详情
@@ -26,6 +27,11 @@ const defaultState = {
 const reducer = (state = defaultState, action) => {
     const { type, data, qaSender } = action;
     switch (type) {
+        case 'SAVE_EXT_DATA':
+            return {
+                ...state,
+                extData: data
+            };
         case 'LOGIN_NAME':
             return {
                 ...state,

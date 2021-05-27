@@ -1,5 +1,5 @@
 .message {
-    height: 580px;
+    height: 80%;
     margin-top: 10px;
     background: #263340;
     border-radius: 8px;
@@ -51,7 +51,7 @@
 
 .qa-list {
     padding: 10px 15px;
-    height: 386px;
+    height: 345px;
     overflow: auto;
 }
 

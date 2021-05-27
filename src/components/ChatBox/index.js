@@ -31,26 +31,31 @@ const ShowEomji = ({ getEmoji }) => {
 
 const ChatBox = ({ isMute, isAdmins, isTool, qaUser, activeKey }) => {
     const roomId = useSelector((state) => state.room.info.id);
+    // 是否开启了提问模式
     const isQa = useSelector((state) => state.isQa).checked;
+    // const logName = useSelector((state) => state.loginName);
     const userInfo = useSelector((state) => state.loginInfo);
-    const roomOwner = useSelector(state => state.room.info.owner);
-    const roomAdmins = useSelector(state => state.room.admins);
+    // const roomOwner = useSelector(state => state.room.info.owner);
+    // const roomAdmins = useSelector(state => state.room.admins);
+    const roomUuid = useSelector(state => state.extData.roomUuid)
+    const roleType = useSelector(state => state.extData.roleType)
     const [count, setCount] = useState(0);
     const [content, setContent] = useState('');
     const [isEmoji, setIsEmoji] = useState(false);
 
-    const logName = WebIM.conn.context.userId;
-    const isOwner = logName === roomOwner;
-    const isAdmin = roomAdmins.includes(logName);
 
     // 整体都要改
-    let roomUid = localStorage.getItem("roomUuid")
-    let msgType = 0;  //消息类型
+    //  消息类型 0普通消息，1提问消息，2回答消息
+    let msgType = 0;
+    //  消息中的提问用户名
     let requestUser = '';
+    //  当前登陆ID 
     let loginId = WebIM.conn.context.userId;
+    //  从当前登陆用户取的属性头像
     let avatarUrl = userInfo.avatarurl;
+    //  从当前登陆用户取的属性昵称
     let userNickName = userInfo.nickname;
-    let roleType = 2;  //加注释修改
+    //  isTool 是控制是否显示图片标签
     if (isTool) {
         msgType = 2;
         requestUser = qaUser || loginId
@@ -63,12 +68,6 @@ const ChatBox = ({ isMute, isAdmins, isTool, qaUser, activeKey }) => {
     }
     if (!userInfo.nickname) {
         userNickName = '学生测试'
-    }
-
-    if (isOwner) {
-        roleType = 1;
-    } else if (isAdmin) {
-        roleType = 3;
     }
 
     // 发送图片消息，及获取input 值
@@ -86,8 +85,7 @@ const ChatBox = ({ isMute, isAdmins, isTool, qaUser, activeKey }) => {
     // 输入框消息
     const changeMsg = (e) => {
         let msgCentent = e.target.value;
-        let msgCount = msgCentent.length;
-        setCount(msgCount);
+        setCount(msgCentent.length);
         setContent(msgCentent);
     }
     // 发送消息
@@ -100,7 +98,7 @@ const ChatBox = ({ isMute, isAdmins, isTool, qaUser, activeKey }) => {
             chatType: 'chatRoom',            // 群聊类型设置为聊天室
             ext: {
                 msgtype: msgType,   // 消息类型
-                roomUuid: roomUid,
+                roomUuid: roomUuid,
                 asker: requestUser,
                 role: roleType,
                 avatarUrl: avatarUrl,
@@ -125,7 +123,7 @@ const ChatBox = ({ isMute, isAdmins, isTool, qaUser, activeKey }) => {
                         message.destroy();
                     }, 3000);
                 }
-            }                                // 对失败的相关定义，sdk会将消息id登记到日志进行备份处理
+            }
         };
         msg.set(option);
         WebIM.conn.send(msg.body);
@@ -185,7 +183,7 @@ const ChatBox = ({ isMute, isAdmins, isTool, qaUser, activeKey }) => {
     // 禁言后，判断权限是否遮盖输入框
     const isMuted = isMute && !isAdmins
     return (
-        <div className='footer'>
+        <div className='chat-box'>
             {isMuted ? (
                 <Flex className='msg-box-mute'>
                     <Text className='mute-msg'>全员禁言中</Text>
@@ -221,12 +219,8 @@ const ChatBox = ({ isMute, isAdmins, isTool, qaUser, activeKey }) => {
                         </div>
                         <Flex justifyContent='flex-end' className='btn-tool'>
                             <Text>{count}/300</Text>
-                            <Button
-                                onClick={() => { sendMessage(roomId, content) }}
-                                className="msg-btn"
-                            >
-                                发送
-                                </Button>
+                            <Button onClick={() => { sendMessage(roomId, content) }}
+                                className="msg-btn">发送</Button>
                         </Flex>
                     </div>
 

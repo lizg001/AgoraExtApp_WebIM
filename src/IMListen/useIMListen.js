@@ -9,12 +9,13 @@ import { CHAT_TABS_KEYS } from '../components/MessageBox/constants'
 // WebIM 注册监听回调
 const useIMListen = ({ currentTab }) => {
     const history = useHistory();
+    console.log('history>>', history);
     useEffect(() => {
         WebIM.conn.listen({
             onOpened: () => {
                 joinRoom();
                 setTimeout(() => {
-                    history.push('/chatroom')
+                    history.push(`/chatroom?chatRoomId=148364667715585&roomUuid='test111'&roleType=3&userUuid='lizg4'&avatarUrl='https://img2.baidu.com/it/u=1593081528,1330377059&fm=26&fmt=auto&gp=0.jpg'&nickName='AAA'`)
                 }, 500);
             },
             // 文本消息

@@ -1,6 +1,6 @@
 .notice {
   width: auto;
-  height: 80px;
+  height: 10%;
   background: #263340;
   border-radius: 15px;
   padding: 10px 15px;
@@ -48,8 +48,10 @@
 }
 
 .title_center {
-  text-align: center;
   width: auto;
+  color: #D3D6D8;
+  font-weight: 500;
+  font-size: 14px
 }
 
 .update-content {
@@ -61,4 +63,11 @@
   font-weight: 400;
   margin-bottom: 5px;
   padding-left: 3px
+}
+
+.save-btn {
+  border-radius: 18px !important;
+  background: #7ECBFF;
+  width: 100%;
+  cursor: pointer,
 }

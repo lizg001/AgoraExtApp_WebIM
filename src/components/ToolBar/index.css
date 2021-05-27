@@ -1,4 +1,9 @@
-.toolbar {
+.footer {
+    height: 20%;
+}
+
+
+.footer-toolBar {
     width: auto;
     height: 36px;
     background: #263340;

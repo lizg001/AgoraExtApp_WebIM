@@ -30,7 +30,7 @@ const MessageList = ({ activeKey, setActiveKey }) => {
   const userList = useSelector(state => state.room.users);
   // 是够隐藏赞赏消息
   const isHiedReward = useSelector(state => state.isReward).checked;
-  // 是否为提供消息
+  // 是否为提问消息
   const isHiedQuestion = useSelector(state => state.isQa).checked;
   // 是否有权限
   let hasEditPermisson = roomAdmins.includes(userName) || userName === roomOwner;
@@ -109,8 +109,6 @@ const MessageList = ({ activeKey, setActiveKey }) => {
                 }
               </div>
             )
-
-
         )}
       <ToolBar hide={hide} isTool={isTool} qaUser={qaUser} activeKey={activeKey} />
     </div>

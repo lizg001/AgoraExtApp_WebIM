@@ -16,8 +16,13 @@ import './msgItem.css'
 //     }
 // }
 
+
+
+
+
 // 删除消息
 const deleteMsg = (roomId, recallId, activeKey) => {
+    console.log('deleteMsg---');
     let id = WebIM.conn.getUniqueId();            //生成本地消息id
     let msg = new WebIM.message('cmd', id); //创建命令消息
     msg.set({
@@ -83,8 +88,7 @@ const MessageItem = ({ messageList, isHiedReward, hasEditPermisson, activeKey })
                                             <Text className='msg-sender' ml='8px'>{message.ext.nickName || message.from}</Text>
                                             {hasEditPermisson && (<>
                                                 {/* <Switch size="small" title="禁言" onChange={onMute} style={{ marginLeft: '5px' }} /> */}
-                                                <DeleteOutlined className='delete-icon' title="删除消息" onClick={() => { deleteMsg(roomId, message.id, activeKey) }} />
-
+                                                <DeleteOutlined className='delete-icon' title="删除消息" onClick={() => { deleteMsg((roomId, message.id, activeKey)) }} />
                                             </>)}
                                         </Flex>
                                     </Flex>

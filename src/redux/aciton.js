@@ -1,3 +1,9 @@
+
+
+export const extData = data => {
+    return { type: 'SAVE_EXT_DATA', data }
+}
+
 // 登陆ID
 export const LoginName = data => {
     return { type: 'LOGIN_NAME', data }
