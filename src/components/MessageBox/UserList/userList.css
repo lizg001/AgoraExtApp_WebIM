@@ -34,17 +34,6 @@
     line-height: 18px;
 }
 
-.tags {
-    margin-left: 8px;
-    background: blue;
-    width: 48px;
-    height: 16px;
-    font-size: 12px;
-    font-weight: 400;
-    color: #FFFFFF;
-    line-height: 16px;
-}
-
 .username {
     margin-left: 8px;
     width: auto;

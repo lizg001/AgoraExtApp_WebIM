@@ -21,6 +21,7 @@ const MessageItem = ({ messageList, isHiedReward, hasEditPermisson, activeKey })
     let roomId = useSelector(state => state.room.info.id)
     // 控制弹框
     const [showModal, setShowModal] = useState('none');
+    // 撤回需要的 msgId
     const [recallMsgId, setRecallMsgId] = useState('');
     let renderMsgs = messageList
     if (isHiedReward) {
@@ -55,6 +56,7 @@ const MessageItem = ({ messageList, isHiedReward, hasEditPermisson, activeKey })
         WebIM.conn.send(msg.body);
         store.dispatch(roomMessages(msg.body, { showNotice: !activeKey }))
     }
+    // 打开确认框
     const openModal = (val) => () => {
         setShowModal('block')
         setRecallMsgId(val)
@@ -67,7 +69,7 @@ const MessageItem = ({ messageList, isHiedReward, hasEditPermisson, activeKey })
                     let isTextMsg = message.type === 'txt' || message.contentsType === 'TEXT';
                     let isCustomMsg = message.contentsType === "CUSTOM";
                     let isCmdMsg = message.contentsType === 'COMMAND' || message.type === "cmd"
-                    return <div style={{ marginTop: '10px' }} key={message.id}>
+                    return <div style={{ marginTop: '16px' }} key={message.id}>
                         {
                             isCmdMsg && (
                                 <div style={{
@@ -86,18 +88,17 @@ const MessageItem = ({ messageList, isHiedReward, hasEditPermisson, activeKey })
                                                 className='msg-img'
                                             />
                                         </div>
-                                        <Flex >
-                                            {(message.ext.role === 0) && <Tag className='tags'>主讲老师</Tag>}
-                                            {(message.ext.role === 3) && <Tag className='tags'>助教老师</Tag>}
+                                        <Flex ml='8px'>
+                                            {(message.ext.role === "0") && <Tag className='tags' ><Text className='tags-txt' ml='4px' mt='1px'>主讲老师</Text></Tag>}
+                                            {(message.ext.role === "3") && <Tag className='tags' ><Text className='tags-txt' ml='4px' mt='1px'>辅导老师</Text></Tag>}
                                             <Text className='msg-sender' ml='8px'>{message.ext.nickName || message.from}</Text>
                                             {hasEditPermisson && (<>
                                                 {/* <Switch size="small" title="禁言" onChange={onMute} style={{ marginLeft: '5px' }} /> */}
-                                                {/* () => {deleteMsg((roomId, message.id, activeKey))} */}
                                                 <DeleteOutlined className='delete-icon' title="删除消息" onClick={openModal(message.id)} />
                                             </>)}
                                         </Flex>
                                     </Flex>
-                                    <div className='msg msg-text'>
+                                    <div className='msg-text txt'>
                                         <Text>{message.msg || message.data}</Text>
                                     </div>
                                 </div>
@@ -115,7 +116,7 @@ const MessageItem = ({ messageList, isHiedReward, hasEditPermisson, activeKey })
                                         </Flex>
                                     </Flex>
                                     <Flex className='msg' alignItems='center' ml='28px'>
-                                        <Text mr='2px'>{message.customExts.des}</Text>
+                                        <Text mr='2px' className='admire-msg'>{message.customExts.des}</Text>
                                         <Image src={message.customExts.url} width='24px' height='24px'></Image>
                                     </Flex>
                                 </div>

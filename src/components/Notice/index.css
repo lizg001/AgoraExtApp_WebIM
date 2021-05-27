@@ -48,10 +48,14 @@
 }
 
 .title_center {
-  width: auto;
-  color: #D3D6D8;
+  width: 28px;
+  height: 20px;
+  font-size: 14px;
+  font-family: 'PingFangSC-Medium',
+    'PingFang SC';
   font-weight: 500;
-  font-size: 14px
+  color: #CDD1D9;
+  line-height: 20px
 }
 
 .update-content {

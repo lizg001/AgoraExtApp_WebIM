@@ -7,6 +7,7 @@ import WebIM from '../../utils/WebIM'
 import store from '../../redux/store'
 import { Emoji } from '../../utils/emoji'
 import { roomMessages, qaMessages } from '../../redux/aciton'
+// import icon_img from '../../themes/img/tupian.png'
 
 import './index.css'
 
@@ -20,8 +21,8 @@ const ImageIcon = () => (
 const ShowEomji = ({ getEmoji }) => {
     return (
         <div className='emoji-all'>
-            {Emoji.map(emoji => {
-                return <span className='emoji-content'
+            {Emoji.map((emoji, key) => {
+                return <span className='emoji-content' key={key}
                     onClick={getEmoji}
                 >{emoji}</span>
             })}
@@ -150,7 +151,9 @@ const ChatBox = ({ isMute, isAdmins, isTool, qaUser, activeKey }) => {
                     msgtype: msgType,   // 消息类型
                     roomUuid: '课堂id',
                     asker: requestUser,
-                    role: roleType
+                    role: roleType,
+                    avatarUrl: avatarUrl,
+                    nickName: userNickName
                 },                       // 接收消息对象
                 chatType: 'chatRoom',               // 设置为单聊
                 onFileUploadError: function () {      // 消息上传失败
@@ -195,15 +198,16 @@ const ChatBox = ({ isMute, isAdmins, isTool, qaUser, activeKey }) => {
                         {
                             isShow && <Flex className='show-error' alignItems='center'>
                                 <CloseCircleOutlined style={{ color: 'red', paddingLeft: '10px' }} />
-                                <Text ml='3px'>发送失败,含有敏感词！</Text>
+                                <Text ml='3px' className='show-error-msg'>发送失败,含有敏感词！</Text>
                             </Flex>
                         }
-                        <Flex justifyContent='flex-start'>
+                        <Flex justifyContent='flex-start' alignItems='center'>
                             {isEmoji && <ShowEomji getEmoji={getEmoji} />}
                             <SmileOutlined className='emoji-icon' onClick={showEmoji} />
                             {isTool && <div onClick={updateImage}
                             >
                                 <ImageIcon />
+                                {/* <Image src={icon_img} width='18px' background='#D3D6D8' ml='8px' /> */}
                                 <input
                                     id="uploadImage"
                                     onChange={sendImgMessage.bind(this, roomId)}

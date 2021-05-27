@@ -48,7 +48,7 @@ const UserList = ({ userList }) => {
     useEffect(() => {
         getUserInfo(userList)
     }, [userList])
-
+    // 当前选中的ID
     const getUserId = (key) => {
         console.log('getUserId--', key);
         setSelectuser(key)
@@ -86,41 +86,32 @@ const UserList = ({ userList }) => {
             </Flex>
             {
                 <div>
-                    {
-                        // 是否为禁言列表
-                        isMute ? (
-                            <MuteList searchUser={searchUser} roomMuteList={roomMuteList} roomOwner={roomOwner} roomAdmins={roomAdmins} />
-                        ) : (
-                                <div>
-                                    {
-                                        //是否搜索成员
-                                        searchUser ? (
-                                            <SearchList roomListInfo={roomListInfo} searchUser={searchUser} onSetMute={onSetMute} />
-                                        ) : (
-                                                Object.keys(roomListInfo).map(key => {
-                                                    return (
-                                                        <Flex key={key} justifyContent='space-between' mt='5px' onClick={() => getUserId(key)}>
-                                                            <Flex alignItems='center'>
-                                                                <Image className='msg-img'
-                                                                    src={roomListInfo[key].avatarurl || 'https://gimg2.baidu.com/image_search/src=http%3A%2F%2Fpic4.zhimg.com%2F50%2Fv2-fde5891065510ef51e4c8dc19f6f3aff_hd.jpg&refer=http%3A%2F%2Fpic4.zhimg.com&app=2002&size=f9999,10000&q=a80&n=0&g=0n&fmt=jpeg?sec=1624035646&t=52e70633abb73d7e2e0d2bd3f0446505'}
-                                                                />
-                                                                {loginName === roomOwner && <Tag className='tags'>主讲老师</Tag>}
-                                                                {roomAdmins.includes(key) && <Tag className='tags'>助教老师</Tag>}
-                                                                <Text className='username' ml='5px' >{roomListInfo[key].nickname || key}</Text>
-                                                            </Flex>
-                                                            <Switch
-                                                                size="small"
-                                                                title="禁言"
-                                                                onChange={onSetMute}
-                                                            />
-                                                        </Flex>
-                                                    )
-                                                })
-                                            )
-                                    }
-                                </div>
-                            )
-                    }
+                    {/* 是否展示禁言列表 */}
+                    {isMute && <MuteList searchUser={searchUser} roomMuteList={roomMuteList} roomOwner={roomOwner} roomAdmins={roomAdmins} />}
+                    {/* 是否展示搜索列表 */}
+                    {searchUser && <SearchList roomListInfo={roomListInfo} searchUser={searchUser} onSetMute={onSetMute} />}
+                    {/* 正常展示成员列表 */}
+                    {!isMute && !searchUser && Object.keys(roomListInfo).map(key => {
+                        return (
+                            <Flex key={key} justifyContent='space-between' mt='10px' onClick={() => getUserId(key)}>
+                                <Flex alignItems='center'>
+                                    <Image className='lsit-user-img'
+                                        src={roomListInfo[key].avatarurl || 'https://gimg2.baidu.com/image_search/src=http%3A%2F%2Fpic4.zhimg.com%2F50%2Fv2-fde5891065510ef51e4c8dc19f6f3aff_hd.jpg&refer=http%3A%2F%2Fpic4.zhimg.com&app=2002&size=f9999,10000&q=a80&n=0&g=0n&fmt=jpeg?sec=1624035646&t=52e70633abb73d7e2e0d2bd3f0446505'}
+                                    />
+                                    <Flex ml='8px'>
+                                        {loginName === roomOwner && <Tag className='tags' ><Text className='tags-txt' ml='4px' mt='1px'>主讲老师</Text></Tag>}
+                                        {roomAdmins.includes(key) && <Tag className='tags' ><Text className='tags-txt' ml='4px' mt='1px'>辅导老师</Text></Tag>}
+                                        <Text className='username' ml='5px' >{roomListInfo[key].nickname || key}</Text>
+                                    </Flex>
+                                </Flex>
+                                <Switch
+                                    size="small"
+                                    title="禁言"
+                                    onChange={onSetMute}
+                                />
+                            </Flex>
+                        )
+                    })}
                 </div>
             }
         </div >

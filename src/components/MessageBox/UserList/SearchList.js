@@ -23,11 +23,13 @@ const SearchList = ({ roomListInfo, searchUser, onSetMute }) => {
                     if (searchUser === member[0]) {
                         return (
                             <Flex justifyContent='space-between' alignItems='center' mt='8px' key={key}>
-                                <Flex alignItems='center'>
+                                <Flex ml='8px' alignItems='center'>
                                     <Image src={member[1]} className='msg-img' />
-                                    {member[2] === roomOwner && <Tag className='tags'>主讲老师</Tag>}
-                                    {roomAdmins.includes(member[2]) && <Tag className='tags'>助教老师</Tag>}
-                                    <Text className='username' ml='8px' >{member[0]}</Text>
+                                    <Flex ml='8px'>
+                                        {member[2] === roomOwner && <Tag className='tags' ><Text className='tags-txt' ml='4px' mt='1px'>主讲老师</Text></Tag>}
+                                        {roomAdmins.includes(member[2]) && <Tag className='tags' ><Text className='tags-txt' ml='4px' mt='1px'>辅导老师</Text></Tag>}
+                                        <Text className='username' ml='5px' >{member[0]}</Text>
+                                    </Flex>
                                 </Flex>
                                 <Switch
                                     size="small"

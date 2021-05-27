@@ -1,10 +1,83 @@
 .message {
-    height: 80%;
+    height: 82%;
     margin-top: 10px;
     background: #263340;
     border-radius: 8px;
 }
 
+.message-list {
+    padding: 10px 15px;
+    height: 340px;
+    overflow: auto;
+}
+
+.qa-list {
+    padding: 10px 15px;
+    height: 345px;
+    overflow: auto;
+}
+
+.user-list {
+    height: 520px;
+    padding: 10px 15px;
+    overflow: auto;
+}
+
+.msg-sender {
+    margin-right: 3px;
+    width: auto;
+    height: 18px;
+    font-size: 12px;
+    font-weight: 400;
+    font-family: 'PingFangSC-Regular', 'PingFang SC';
+    color: #626773;
+    line-height: 18px;
+}
+
+.txt {
+    margin-left: 28px !important;
+}
+
+.msg-text {
+    width: 224px;
+    height: 20px;
+    font-size: 14px;
+    font-family: 'PingFangSC-Regular', 'PingFang SC';
+    font-weight: 400;
+    color: #CDD1D9;
+    line-height: 20px;
+}
+
+/* 成员头像 */
+.lsit-user-img {
+    width: 28px;
+    height: 28px;
+    background: #B6F0DD;
+    border-radius: 22px;
+}
+
+/* tag 标识 */
+.tags {
+    width: 56px;
+    height: 18px;
+    background: linear-gradient(90deg, #1DB4FE 0%, #028CFF 100%);
+    border-radius: 3px;
+    margin-right: 5px;
+}
+
+.tags-txt {
+    width: 48px;
+    height: 16px;
+    font-size: 12px;
+    font-family: 'PingFangSC-Regular',
+        'PingFang SC';
+    font-weight: 400;
+    color: #FFFFFF;
+    line-height: 16px;
+}
+
+
+/* antd 样式 */
 .message_tab {
     margin-top: 8px;
     width: 280px;
@@ -43,31 +116,6 @@
     display: none;
 }
 
-.message-list {
-    padding: 10px 15px;
-    height: 340px;
-    overflow: auto;
-}
-
-.qa-list {
-    padding: 10px 15px;
-    height: 345px;
-    overflow: auto;
-}
-
-.user-list {
-    height: 520px;
-    padding: 10px 15px;
-    overflow: auto;
-}
-
-.member-msg {
-    padding: 10px 15px;
-    height: 386px;
-    overflow: auto;
-}
-
-/* antd 样式 */
 .ant-tabs-card>.ant-tabs-nav .ant-tabs-tab-active,
 .ant-tabs-card>div>.ant-tabs-nav .ant-tabs-tab-active {
     color: #1890ff;

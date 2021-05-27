@@ -17,11 +17,11 @@ export const ROLE = {
     student: {
         id: 2
     },
-    // 助教
+    // 辅导
     assistant: {
         // hasEditPermisson: roomAdmins.includes(userName),
         id: 3,
-        tag: '助教老师'
+        tag: '辅导老师'
     },
 
 }

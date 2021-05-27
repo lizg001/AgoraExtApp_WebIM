@@ -8,7 +8,7 @@ const ShowNotice = ({ hasEditPermisson, noticeContent, onEdit }) => {
 
     // 判断公告字数，显示更多
     const shouldShowEllipsis = noticeContent?.length > 39;
-    // 助教权限，可直接展示编辑
+    // 辅导权限，可直接展示编辑
     const Edit = () => {
         return (
             <Flex fontSize="12px" color="#0099ff" css={{ cursor: "pointer" }} >
@@ -31,7 +31,7 @@ const ShowNotice = ({ hasEditPermisson, noticeContent, onEdit }) => {
         <div>
             <Flex alignItems="center" justifyContent="space-between" p="2px">
                 <Flex alignItems="center" color="#A8ADB2">
-                    <Image src={icon_notice} />
+                    <Image src={icon_notice} style={{ width: '14px' }} />
                     <Text ml="2px" fontSize="12px" fontWeight="500" whiteSpace="nowrap">公告:</Text>
                 </Flex>
                 {hasEditPermisson && <Edit />}

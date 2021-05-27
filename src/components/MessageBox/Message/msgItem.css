@@ -1,25 +1,26 @@
-.msg {
-    width: auto;
-    height: auto;
-    font-size: 14px;
-    font-family: 'PingFangSC-Regular';
-    font-weight: 400;
-    color: #D3D6D8;
-    line-height: 20px;
-    margin-left: 5px;
-}
-
 .msg-text {
-    margin-left: 28px !important;
+    /* margin-left: 28px !important; */
+    width: 224px;
+    height: 20px;
+    font-size: 14px;
+    font-family: 'PingFangSC-Regular', 'PingFang SC';
+    font-weight: 400;
+    color: #CDD1D9;
+    line-height: 20px;
 }
 
-.msg-sender {
-    margin-right: 3px;
-    width: auto;
-    height: 18px;
-    font-size: 12px;
+.admire-msg {
+    width: 126px;
+    height: 20px;
+    font-size: 14px;
+    font-family: ' PingFangSC-Regular',
+        'PingFang SC';
     font-weight: 400;
-    color: #7C848C
+    color: #FF7F00;
+    line-height: 20px;
+    background: 'angular-gradient(270deg, #FFB319 0%, #FF6619 100%)';
+    -webkit-background-clip: text;
+    -webkit-text-fill-color: transparent;
 }
 
 .msg-img {

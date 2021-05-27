@@ -1,4 +1,4 @@
-
+import { Flex, Text } from 'rebass'
 
 const MuteList = ({ roomMuteList, searchUser }) => {
     let showMuteList = searchUser === '' || roomMuteList === []
@@ -9,9 +9,10 @@ const MuteList = ({ roomMuteList, searchUser }) => {
         <div>
             {
                 roomMuteList.map((member) => {
-                    return <div key={member.user}>
-                        {member.user}
-                    </div>
+                    return <Flex key={member.user} mt='8px'>
+                        <Text className='username' ml='5px' >{member.user}</Text>
+
+                    </Flex>
                 })
             }
         </div>

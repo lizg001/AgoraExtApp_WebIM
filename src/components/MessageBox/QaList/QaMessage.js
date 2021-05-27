@@ -1,20 +1,7 @@
-import { Flex, Text, Image } from "rebass";
+import { Text, Image, Flex } from "rebass";
 import { useState, useEffect } from 'react'
 import { useSelector } from 'react-redux'
-
-const ShowMenu = () => {
-    return (
-        <div style={{
-            background: 'red'
-        }}>
-            <span>删除</span>
-        </div>
-    )
-}
-
-const onMenu = () => {
-    return < ShowMenu />
-}
+import { Tag } from 'antd'
 
 
 const QaMessage = (props) => {
@@ -22,35 +9,34 @@ const QaMessage = (props) => {
     const [newUser, setNewUser] = useState([]);
     useEffect(() => {
         setNewUser(qaList[props.currentUser])
-    }, [])
+    }, [qaList[props.currentUser]])
 
     return (
-        <div>
+        <div className='qa'>
             {
                 newUser && newUser.map((message, index) => {
                     let msgType = message.type === "txt" || message.contentsType === "TEXT"
                     return (
-                        <Flex key={index} onClick={onMenu}>
-                            <div>
+                        <div key={index} className='qa-msg'>
+                            {/* <div>
                                 <Image src={message.ext.avatarUrl}
                                     className='qa-msg-img'
                                 />
-                            </div>
-                            <div>
-                                <Text className='msg-sender' ml='8px'>{message.ext.nickName || message.from}</Text>
-                                {
-                                    msgType ? (
-                                        <div className='msg'>
-                                            <Text>{message.msg || message.data}</Text>
-                                        </div>
-                                    ) : (
-                                            <div className='msg' >
-                                                <Image src={message.body.url} style={{ width: '180px' }} />
-                                            </div>
-                                        )
-                                }
-                            </div>
-                        </Flex>
+                            </div> */}
+                            <Flex>
+                                {(message.ext.role === "0") && <Tag className='tags'><Text className='tags-txt' m='4px' mt='1px'>主讲老师</Text></Tag>}
+                                {(message.ext.role === "3") && <Tag className='tags'><Text className='tags-txt' ml='4px' mt='1px'>辅导老师</Text></Tag>}
+                                <Text className='msg-sender' mb='5px'>{message.ext.nickName || message.from}</Text>
+                            </Flex>
+                            {
+                                msgType ? (
+                                    <Text className='msg-text'>{message.msg || message.data}</Text>
+                                ) : (
+                                        <Image src={message.body.url} style={{ width: '180px' }} />
+                                    )
+                            }
+
+                        </div>
                     )
                 })
             }
