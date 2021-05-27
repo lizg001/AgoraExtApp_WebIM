@@ -1,7 +1,7 @@
 import React, { useState, useRef } from 'react'
 import { useSelector } from "react-redux";
-import { Button, Input, message } from 'antd'
-import { SmileOutlined } from '@ant-design/icons';
+import { Button, Input } from 'antd'
+import { SmileOutlined, CloseCircleOutlined } from '@ant-design/icons';
 import { Flex, Text } from 'rebass'
 import WebIM from '../../utils/WebIM'
 import store from '../../redux/store'
@@ -42,6 +42,7 @@ const ChatBox = ({ isMute, isAdmins, isTool, qaUser, activeKey }) => {
     const [count, setCount] = useState(0);
     const [content, setContent] = useState('');
     const [isEmoji, setIsEmoji] = useState(false);
+    const [isShow, setIsShow] = useState(false)
 
 
     // 整体都要改
@@ -90,6 +91,7 @@ const ChatBox = ({ isMute, isAdmins, isTool, qaUser, activeKey }) => {
     }
     // 发送消息
     const sendMessage = (roomId, content) => {
+        if (content === '') return
         let id = WebIM.conn.getUniqueId();         // 生成本地消息id
         let msg = new WebIM.message('txt', id); // 创建文本消息
         let option = {
@@ -118,10 +120,10 @@ const ChatBox = ({ isMute, isAdmins, isTool, qaUser, activeKey }) => {
             fail: function (err) {
                 console.log('err', err);
                 if (err.type === 501) {
-                    message.error('发送失败，消息内容包含非法字符！');
+                    setIsShow(true);
                     setTimeout(() => {
-                        message.destroy();
-                    }, 3000);
+                        setIsShow(false);
+                    }, 5000);
                 }
             }
         };
@@ -190,6 +192,12 @@ const ChatBox = ({ isMute, isAdmins, isTool, qaUser, activeKey }) => {
                 </Flex>
             ) : (
                     <div >
+                        {
+                            isShow && <Flex className='show-error' alignItems='center'>
+                                <CloseCircleOutlined style={{ color: 'red', paddingLeft: '10px' }} />
+                                <Text ml='3px'>发送失败,含有敏感词！</Text>
+                            </Flex>
+                        }
                         <Flex justifyContent='flex-start'>
                             {isEmoji && <ShowEomji getEmoji={getEmoji} />}
                             <SmileOutlined className='emoji-icon' onClick={showEmoji} />

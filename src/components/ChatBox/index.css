@@ -87,3 +87,19 @@ textarea {
 .emoji-content {
     margin-left: 5px;
 }
+
+.show-error {
+    position: absolute;
+    left: 40px;
+    bottom: 200px;
+    width: 196px;
+    height: 40px;
+    background: rgba(0, 0, 0, 0.8);
+    border-radius: 6px;
+    color: #FFFFFF;
+}
+
+.show-error-msg {
+    text-align: center;
+    padding: 8px;
+}
