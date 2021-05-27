@@ -15,9 +15,9 @@ const App = function () {
   const [activeKey, setActiveKey] = useState(CHAT_TABS_KEYS.chat)
   useIMListen({ currentTab: activeKey })
   useEffect(() => {
-    let im_Data = getPageQuery()
+    let im_Data = getPageQuery();
+    store.dispatch(extData(im_Data));
     LoginIM();
-    store.dispatch(extData(im_Data))
   }, [])
 
   return (
