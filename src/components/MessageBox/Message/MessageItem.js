@@ -131,7 +131,7 @@ const MessageItem = ({ messageList, isHiedReward, hasEditPermisson, activeKey })
                 <div className='mask'>
                 </div>
                 <div className='card'>
-                    <Text className='crad-text' mt='20px'>确定要删除此消息吗？</Text>
+                    <Text className='crad-text'>确定要删除此消息吗？</Text>
                     <Flex justifyContent='space-between' mt='25px' p='0 10px' >
                         <Button className='cancle-btn' onClick={() => { setShowModal('none') }}>取消</Button>
                         <Button className='ok-btn' onClick={() => { deleteMsg(roomId, recallMsgId, activeKey) }}>确定</Button>

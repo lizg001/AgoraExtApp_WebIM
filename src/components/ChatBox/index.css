@@ -92,11 +92,13 @@ textarea {
     position: absolute;
     left: 40px;
     bottom: 200px;
-    width: 196px;
-    height: 40px;
-    background: rgba(0, 0, 0, 0.8);
-    border-radius: 6px;
-    color: #FFFFFF;
+    width: auto;
+    height: 20px;
+    font-size: 14px;
+    font-family: 'PingFangSC-Regular',
+        'PingFang SC';
+    font-weight: 400;
+    line-height: 20px;
 }
 
 .show-error-msg {
