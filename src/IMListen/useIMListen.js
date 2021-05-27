@@ -9,7 +9,6 @@ import { CHAT_TABS_KEYS } from '../components/MessageBox/constants'
 // WebIM 注册监听回调
 const useIMListen = ({ currentTab }) => {
     const history = useHistory();
-    console.log('history>>', history);
     useEffect(() => {
         WebIM.conn.listen({
             onOpened: () => {
