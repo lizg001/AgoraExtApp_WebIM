@@ -3,9 +3,10 @@ import { useHistory } from 'react-router-dom'
 import store from '../redux/store'
 // import { message } from 'antd'
 import { roomMessages, qaMessages, userMute } from '../redux/aciton'
-import WebIM from '../utils/WebIM';
+import WebIM, { appkey } from '../utils/WebIM';
 import { joinRoom, getRoomInfo } from '../api/chatroom'
 import { CHAT_TABS_KEYS } from '../components/MessageBox/constants'
+import loginIM from '../api/login'
 
 // WebIM 注册监听回调
 const useIMListen = ({ currentTab }) => {
@@ -15,7 +16,7 @@ const useIMListen = ({ currentTab }) => {
             onOpened: () => {
                 joinRoom();
                 setTimeout(() => {
-                    history.push('/chatroom?chatRoomId=148364667715585&roomUuid=test222&roleType=3&userUuid=lizg4&avatarUrl=https://img2.baidu.com/it/u=1593081528,1330377059&fm=26&fmt=auto&gp=0.jpg&org=easemob-demo&apk=cloudclass&nickName=AB')
+                    history.push('/chatroom?chatRoomId=148364667715585&roomUuid=test222&roleType=3&userUuid=lizg19999&password=123456&avatarUrl=https://img2.baidu.com/it/u=1593081528,1330377059&fm=26&fmt=auto&gp=0.jpg&org=gdpwq123&apk=rests&nickName=AB')
                 }, 500);
             },
             // 文本消息
@@ -30,6 +31,20 @@ const useIMListen = ({ currentTab }) => {
             // 异常回调
             onError: (message) => {
                 console.log('onError', message);
+                const resetName = store.getState().extData.userUuid
+                const resetPwd = store.getState().extData.password
+                const type = JSON.parse(message.data.data).error_description;
+                if (type === "user not found") {
+                    let options = {
+                        username: resetName,
+                        password: resetPwd,
+                        appKey: appkey,
+                        success: function () {
+                            loginIM();
+                        },
+                    };
+                    WebIM.conn.registerUser(options);
+                }
             },
             // 聊天室相关监听
             onPresence: (message) => {

@@ -5,9 +5,10 @@ import { LoginName } from '../redux/aciton'
 // 登陆
 const loginIM = () => {
     const userName = store.getState().extData.userUuid;
+    const userPwd = store.getState().extData.password;
     let potions = {
         user: userName,
-        pwd: "123456",
+        pwd: userPwd || '123456',
         appKey: appkey,
         success: () => {
             store.dispatch(LoginName(potions.user));
