@@ -114,13 +114,13 @@ const ChatBox = ({ isMute, isAdmins, isTool, qaUser, activeKey }) => {
                 msg.body.id = serverId;
                 if (msg.body.ext.msgtype === 2) {
                     store.dispatch(qaMessages(msg.body, msg.body.ext.asker, { showNotice: !activeKey }));
-                    // store.dispatch(qaMessages(message, asker, { showNotice: currentTab !== CHAT_TABS_KEYS.qa && msgtype === 1 }))
                 } else if (msg.body.ext.msgtype === 1) {
                     store.dispatch(qaMessages(msg.body, msg.body.ext.asker, { showNotice: !activeKey }));
                 } else {
                     store.dispatch(roomMessages(msg.body, { showNotice: !activeKey }));
                 }
                 setContent('');
+                setCount(0);
             },                               // 对成功的相关定义，sdk会将消息id登记到日志进行备份处理
             fail: function (err) {
                 if (err.type === 501) {

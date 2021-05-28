@@ -3,7 +3,7 @@ import { useSelector } from 'react-redux'
 import { Tabs } from 'antd';
 import { Text, Flex } from 'rebass'
 import ToolBar from '../ToolBar'
-import MessageItem from './Message/MessageItem'
+import MessageItem from './Message/MessageList'
 import QuestionMessage from './QaList/QuestionMessage'
 import { CHAT_TABS, CHAT_TABS_KEYS } from './constants'
 import store from '../../redux/store'
