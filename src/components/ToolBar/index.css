@@ -1,10 +1,14 @@
-.footer {}
+.footer {
+    height: 172px;
+    background-color: #263440;
+}
 
 
 .footer-toolBar {
     width: auto;
     height: 36px;
     background: #263340;
+
 }
 
 .header {
