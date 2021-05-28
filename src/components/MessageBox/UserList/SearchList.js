@@ -20,7 +20,7 @@ const SearchList = ({ roomListInfo, searchUser, onSetMute }) => {
         <div>
             {
                 newArr.map((member, key) => {
-                    if (searchUser === member[0]) {
+                    if (member[0] && member[0].indexOf(searchUser) !== -1) {
                         return (
                             <Flex justifyContent='space-between' alignItems='center' mt='8px' key={key}>
                                 <Flex ml='8px' alignItems='center'>

@@ -18,6 +18,7 @@ const defaultState = {
             [CHAT_TABS_KEYS.qa]: false
         }
     },
+    isUserMute: false,   //单人禁言
     isQa: false,        //是否为提问消息开关
     isReward: false,    //是否隐藏赞赏消息开关
     userListInfo: {}    //成员信息
@@ -82,6 +83,12 @@ const reducer = (state = defaultState, action) => {
                     ...state.room,
                     muteList: data
                 }
+            };
+        //聊天室单人禁言
+        case 'IS_USER_MUTE':
+            return {
+                ...state,
+                isUserMute: data
             };
         //聊天室消息
         case 'SAVE_ROOM_MESSAGES':

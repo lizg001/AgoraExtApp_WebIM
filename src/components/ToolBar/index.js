@@ -43,10 +43,10 @@ const ToolBar = ({ hide, isTool, qaUser, activeKey }) => {
         };
         WebIM.conn.disableSendChatRoomMsg(options).then((res) => {
             getRoomInfo(roomId);
-            message.success('已设置全局禁言');
-            setTimeout(() => {
-                message.destroy();
-            }, 3000);
+            // message.success('已设置全局禁言');
+            // setTimeout(() => {
+            //     message.destroy();
+            // }, 3000);
         })
     }
     // 解除一键禁言
@@ -56,10 +56,10 @@ const ToolBar = ({ hide, isTool, qaUser, activeKey }) => {
         };
         WebIM.conn.enableSendChatRoomMsg(options).then((res) => {
             getRoomInfo(roomId);
-            message.success('已解除全局禁言');
-            setTimeout(() => {
-                message.destroy();
-            }, 3000);
+            // message.success('已解除全局禁言');
+            // setTimeout(() => {
+            //     message.destroy();
+            // }, 3000);
         })
     }
     return (

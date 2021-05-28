@@ -26,7 +26,7 @@ const QaUserList = ({ getClickUser }) => {
                 isQaList ? (
                     <></>
                 ) : (
-                        <div>
+                        <div className='user-border'>
                             {
                                 users.map((user, k) => {
                                     return (

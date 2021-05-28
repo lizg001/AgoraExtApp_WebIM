@@ -87,7 +87,7 @@ const UserList = ({ userList }) => {
             {
                 <div>
                     {/* 是否展示禁言列表 */}
-                    {isMute && <MuteList searchUser={searchUser} roomMuteList={roomMuteList} roomOwner={roomOwner} roomAdmins={roomAdmins} />}
+                    {isMute && <MuteList searchUser={searchUser} roomMuteList={roomMuteList} roomOwner={roomOwner} roomAdmins={roomAdmins} roomListInfo={roomListInfo} />}
                     {/* 是否展示搜索列表 */}
                     {searchUser && <SearchList roomListInfo={roomListInfo} searchUser={searchUser} onSetMute={onSetMute} />}
                     {/* 正常展示成员列表 */}

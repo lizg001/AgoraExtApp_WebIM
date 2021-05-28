@@ -28,6 +28,10 @@ export const roomUsers = data => {
 export const roomMuteUsers = data => {
     return { type: 'GET_ROOM_MUTE_USERS', data }
 }
+//聊天室单人禁言
+export const userMute = data => {
+    return { type: 'IS_USER_MUTE', data }
+}
 
 // 是否开启提问模式
 export const isQa = data => {

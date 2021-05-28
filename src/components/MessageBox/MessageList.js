@@ -104,7 +104,9 @@ const MessageList = ({ activeKey, setActiveKey }) => {
                   messageList.length > 0 ? (
                     <MessageItem messageList={messageList} isHiedReward={isHiedReward} />
                   ) : (
-                      <Text textAlign='center' color='#D3D6D8'>暂无消息</Text>
+                      <div>
+                        <Text textAlign='center' color='#D3D6D8'>暂无消息</Text>
+                      </div>
                     )
                 }
               </div>

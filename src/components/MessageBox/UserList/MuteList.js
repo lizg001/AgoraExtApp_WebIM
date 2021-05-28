@@ -1,6 +1,7 @@
 import { Flex, Text } from 'rebass'
 
-const MuteList = ({ roomMuteList, searchUser }) => {
+const MuteList = ({ roomMuteList, searchUser, roomListInfo }) => {
+    console.log('MuteList---', roomListInfo);
     let showMuteList = searchUser === '' || roomMuteList === []
     if (!showMuteList) {
         return null

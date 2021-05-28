@@ -1,7 +1,8 @@
 import { useEffect } from 'react'
 import { useHistory } from 'react-router-dom'
 import store from '../redux/store'
-import { roomMessages, qaMessages } from '../redux/aciton'
+import { message } from 'antd'
+import { roomMessages, qaMessages, userMute } from '../redux/aciton'
 import WebIM from '../utils/WebIM';
 import { joinRoom, getRoomInfo } from '../api/chatroom'
 import { CHAT_TABS_KEYS } from '../components/MessageBox/constants'
@@ -36,17 +37,29 @@ const useIMListen = ({ currentTab }) => {
                 switch (message.type) {
                     case "memberJoinChatRoomSuccess":
                         getRoomInfo(message.gid);
-                        message.success(message.from + '已成功加入聊天室！');
-                        setTimeout(() => {
-                            message.destroy();
-                        }, 3000);
+                        // message.success(message.from + '已成功加入聊天室！');
+                        // setTimeout(() => {
+                        //     message.destroy();
+                        // }, 3000);
                         break;
                     case "leaveChatRoom":
                         getRoomInfo(message.gid);
-                        message.success(message.from + '已离开聊天室！');
-                        setTimeout(() => {
-                            message.destroy();
-                        }, 3000);
+                        // message.success(message.from + '已离开聊天室！');
+                        // setTimeout(() => {
+                        //     message.destroy();
+                        // }, 3000);
+                        break;
+                    case 'muteChatRoom':
+                        getRoomInfo(message.gid);
+                        break;
+                    case 'rmChatRoomMute':
+                        getRoomInfo(message.gid);
+                        break;
+                    case 'addMute':
+                        store.dispatch(userMute(true))
+                        break;
+                    case 'removeMute':
+                        store.dispatch(userMute(false))
                         break;
                     default:
                         break;

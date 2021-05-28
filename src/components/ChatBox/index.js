@@ -34,12 +34,14 @@ const ChatBox = ({ isMute, isAdmins, isTool, qaUser, activeKey }) => {
     const roomId = useSelector((state) => state.room.info.id);
     // 是否开启了提问模式
     const isQa = useSelector((state) => state.isQa).checked;
-    // const logName = useSelector((state) => state.loginName);
+    // 获取用户详情
     const userInfo = useSelector((state) => state.loginInfo);
-    // const roomOwner = useSelector(state => state.room.info.owner);
-    // const roomAdmins = useSelector(state => state.room.admins);
+    // 获取课堂ID
     const roomUuid = useSelector(state => state.extData.roomUuid)
-    const roleType = useSelector(state => state.extData.roleType)
+    // 获取当前登陆ID 权限
+    const roleType = Number(useSelector(state => state.extData.roleType))
+    // 获取是否为单人禁言
+    const isUserMute = useSelector(state => state.isUserMute)
     const [count, setCount] = useState(0);
     const [content, setContent] = useState('');
     const [isEmoji, setIsEmoji] = useState(false);
@@ -189,54 +191,56 @@ const ChatBox = ({ isMute, isAdmins, isTool, qaUser, activeKey }) => {
     const isMuted = isMute && !isAdmins
     return (
         <div className='chat-box'>
-            {isMuted ? (
-                <Flex className='msg-box-mute'>
-                    <Text className='mute-msg'>全员禁言中</Text>
+            {/* 是否被禁言 */}
+            {isUserMute && <Flex className='msg-box-mute'>
+                <Text className='mute-msg'>您已被禁言</Text>
+            </Flex>}
+            {/* 是否全局禁言 */}
+            {isMuted && <Flex className='msg-box-mute'>
+                <Text className='mute-msg'>全员禁言中</Text>
+            </Flex>}
+            {/* 不禁言展示发送框 */}
+            {!isMuted && !isUserMute && <div >
+                {
+                    isShow && <Flex className='show-error' alignItems='center'>
+                        <CloseCircleOutlined style={{ color: 'red', paddingLeft: '10px' }} />
+                        <Text ml='3px' className='show-error-msg'>发送失败,含有敏感词！</Text>
+                    </Flex>
+                }
+                <Flex justifyContent='flex-start' alignItems='center'>
+                    {isEmoji && <ShowEomji getEmoji={getEmoji} />}
+                    <SmileOutlined className='emoji-icon' onClick={showEmoji} />
+                    {isTool && <div onClick={updateImage}
+                    >
+                        <ImageIcon />
+                        {/* <Image src={icon_img} width='18px' background='#D3D6D8' ml='8px' /> */}
+                        <input
+                            id="uploadImage"
+                            onChange={sendImgMessage.bind(this, roomId)}
+                            type="file"
+                            ref={couterRef}
+                            style={{
+                                display: 'none'
+                            }}
+                        />
+                    </div>}
                 </Flex>
-            ) : (
-                    <div >
-                        {
-                            isShow && <Flex className='show-error' alignItems='center'>
-                                <CloseCircleOutlined style={{ color: 'red', paddingLeft: '10px' }} />
-                                <Text ml='3px' className='show-error-msg'>发送失败,含有敏感词！</Text>
-                            </Flex>
-                        }
-                        <Flex justifyContent='flex-start' alignItems='center'>
-                            {isEmoji && <ShowEomji getEmoji={getEmoji} />}
-                            <SmileOutlined className='emoji-icon' onClick={showEmoji} />
-                            {isTool && <div onClick={updateImage}
-                            >
-                                <ImageIcon />
-                                {/* <Image src={icon_img} width='18px' background='#D3D6D8' ml='8px' /> */}
-                                <input
-                                    id="uploadImage"
-                                    onChange={sendImgMessage.bind(this, roomId)}
-                                    type="file"
-                                    ref={couterRef}
-                                    style={{
-                                        display: 'none'
-                                    }}
-                                />
-                            </div>}
-                        </Flex>
-                        <div>
-                            <Input.TextArea
-                                placeholder="请输入内容..."
-                                onChange={(e) => changeMsg(e)}
-                                className="msg-box"
-                                autoFocus
-                                value={content}
-                                onClick={hideEmoji}
-                            />
-                        </div>
-                        <Flex justifyContent='flex-end' className='btn-tool'>
-                            <Text>{count}/300</Text>
-                            <Button onClick={() => { sendMessage(roomId, content) }}
-                                className="msg-btn">发送</Button>
-                        </Flex>
-                    </div>
-
-                )}
+                <div>
+                    <Input.TextArea
+                        placeholder="请输入内容..."
+                        onChange={(e) => changeMsg(e)}
+                        className="msg-box"
+                        autoFocus
+                        value={content}
+                        onClick={hideEmoji}
+                    />
+                </div>
+                <Flex justifyContent='flex-end' className='btn-tool'>
+                    <Text>{count}/300</Text>
+                    <Button onClick={() => { sendMessage(roomId, content) }}
+                        className="msg-btn">发送</Button>
+                </Flex>
+            </div>}
         </div>
     )
 }

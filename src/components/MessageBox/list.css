@@ -1,26 +1,27 @@
 .message {
-    height: 82%;
     margin-top: 10px;
     background: #263340;
     border-radius: 8px;
 }
 
-.message-list {
-    padding: 10px 15px;
-    height: 340px;
-    overflow: auto;
-}
-
+.message-list,
+.member-msg,
 .qa-list {
+    min-height: 400px;
+    max-height: 400px;
     padding: 10px 15px;
-    height: 345px;
-    overflow: auto;
+    overflow-y: scroll;
 }
 
 .user-list {
-    height: 520px;
     padding: 10px 15px;
-    overflow: auto;
+    min-height: 570px;
+    max-height: 570px;
+    overflow-y: scroll;
+}
+
+.user-border {
+    border-right: '1px solid white' !important
 }
 
 .msg-sender {
