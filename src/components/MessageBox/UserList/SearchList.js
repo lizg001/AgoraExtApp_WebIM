@@ -3,23 +3,23 @@ import { Flex, Text, Image } from 'rebass'
 import { Switch, Tag } from 'antd';
 
 const SearchList = ({ roomListInfo, searchUser, onSetMute }) => {
-
     const roomOwner = useSelector((state) => state.room.info.owner);
     const roomAdmins = useSelector((state) => state.room.admins);
 
     // 新的空数组，存用户头像，昵称，环信ID
-    const newArr = [];
+    const aryList = [];
     Object.keys(roomListInfo).forEach(item => {
         const userName = roomListInfo[item].nickname;
         const avatarUrl = roomListInfo[item].avatarurl
-        newArr.push([userName, avatarUrl, item]);
-        return newArr;
+        aryList.push([userName, avatarUrl, item]);
+        return aryList;
     })
 
     return (
         <div>
             {
-                newArr.map((member, key) => {
+                aryList.map((member, key) => {
+                    console.log('member----', member);
                     if (member[0] && member[0].indexOf(searchUser) !== -1) {
                         return (
                             <Flex justifyContent='space-between' alignItems='center' mt='8px' key={key}>

@@ -1,5 +1,5 @@
 import WebIM from "../utils/WebIM";
-import { message } from 'antd'
+// import { message } from 'antd'
 import { roomInfo, roomNotice, roomAdmins, roomUsers, roomMuteUsers } from '../redux/aciton'
 import store from '../redux/store'
 import { setUserInfo } from './userInfo'
@@ -54,10 +54,8 @@ function httpString(str) {
     var textR = str;
     var reg = /(http:\/\/|https:\/\/)((\w|=|\?|\.|\/|&|-)+)/g;
     if (reg.exec('')) {
-        console.log('1111');
     } else {
         newNotice = textR.replace(reg, "<a href='$1$2'>$1$2</a>");
-        console.log('textR---', textR);
         return newNotice
     }
 }

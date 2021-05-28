@@ -24,6 +24,7 @@
     border-right: '1px solid white' !important
 }
 
+/* 消息发送及接收者  */
 .msg-sender {
     margin-right: 3px;
     width: auto;
@@ -76,6 +77,17 @@
     color: #FFFFFF;
     line-height: 16px;
 }
+
+/* 禁言图片 */
+.mute-img {
+    width: 14px !important;
+    height: 14px !important;
+    /* background-color: #000000; */
+    background-color: #959BA6;
+    margin-left: 5px !important;
+}
+
+
 
 
 /* antd 样式 */

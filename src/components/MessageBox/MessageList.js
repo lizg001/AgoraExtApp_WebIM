@@ -71,7 +71,6 @@ const MessageList = ({ activeKey, setActiveKey }) => {
               <TabPane tab={<Flex>
                 <Text whiteSpace="nowrap">{name}</Text>
                 {Boolean(notification[key]) && (
-                  console.log('notification', notification[key]),
                   <Text ml="6px" whiteSpace="nowrap" color="red" fontSize='40px'>·</Text>
                 )}
               </Flex>} key={key}>

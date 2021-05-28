@@ -1,7 +1,7 @@
 import { useEffect } from 'react'
 import { useHistory } from 'react-router-dom'
 import store from '../redux/store'
-import { message } from 'antd'
+// import { message } from 'antd'
 import { roomMessages, qaMessages, userMute } from '../redux/aciton'
 import WebIM from '../utils/WebIM';
 import { joinRoom, getRoomInfo } from '../api/chatroom'
@@ -15,7 +15,7 @@ const useIMListen = ({ currentTab }) => {
             onOpened: () => {
                 joinRoom();
                 setTimeout(() => {
-                    history.push('/chatroom?chatRoomId=148364667715585&roomUuid=test222&roleType=3&userUuid=lizg8&avatarUrl=https://img2.baidu.com/it/u=1593081528,1330377059&fm=26&fmt=auto&gp=0.jpg&nickName=AB')
+                    history.push('/chatroom?chatRoomId=148364667715585&roomUuid=test222&roleType=3&userUuid=lizg4&avatarUrl=https://img2.baidu.com/it/u=1593081528,1330377059&fm=26&fmt=auto&gp=0.jpg&nickName=AB')
                 }, 500);
             },
             // 文本消息

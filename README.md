@@ -1,3 +1,31 @@
+## IM 聊天室目录结构
+
+### src 目录文件
+
+- api
+  - login 登陆 Api
+  - userInfo 用户个人属性
+  - logout 退出 Api
+  - chatroom 聊天室相关 Api
+- components
+  - Notice 公告栏
+    - ShowNotice 展示公告框
+    - EditNotice 编辑公告框
+  - MessageBox 整个聊天框
+    - Message 聊天 Tab 展示页
+    - QaList 提问 Tab 展示页
+      - QaUserList 成员
+      - QuestiongMessage 收到提问消息
+      - Qamessage 回复提问消息
+    - UserList 成员 Tab 展示页
+      - MuteList 禁言列表
+      - SearchList 搜索结果列表
+  - ToolBar 控制栏
+  - ChatBox 聊天输入框
+- IMListen 全局监听回调
+- redux 数据状态管理文件
+- themes 静态图片资源
+
 # Getting Started with Create React App
 
 This project was bootstrapped with [Create React App](https://github.com/facebook/create-react-app).

@@ -123,7 +123,6 @@ const ChatBox = ({ isMute, isAdmins, isTool, qaUser, activeKey }) => {
                 setContent('');
             },                               // 对成功的相关定义，sdk会将消息id登记到日志进行备份处理
             fail: function (err) {
-                console.log('err', err);
                 if (err.type === 501) {
                     setIsShow(true);
                     setTimeout(() => {
@@ -168,7 +167,6 @@ const ChatBox = ({ isMute, isAdmins, isTool, qaUser, activeKey }) => {
 
                 },
                 success: function () {                // 消息发送成功
-                    console.log('Success');
                     store.dispatch(qaMessages(msg.body, msg.body.ext.asker, { showNotice: !activeKey }));
                 },
                 fail: function (e) {

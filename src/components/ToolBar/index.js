@@ -1,5 +1,5 @@
 import { useSelector } from "react-redux";
-import { message } from 'antd'
+// import { message } from 'antd'
 import WebIM from '../../utils/WebIM'
 import store from '../../redux/store'
 import { isReward, isQa } from '../../redux/aciton'
@@ -32,7 +32,6 @@ const ToolBar = ({ hide, isTool, qaUser, activeKey }) => {
     }
     // 提问消息开关
     function onChangeQa(checked) {
-        console.log('onChangeQa', checked);
         store.dispatch(isQa({ checked }))
     }
 
