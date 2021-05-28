@@ -110,6 +110,8 @@ const ChatBox = ({ isMute, isAdmins, isTool, qaUser, activeKey }) => {
                 nickName: userNickName
             },                         // 扩展消息
             success: function (id, serverId) {
+                msg.id = serverId;
+                msg.body.id = serverId;
                 if (msg.body.ext.msgtype === 2) {
                     store.dispatch(qaMessages(msg.body, msg.body.ext.asker, { showNotice: !activeKey }));
                     // store.dispatch(qaMessages(message, asker, { showNotice: currentTab !== CHAT_TABS_KEYS.qa && msgtype === 1 }))
