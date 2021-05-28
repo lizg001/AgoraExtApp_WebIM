@@ -1,9 +1,14 @@
 import websdk from 'easemob-websdk'
 import config from './WebIMConfig'
+import { getPageQuery } from './index'
+
 
 
 let WebIM = window.WebIM || {}
 WebIM.config = config;
+
+// 从iframe取appkey
+const appkey = `${getPageQuery().org}#${getPageQuery().apk}`;
 
 let options = {
     isMultiLoginSessions: WebIM.config.isMultiLoginSessions,
@@ -13,7 +18,7 @@ let options = {
     heartBeatWait: WebIM.config.heartBeatWait,
     autoReconnectNumMax: WebIM.config.autoReconnectNumMax,
     delivery: WebIM.config.delivery,
-    appKey: WebIM.config.appkey,
+    appKey: appkey,
     useOwnUploadFun: WebIM.config.useOwnUploadFun,
     deviceId: WebIM.config.deviceId,
     //公有云 isHttpDNS 默认配置为true
