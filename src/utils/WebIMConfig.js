@@ -28,7 +28,7 @@ var config = {
     /*
      * Application AppKey
      */
-    appkey: 'easemob-demo#cloudclass',
+    // appkey: 'easemob-demo#cloudclass',
     /*
      * Application Host
      */

@@ -8,7 +8,7 @@ let WebIM = window.WebIM || {}
 WebIM.config = config;
 
 // 从iframe取appkey
-const appkey = `${getPageQuery().org}#${getPageQuery().apk}`;
+export const appkey = `${getPageQuery().org}#${getPageQuery().apk}`;
 
 let options = {
     isMultiLoginSessions: WebIM.config.isMultiLoginSessions,

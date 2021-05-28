@@ -1,4 +1,4 @@
-import WebIM from "../utils/WebIM";
+import WebIM, { appkey } from "../utils/WebIM";
 import store from '../redux/store'
 import { LoginName } from '../redux/aciton'
 
@@ -8,7 +8,7 @@ const loginIM = () => {
     let potions = {
         user: userName,
         pwd: "123456",
-        appKey: WebIM.config.appkey,
+        appKey: appkey,
         success: () => {
             store.dispatch(LoginName(potions.user));
         }
