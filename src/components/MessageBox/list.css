@@ -2,21 +2,27 @@
     margin-top: 10px;
     background: #263340;
     border-radius: 8px;
-    display:flex;
-    flex-direction: column;
-    flex:1 1;
+    height: calc(100% - 109px);
 }
 
 .message>.ant-tabs.ant-tabs-top {
-    display: flex;
-    flex-direction: column;
-    flex: 1 1;
+    height: calc(100% - 182px);
 }
 
-.message .member-msg {
-    display: flex;
-    flex-direction: column;
-    flex: 1 1;
+.message>.ant-tabs.ant-tabs-top>.ant-tabs-content-holder {
+    height: calc(100% - 45px);
+}
+
+.message>.ant-tabs.ant-tabs-top>.ant-tabs-content-holder>.ant-tabs-content {
+    height: 100%;
+}
+
+.message>.ant-tabs.ant-tabs-top>.ant-tabs-content-holder>.ant-tabs-content>.ant-tabs-tabpane {
+    height: 100%;
+}
+
+.message>.member-msg {
+    height: calc(100% - 172px);
 }
 
 .message-list,
@@ -26,6 +32,7 @@
     max-height: 400px; */
     padding: 10px 15px;
     overflow-y: scroll;
+    height: calc(100% - 20px);
 }
 
 .user-list {
