@@ -19,7 +19,6 @@ const SearchList = ({ roomListInfo, searchUser, onSetMute }) => {
         <div>
             {
                 aryList.map((member, key) => {
-                    console.log('member----', member);
                     if (member[0] && member[0].indexOf(searchUser) !== -1) {
                         return (
                             <Flex justifyContent='space-between' alignItems='center' mt='8px' key={key}>

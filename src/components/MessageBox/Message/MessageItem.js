@@ -57,9 +57,6 @@ const MessageItem = ({ messageList, isHiedReward, hasEditPermisson, activeKey })
         })
 
     }
-
-
-
     // 删除消息
     const deleteMsg = (roomId, recallId, activeKey) => {
         let id = WebIM.conn.getUniqueId();            //生成本地消息id
@@ -92,10 +89,11 @@ const MessageItem = ({ messageList, isHiedReward, hasEditPermisson, activeKey })
     return (
         <div >
             <div>
-                {renderMsgs.map((message) => {
+                {renderMsgs.map((message, key) => {
                     let isTextMsg = message.type === 'txt' || message.contentsType === 'TEXT';
                     let isCustomMsg = message.contentsType === "CUSTOM";
                     let isCmdMsg = message.contentsType === 'COMMAND' || message.type === "cmd"
+                    let isShowIcon = !(message.from === '') && hasEditPermisson
                     return <div style={{ marginTop: '16px' }} key={message.id}>
                         {
                             isCmdMsg && (
@@ -119,16 +117,17 @@ const MessageItem = ({ messageList, isHiedReward, hasEditPermisson, activeKey })
                                             {(message.ext.role === 0) && <Tag className='tags' ><Text className='tags-txt' ml='4px' mt='1px'>主讲老师</Text></Tag>}
                                             {(message.ext.role === 3) && <Tag className='tags' ><Text className='tags-txt' ml='4px' mt='1px'>辅导老师</Text></Tag>}
                                             <Text className='msg-sender' ml='8px'>{message.ext.nickName || message.from}</Text>
-                                            {message.ext.role === 2 && (
+                                            {isShowIcon &&
                                                 <>
                                                     {!icon ? (
-                                                        <Image src={icon_mute} className='mute-img' onClick={() => { onSetMute(message) }}></Image>
+                                                        <Image src={icon_mute} className='mute-img' onClick={() => { onSetMute(key, message) }}></Image>
                                                     ) : (
                                                             <Image src={icon_chat} className='mute-img' onClick={() => { onRemoveMute(message) }}></Image>
                                                         )}
                                                     <DeleteOutlined width='14px' className='delete-icon' title="删除消息" onClick={openModal(message.id)} />
                                                 </>
-                                            )}
+                                            }
+
                                         </Flex>
                                     </Flex>
                                     <div className='msg-text txt'>

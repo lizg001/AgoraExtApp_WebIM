@@ -15,7 +15,8 @@ const QaMessage = (props) => {
         <div className='qa'>
             {
                 newUser && newUser.map((message, index) => {
-                    let msgType = message.type === "txt" || message.contentsType === "TEXT"
+                    let isText = message.type === "txt" || message.contentsType === "TEXT"
+                    let isPic = message.type === "img" || message.contentsType === "IMAGE"
                     return (
                         <div key={index} className='qa-msg'>
                             {/* <div>
@@ -28,14 +29,8 @@ const QaMessage = (props) => {
                                 {(message.ext.role === 3) && <Tag className='tags'><Text className='tags-txt' ml='4px' mt='1px'>辅导老师</Text></Tag>}
                                 <Text className='msg-sender' mb='5px'>{message.ext.nickName || message.from}</Text>
                             </Flex>
-                            {
-                                msgType ? (
-                                    <Text className='msg-text'>{message.msg || message.data}</Text>
-                                ) : (
-                                        <Image src={message.body.url} style={{ width: '180px' }} />
-                                    )
-                            }
-
+                            {isText && <Text className='msg-text'>{message.msg || message.data}</Text>}
+                            {isPic && <Image src={message.body.url} style={{ width: '180px' }} />}
                         </div>
                     )
                 })

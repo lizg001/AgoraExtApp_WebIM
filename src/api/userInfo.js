@@ -20,7 +20,12 @@ export const setUserInfo = () => {
 export const getUserInfo = (member) => {
     let userArr = [];
     member.forEach(user => {
-        return userArr.push(user.member)
+        if (user.member) {
+            userArr.push(user.member)
+        } else {
+            userArr.push(user.owner)
+        }
+        return
     });
     WebIM.conn.fetchUserInfoById(userArr).then((res) => {
         store.dispatch(memberInfo(res.data))

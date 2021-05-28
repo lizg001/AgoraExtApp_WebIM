@@ -4,7 +4,7 @@ import store from '../redux/store'
 // import { message } from 'antd'
 import { roomMessages, qaMessages, userMute } from '../redux/aciton'
 import WebIM, { appkey } from '../utils/WebIM';
-import { joinRoom, getRoomInfo } from '../api/chatroom'
+import { joinRoom, getRoomInfo, getRoomNotice } from '../api/chatroom'
 import { CHAT_TABS_KEYS } from '../components/MessageBox/constants'
 import loginIM from '../api/login'
 
@@ -16,7 +16,7 @@ const useIMListen = ({ currentTab }) => {
             onOpened: () => {
                 joinRoom();
                 setTimeout(() => {
-                    history.push('/chatroom?chatRoomId=148364667715585&roomUuid=test222&roleType=3&userUuid=lizg19999&password=123456&avatarUrl=https://img2.baidu.com/it/u=1593081528,1330377059&fm=26&fmt=auto&gp=0.jpg&org=gdpwq123&apk=rests&nickName=AB')
+                    history.push('/chatroom?chatRoomId=148364667715585&roomUuid=test222&roleType=3&userUuid=lizg8&password=123456&avatarUrl=https://img2.baidu.com/it/u=1593081528,1330377059&fm=26&fmt=auto&gp=0.jpg&org=easemob-demo&apk=cloudclass&nickName=AB')
                 }, 500);
             },
             // 文本消息
@@ -31,10 +31,12 @@ const useIMListen = ({ currentTab }) => {
             // 异常回调
             onError: (message) => {
                 console.log('onError', message);
+                const type = JSON.parse(message.data.data).error_description;
                 const resetName = store.getState().extData.userUuid
                 const resetPwd = store.getState().extData.password
-                const type = JSON.parse(message.data.data).error_description;
-                if (type === "user not found") {
+                if (message.type === '16') {
+                    return
+                } else if (type === "user not found") {
                     let options = {
                         username: resetName,
                         password: resetPwd,
@@ -64,6 +66,9 @@ const useIMListen = ({ currentTab }) => {
                         //     message.destroy();
                         // }, 3000);
                         break;
+                    case "updateAnnouncement":
+                        getRoomNotice(message.gid)
+                        break;
                     case 'muteChatRoom':
                         getRoomInfo(message.gid);
                         break;
@@ -87,7 +92,7 @@ const useIMListen = ({ currentTab }) => {
             },
             onPictureMessage: (message) => {
                 console.log('onPictureMessage', message);
-                store.dispatch(qaMessages(message, message.ext.asker))
+                store.dispatch(qaMessages(message, message.ext.asker, { showNotice: currentTab !== CHAT_TABS_KEYS.chat }))
             }, //收到图片消息
             onCmdMessage: (message) => {
                 console.log('onCmdMessage', message);

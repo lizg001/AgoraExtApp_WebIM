@@ -18,12 +18,10 @@ const UserList = ({ userList }) => {
     const [muteMembers, setMuteMembers] = useState([]);
     const [loading, setLoading] = useState(false)
     const roomId = useSelector((state) => state.room.info.id)
-    const loginName = useSelector((state) => state.loginName);
     const roomOwner = useSelector((state) => state.room.info.owner);
     const roomAdmins = useSelector((state) => state.room.admins);
     const roomMuteList = useSelector((state) => state.room.muteList);
     const roomListInfo = useSelector((state) => state.userListInfo);
-
 
     useEffect(() => {
         getUserInfo(userList)
@@ -107,7 +105,7 @@ const UserList = ({ userList }) => {
                                             src={roomListInfo[key].avatarurl || 'https://gimg2.baidu.com/image_search/src=http%3A%2F%2Fpic4.zhimg.com%2F50%2Fv2-fde5891065510ef51e4c8dc19f6f3aff_hd.jpg&refer=http%3A%2F%2Fpic4.zhimg.com&app=2002&size=f9999,10000&q=a80&n=0&g=0n&fmt=jpeg?sec=1624035646&t=52e70633abb73d7e2e0d2bd3f0446505'}
                                         />
                                         <Flex ml='8px'>
-                                            {loginName === roomOwner && <Tag className='tags' ><Text className='tags-txt' ml='4px' mt='1px'>主讲老师</Text></Tag>}
+                                            {key === roomOwner && <Tag className='tags' ><Text className='tags-txt' ml='4px' mt='1px'>主讲老师</Text></Tag>}
                                             {roomAdmins.includes(key) && <Tag className='tags' ><Text className='tags-txt' ml='4px' mt='1px'>辅导老师</Text></Tag>}
                                             <Text className='username' ml='5px' >{roomListInfo[key].nickname || key}</Text>
                                         </Flex>
