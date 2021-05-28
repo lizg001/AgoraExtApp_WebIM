@@ -7,6 +7,7 @@ import MessageBox from './components/MessageBox/MessageList'
 import useIMListen from './IMListen/useIMListen'
 import { CHAT_TABS_KEYS } from './components/MessageBox/constants'
 import { getPageQuery } from './utils'
+
 import './App.css'
 
 const App = function () {
