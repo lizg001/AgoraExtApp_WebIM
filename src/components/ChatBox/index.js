@@ -30,7 +30,7 @@ const ShowEomji = ({ getEmoji }) => {
     )
 }
 
-const ChatBox = ({ isMute, isAdmins, isTool, qaUser, activeKey }) => {
+const ChatBox = ({ isAllMute, isAdmins, isTool, qaUser, activeKey }) => {
     const roomId = useSelector((state) => state.room.info.id);
     // 是否开启了提问模式
     const isQa = useSelector((state) => state.isQa).checked;
@@ -188,7 +188,7 @@ const ChatBox = ({ isMute, isAdmins, isTool, qaUser, activeKey }) => {
     }
 
     // 禁言后，判断权限是否遮盖输入框
-    const isMuted = isMute && !isAdmins
+    const isMuted = isAllMute && !isAdmins
     return (
         <div className='chat-box'>
             {/* 是否被禁言 */}
@@ -202,9 +202,9 @@ const ChatBox = ({ isMute, isAdmins, isTool, qaUser, activeKey }) => {
             {/* 不禁言展示发送框 */}
             {!isMuted && !isUserMute && <div >
                 {
-                    isShow && <Flex className='show-error' alignItems='center'>
+                    isShow && <Flex className='show-error' alignItems='center' justifyContent='center'>
                         <CloseCircleOutlined style={{ color: 'red', paddingLeft: '10px' }} />
-                        <Text ml='3px' className='show-error-msg'>发送失败,含有敏感词！</Text>
+                        <Text ml='3px' className='show-error-msg' >发送失败,含有敏感词！</Text>
                     </Flex>
                 }
                 <Flex justifyContent='flex-start' alignItems='center'>

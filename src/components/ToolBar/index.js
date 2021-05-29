@@ -15,16 +15,22 @@ const ToolBar = ({ hide, isTool, qaUser, activeKey }) => {
     const roomId = useSelector((state) => state.room.info.id);
     const roomAdmins = useSelector((state) => state.room.admins);
     const roomOwner = useSelector((state) => state.room.info.owner);
-    const isMute = useSelector((state) => state.room.info.mute);
+    const isAllMute = useSelector((state) => state.room.info.mute);
+    const isChatReward = useSelector(state => state.isReward);
     const isAdmins = roomAdmins.includes(userName) || userName === roomOwner;
 
-    // 渲染赞赏开关
-    function onChangeMessage(checked) {
-        store.dispatch(isReward({ checked }))
+
+    // 赞赏开关
+    const onChangeReward = (val) => {
+        if (!val) {
+            store.dispatch(isReward(true))
+        } else {
+            store.dispatch(isReward(false))
+        }
     }
     // 全局禁言开关
-    function onChangeMute(checked) {
-        if (checked) {
+    const onChangeMute = (val) => {
+        if (!val) {
             setAllmute();
         } else {
             removeAllmute();
@@ -70,11 +76,15 @@ const ToolBar = ({ hide, isTool, qaUser, activeKey }) => {
                             {!isTool && <div>
                                 <Flex justifyContent="space-between" alignItems='center' m='5px' height='36px'>
                                     <Flex>
-                                        <Switch size="small" onChange={onChangeMessage} />
+                                        <Switch size="small"
+                                            checked={isChatReward}
+                                            onClick={() => { onChangeReward(isChatReward) }} />
                                         <Text ml="3px" fontSize="14px" fontWeight="400" color="#7C848C">隐藏赞赏</Text>
                                     </Flex>
                                     <Flex>
-                                        <Switch size="small" onChange={onChangeMute} />
+                                        <Switch size="small"
+                                            checked={isAllMute}
+                                            onClick={() => { onChangeMute(isAllMute) }} />
                                         <Text ml="3px" fontSize="14px" fontWeight="400" color="#7C848C">全员禁言</Text>
                                     </Flex>
                                 </Flex>
@@ -91,7 +101,7 @@ const ToolBar = ({ hide, isTool, qaUser, activeKey }) => {
                                 </div>
                             </div>
                         )}
-                    <ChatBox isMute={isMute} isAdmins={isAdmins} isTool={isTool} qaUser={qaUser} activeKey={activeKey} />
+                    <ChatBox isAllMute={isAllMute} isAdmins={isAdmins} isTool={isTool} qaUser={qaUser} activeKey={activeKey} />
                 </div>
             ) : (
                     <div></div>

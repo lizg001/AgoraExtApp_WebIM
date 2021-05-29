@@ -19,7 +19,7 @@ const QuestionMessage = ({ userName }) => {
                                     <Image src={message.ext.avatarUrl}
                                         className='qa-msg-img'
                                     />
-                                    {(message.ext.role === 0) && <Tag className='tags' style={{ marginLeft: '8px' }}><Text className='tags-txt' m='4px' mt='1px'>主讲老师</Text></Tag>}
+                                    {(message.ext.role === 1) && <Tag className='tags' style={{ marginLeft: '8px' }}><Text className='tags-txt' m='4px' mt='1px'>主讲老师</Text></Tag>}
                                     {(message.ext.role === 3) && <Tag className='tags' style={{ marginLeft: '8px' }}><Text className='tags-txt' m='4px' mt='1px'>辅导老师</Text></Tag>}
                                     <Text className='msg-sender' mb='5px' ml='10px'>{message.ext.nickName || message.from}</Text>
                                 </Flex>

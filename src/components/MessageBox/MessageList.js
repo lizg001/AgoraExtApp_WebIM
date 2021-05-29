@@ -79,7 +79,7 @@ const MessageList = ({ activeKey, setActiveKey }) => {
                     ...key === CHAT_TABS_KEYS.chat && {
                       messageList,
                       isHiedReward,
-                      hasEditPermisson,
+                      // hasEditPermisson,
                       activeKey
                     }
                   } {...key === CHAT_TABS_KEYS.qa && {

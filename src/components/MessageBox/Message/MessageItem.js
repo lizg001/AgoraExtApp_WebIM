@@ -8,7 +8,7 @@ import icon_mute from '../../../themes/img/jinyan1.png'
 import icon_chat from '../../../themes/img/liaotian.png'
 
 // 消息渲染
-const MessageItem = ({ message, setShowModal, setRecallMsgId, hasEditPermisson }) => {
+const MessageItem = ({ message, setShowModal, setRecallMsgId }) => {
     // 控制展示的禁言图标
     const [icon, setIcon] = useState(false);
     // 聊天框禁言
@@ -45,7 +45,7 @@ const MessageItem = ({ message, setShowModal, setRecallMsgId, hasEditPermisson }
     let isTextMsg = message.type === 'txt' || message.contentsType === 'TEXT';
     let isCustomMsg = message.contentsType === "CUSTOM";
     let isCmdMsg = message.contentsType === 'COMMAND' || message.type === "cmd"
-    let isShowIcon = !(message.from === '') && hasEditPermisson
+    let isShowIcon = !(message.from === '') && (message.ext.role === 2 || message.ext.role === 0)
 
 
     return (
@@ -69,7 +69,7 @@ const MessageItem = ({ message, setShowModal, setRecallMsgId, hasEditPermisson }
                                 />
                             </div>
                             <Flex ml='8px'>
-                                {(message.ext.role === 0) && <Tag className='tags' ><Text className='tags-txt' ml='4px' mt='1px'>主讲老师</Text></Tag>}
+                                {(message.ext.role === 1) && <Tag className='tags' ><Text className='tags-txt' ml='4px' mt='1px'>主讲老师</Text></Tag>}
                                 {(message.ext.role === 3) && <Tag className='tags' ><Text className='tags-txt' ml='4px' mt='1px'>辅导老师</Text></Tag>}
                                 <Text className='msg-sender' ml='8px'>{message.ext.nickName || message.from}</Text>
                                 {isShowIcon &&

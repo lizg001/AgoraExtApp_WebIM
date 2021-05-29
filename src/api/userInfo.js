@@ -7,11 +7,15 @@ import WebIM from "../utils/WebIM";
 export const setUserInfo = () => {
     const userAvatarurl = store.getState().extData.avatarurl;
     const userNickName = store.getState().extData.nickName;
+    const userRoleType = Number(store.getState().extData.roleType);
+    console.log('userRoleType---', userRoleType);
     let options = {
         nickname: userNickName,
-        avatarurl: userAvatarurl
+        avatarurl: userAvatarurl,
+        ext: userRoleType
     }
     WebIM.conn.updateOwnUserInfo(options).then((res) => {
+        console.log('updateOwnUserInfo---', res.data);
         store.dispatch(loginInfo(res.data))
     })
 }
