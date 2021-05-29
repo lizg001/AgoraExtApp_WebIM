@@ -1,5 +1,5 @@
 import WebIM from "../utils/WebIM";
-// import { message } from 'antd'
+import { message } from 'antd'
 import { roomInfo, roomNotice, roomAdmins, roomUsers, roomMuteUsers } from '../redux/aciton'
 import store from '../redux/store'
 import { setUserInfo } from './userInfo'
@@ -13,10 +13,10 @@ export const joinRoom = () => {
         message: 'reason'   // 原因（可选参数）
     }
     WebIM.conn.joinChatRoom(options).then((res) => {
-        // message.success('已成功加入聊天室！');
-        // setTimeout(() => {
-        //     message.destroy();
-        // }, 3000);
+        message.success('已成功加入聊天室！');
+        setTimeout(() => {
+            message.destroy();
+        }, 3000);
         getRoomInfo(options.roomId);
         setUserInfo();
     })
