@@ -4,7 +4,7 @@ import store from '../redux/store'
 // import { message } from 'antd'
 import { roomMessages, qaMessages, userMute } from '../redux/aciton'
 import WebIM, { appkey } from '../utils/WebIM';
-import { joinRoom, getRoomInfo, getRoomNotice } from '../api/chatroom'
+import { joinRoom, getRoomInfo, getRoomNotice, getRoomMuteList } from '../api/chatroom'
 import { CHAT_TABS_KEYS } from '../components/MessageBox/constants'
 import loginIM from '../api/login'
 
@@ -38,7 +38,7 @@ const useIMListen = ({ currentTab }) => {
                 } else if (type === "user not found") {
                     let options = {
                         username: resetName.toLocaleLowerCase(),
-                        password: resetName.toLocaleLowerCase(),
+                        password: resetName,
                         appKey: appkey,
                         success: function () {
                             loginIM();
@@ -75,9 +75,11 @@ const useIMListen = ({ currentTab }) => {
                         getRoomInfo(message.gid);
                         break;
                     case 'addMute':
+                        getRoomMuteList(message.gid);
                         store.dispatch(userMute(true))
                         break;
                     case 'removeMute':
+                        getRoomMuteList(message.gid);
                         store.dispatch(userMute(false))
                         break;
                     default:

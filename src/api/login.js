@@ -7,7 +7,7 @@ const loginIM = () => {
     const userName = store.getState().extData.userUuid;
     let potions = {
         user: userName.toLocaleLowerCase(),
-        pwd: userName.toLocaleLowerCase(),
+        pwd: userName,
         appKey: appkey,
         success: () => {
             store.dispatch(LoginName(potions.user));

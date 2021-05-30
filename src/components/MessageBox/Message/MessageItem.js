@@ -47,7 +47,7 @@ const MessageItem = ({ message, setShowModal, setRecallMsgId }) => {
     let isTextMsg = message.type === 'txt' || message.contentsType === 'TEXT';
     let isCustomMsg = message.contentsType === "CUSTOM";
     let isCmdMsg = message.contentsType === 'COMMAND' || message.type === "cmd"
-    let isShowIcon = !(message.from === '') && (Number(isTeacher) === 1 || Number(isTeacher) === 3)
+    let isShowIcon = !(message.from === '' || message.ext.role === 3) && (Number(isTeacher) === 1 || Number(isTeacher) === 3)
 
 
     return (
