@@ -32,13 +32,13 @@ const useIMListen = ({ currentTab }) => {
             onError: (message) => {
                 console.log('onError', message);
                 const type = JSON.parse(message.data.data).error_description;
-                const resetName = store.getState().extData.userUuid
+                const resetName = store.getState().extData.userUuid;
                 if (message.type === '16') {
                     return
                 } else if (type === "user not found") {
                     let options = {
-                        username: resetName,
-                        password: resetName,
+                        username: resetName.toLocaleLowerCase(),
+                        password: resetName.toLocaleLowerCase(),
                         appKey: appkey,
                         success: function () {
                             loginIM();

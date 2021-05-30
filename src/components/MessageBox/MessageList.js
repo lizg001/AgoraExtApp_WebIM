@@ -23,8 +23,10 @@ const MessageList = ({ activeKey, setActiveKey }) => {
   const [qaUser, setQaUser] = useState('');
   // const [question,serQuestion] = useState(false);
   const userName = useSelector((state) => state.loginName);
-  const roomAdmins = useSelector((state) => state.room.admins);
-  const roomOwner = useSelector((state) => state.room.info.owner);
+  // 判断当前登陆的用户权限
+  const isTeacher = useSelector(state => state.loginInfo.ext)
+  // const roomAdmins = useSelector((state) => state.room.admins);
+  // const roomOwner = useSelector((state) => state.room.info.owner);
   const messageList = useSelector(state => state.messages.list) || [];
   const notification = useSelector(state => state.messages.notification);
   const userList = useSelector(state => state.room.users);
@@ -33,7 +35,8 @@ const MessageList = ({ activeKey, setActiveKey }) => {
   // 是否为提问消息
   const isHiedQuestion = useSelector(state => state.isQa).checked;
   // 是否有权限
-  let hasEditPermisson = roomAdmins.includes(userName) || userName === roomOwner;
+  // let hasEditPermisson = roomAdmins.includes(userName) || userName === roomOwner;
+  let hasEditPermisson = (Number(isTeacher) === 1 || Number(isTeacher) === 3)
 
   // 切换 tab 
   const handleTabChange = (key) => {

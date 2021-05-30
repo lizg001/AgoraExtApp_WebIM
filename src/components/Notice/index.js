@@ -6,9 +6,10 @@ import EditNotice from './EditNotice'
 import './index.css'
 
 const Notice = ({ isEdit, isEditNoticeChange }) => {
-    const userName = useSelector((state) => state.loginName);
-    const roomOwner = useSelector(state => state.room.info.owner)
-    const roomAdmins = useSelector((state) => state.room.admins);
+    // const userName = useSelector((state) => state.loginName);
+    // const roomOwner = useSelector(state => state.room.info.owner)
+    // const roomAdmins = useSelector((state) => state.room.admins);
+    const isTeacher = useSelector(state => state.loginInfo.ext)
     const noticeContent = useSelector((state) => state.room.notice);
     // 显示公告编辑框  
     const onEdit = () => {
@@ -19,7 +20,7 @@ const Notice = ({ isEdit, isEditNoticeChange }) => {
         isEditNoticeChange(false);
     };
     // 判断权限是否为 admin 或 owner
-    const hasEditPermisson = roomAdmins.includes(userName) || userName === roomOwner;
+    const hasEditPermisson = (Number(isTeacher) === 3)
     return (
         <div className={cx("notice", {
             'notice-isEdit': isEdit

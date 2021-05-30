@@ -2,7 +2,7 @@ import { useState, useEffect } from 'react'
 import { useSelector } from 'react-redux'
 import { Image, Flex } from 'rebass'
 import QaMessage from './QaMessage'
-import './qaMessage.css'
+import './QaMessage.css'
 
 const QaUserList = ({ getClickUser }) => {
     const qaList = useSelector(state => state.messages.qaList) || {};

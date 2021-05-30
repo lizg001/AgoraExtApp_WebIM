@@ -99,7 +99,7 @@ const UserList = ({ userList }) => {
                     {!searchUser && Object.keys(roomListInfo).map(key => {
                         console.log('roomListInfo---->>>>', key);
                         if (key === roomOwner) {
-                            return <></>
+                            return null
                         } else {
                             if (!isMute || (isMute && muteMembers.includes(key))) {
                                 return (

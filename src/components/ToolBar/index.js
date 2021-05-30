@@ -11,13 +11,14 @@ import './index.css'
 
 
 const ToolBar = ({ hide, isTool, qaUser, activeKey }) => {
-    const userName = useSelector((state) => state.loginName);
+    // const userName = useSelector((state) => state.loginName);
     const roomId = useSelector((state) => state.room.info.id);
-    const roomAdmins = useSelector((state) => state.room.admins);
-    const roomOwner = useSelector((state) => state.room.info.owner);
+    const isTeacher = useSelector((state) => state.loginInfo.ext);
+    // const roomAdmins = useSelector((state) => state.room.admins);
+    // const roomOwner = useSelector((state) => state.room.info.owner);
     const isAllMute = useSelector((state) => state.room.info.mute);
     const isChatReward = useSelector(state => state.isReward);
-    const isAdmins = roomAdmins.includes(userName) || userName === roomOwner;
+    const isAdmins = Number(isTeacher) === 1 || Number(isTeacher) === 3;
 
 
     // 赞赏开关

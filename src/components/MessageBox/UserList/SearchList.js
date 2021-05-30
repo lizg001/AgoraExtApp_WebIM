@@ -21,7 +21,7 @@ const SearchList = ({ roomListInfo, searchUser, onSetMute }) => {
             {
                 aryList.map((member, key) => {
                     if (member[2] === roomOwner) {
-                        return <></>
+                        return null
                     } else {
                         if (member[0] && member[0].indexOf(searchUser) !== -1) {
                             return (

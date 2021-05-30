@@ -12,7 +12,9 @@ import './MessageList.css'
 
 // 消息渲染
 const MessageList = ({ messageList, isHiedReward, hasEditPermisson, activeKey }) => {
-    let roomId = useSelector(state => state.room.info.id)
+    const roomId = useSelector(state => state.room.info.id);
+    const userInfo = useSelector(state => state.loginInfo)
+    console.log('当前userInfo', userInfo);
     // 控制弹框
     const [showModal, setShowModal] = useState('none');
     // 撤回需要的 msgId
@@ -37,7 +39,10 @@ const MessageList = ({ messageList, isHiedReward, hasEditPermisson, activeKey })
             chatType: 'chatRoom',
             ext: {
                 msgtype: 0,
-                msgId: recallId
+                msgId: recallId,
+                avatarurl: userInfo.avatarurl || '',
+                nickName: userInfo.nickname || '辅导老师'
+
             },    //用户自扩展的消息内容（群聊用法相同）
             success: function (id, serverMsgId) {
                 console.log(id, serverMsgId);

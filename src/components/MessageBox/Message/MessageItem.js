@@ -1,4 +1,5 @@
 import React, { useState } from 'react'
+import { useSelector } from 'react-redux'
 import { Flex, Text, Image } from 'rebass'
 import { Tag } from 'antd'
 import { DeleteOutlined } from '@ant-design/icons'
@@ -9,6 +10,7 @@ import icon_chat from '../../../themes/img/liaotian.png'
 
 // 消息渲染
 const MessageItem = ({ message, setShowModal, setRecallMsgId }) => {
+    const isTeacher = useSelector(state => state.loginInfo.ext)
     // 控制展示的禁言图标
     const [icon, setIcon] = useState(false);
     // 聊天框禁言
@@ -45,7 +47,7 @@ const MessageItem = ({ message, setShowModal, setRecallMsgId }) => {
     let isTextMsg = message.type === 'txt' || message.contentsType === 'TEXT';
     let isCustomMsg = message.contentsType === "CUSTOM";
     let isCmdMsg = message.contentsType === 'COMMAND' || message.type === "cmd"
-    let isShowIcon = !(message.from === '') && (message.ext.role === 2 || message.ext.role === 0)
+    let isShowIcon = !(message.from === '') && (Number(isTeacher) === 1 || Number(isTeacher) === 3)
 
 
     return (
@@ -55,7 +57,7 @@ const MessageItem = ({ message, setShowModal, setRecallMsgId }) => {
                     <div style={{
                         display: 'flex', justifyContent: 'center'
                     }}>
-                        <Text fontSize='12px' color='#7C848C'>{message.from || '您'}删除了一条消息</Text>
+                        <Text fontSize='12px' color='#7C848C'>{message.ext.nickName || '您'}删除了一条消息</Text>
                     </div>
                 )
             }

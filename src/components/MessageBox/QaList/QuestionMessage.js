@@ -2,7 +2,7 @@
 import { useSelector } from 'react-redux'
 import { Flex, Image, Text } from 'rebass'
 import { Tag } from 'antd'
-import './qaMessage.css'
+import './QaMessage.css'
 const QuestionMessage = ({ userName }) => {
     const qaList = useSelector(state => state.messages.qaList) || [];
     const idQaList = qaList[userName] !== undefined;
