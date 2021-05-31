@@ -141,7 +141,11 @@ const reducer = (state = defaultState, action) => {
                     ...state.messages,
                     qaList: {
                         ...qaList,
-                        [qaSender]: [...(qaList[qaSender] || []), data],
+                        [qaSender]: {
+                            msg: [...(qaList[qaSender]?.msg || []), data],
+                            showRedNotice: true
+                        }
+
                     },
                     notification: {
                         ...state.messages.notification,
@@ -159,6 +163,22 @@ const reducer = (state = defaultState, action) => {
                         ...state.messages.notification,
                         [CHAT_TABS_KEYS.qa]: data
                     }
+                }
+            };
+        // 移除提问框成员列表红点通知
+        case 'REMOVE_RED_MESSAGE':
+            console.log(111, data)
+            return {
+                ...state,
+                messages: {
+                    ...state.messages,
+                    qaList: {
+                        ...state.messages.qaList,
+                        [data]: {
+                            ...state.messages.qaList[data],
+                            showRedNotice: false
+                        }
+                    },
                 }
             };
         //当前登陆的用户属性

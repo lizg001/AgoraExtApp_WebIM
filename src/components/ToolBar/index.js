@@ -102,7 +102,7 @@ const ToolBar = ({ hide, isTool, qaUser, activeKey }) => {
                                 </div>
                             </div>
                         )}
-                    <ChatBox isAllMute={isAllMute} isAdmins={isAdmins} isTool={isTool} qaUser={qaUser} activeKey={activeKey} />
+                    <ChatBox isAllMute={isAllMute} isTool={isTool} qaUser={qaUser} activeKey={activeKey} />
                 </div>
             ) : (
                     <div></div>

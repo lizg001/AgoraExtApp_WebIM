@@ -10,7 +10,6 @@ import store from '../../redux/store'
 import { removeChatNotification, removeQaNotification } from '../../redux/aciton'
 
 import './list.css'
-// import { FastBackwardFilled } from '@ant-design/icons';
 
 const { TabPane } = Tabs;
 
@@ -25,17 +24,13 @@ const MessageList = ({ activeKey, setActiveKey }) => {
   const userName = useSelector((state) => state.loginName);
   // 判断当前登陆的用户权限
   const isTeacher = useSelector(state => state.loginInfo.ext)
-  // const roomAdmins = useSelector((state) => state.room.admins);
-  // const roomOwner = useSelector((state) => state.room.info.owner);
   const messageList = useSelector(state => state.messages.list) || [];
   const notification = useSelector(state => state.messages.notification);
-  const userList = useSelector(state => state.room.users);
   // 是够隐藏赞赏消息
   const isHiedReward = useSelector(state => state.isReward).checked;
   // 是否为提问消息
   const isHiedQuestion = useSelector(state => state.isQa).checked;
   // 是否有权限
-  // let hasEditPermisson = roomAdmins.includes(userName) || userName === roomOwner;
   let hasEditPermisson = (Number(isTeacher) === 1 || Number(isTeacher) === 3)
 
   // 切换 tab 
@@ -82,13 +77,11 @@ const MessageList = ({ activeKey, setActiveKey }) => {
                     ...key === CHAT_TABS_KEYS.chat && {
                       messageList,
                       isHiedReward,
-                      // hasEditPermisson,
                       activeKey
                     }
                   } {...key === CHAT_TABS_KEYS.qa && {
                     getClickUser
                   }} {...key === CHAT_TABS_KEYS.user && {
-                    userList
                   }} />
                 </div>
               </TabPane>

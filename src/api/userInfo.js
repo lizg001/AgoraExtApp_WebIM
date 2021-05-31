@@ -22,16 +22,17 @@ export const setUserInfo = () => {
 
 // 获取用户属性
 export const getUserInfo = (member) => {
-    let userArr = [];
-    member.forEach(user => {
-        if (user.member) {
-            userArr.push(user.member)
-        } else {
-            userArr.push(user.owner)
-        }
-        return
-    });
-    WebIM.conn.fetchUserInfoById(userArr).then((res) => {
+    console.log('getUserInfo---', member);
+    // let userArr = [];
+    // member.forEach(user => {
+    //     if (user.member) {
+    //         userArr.push(user.member)
+    //     } else {
+    //         userArr.push(user.owner)
+    //     }
+    //     return
+    // });
+    WebIM.conn.fetchUserInfoById(member).then((res) => {
         store.dispatch(memberInfo(res.data))
     })
 }

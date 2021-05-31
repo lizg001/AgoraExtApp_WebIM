@@ -43,7 +43,7 @@
 }
 
 .user-border {
-    border-right: '1px solid white' !important
+    border-right: 1px solid #606060 !important
 }
 
 /* 消息发送及接收者  */

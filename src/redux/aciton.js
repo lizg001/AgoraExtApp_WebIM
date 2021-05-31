@@ -1,9 +1,8 @@
 
-
+// 收到数据存储
 export const extData = data => {
     return { type: 'SAVE_EXT_DATA', data }
 }
-
 // 登陆ID
 export const LoginName = data => {
     return { type: 'LOGIN_NAME', data }
@@ -32,7 +31,6 @@ export const roomMuteUsers = data => {
 export const userMute = data => {
     return { type: 'IS_USER_MUTE', data }
 }
-
 // 是否开启提问模式
 export const isQa = data => {
     return { type: 'QA_MESSAGE_SWITCH', data }
@@ -53,17 +51,18 @@ export const removeChatNotification = (data) => {
 export const removeQaNotification = (data) => {
     return { type: 'REMOVE_QA_NOTIFICATION', data }
 }
-
+// 移除提问框红点提示
+export const removeShowRed = (data) => {
+    return { type: 'REMOVE_RED_MESSAGE', data }
+}
 // 聊天室提问消息
 export const qaMessages = (data, qaSender, options) => {
     return { type: 'SAVE_QA_MESSAGE', data, qaSender, options }
 }
-
 //  存个人信息
 export const loginInfo = data => {
     return { type: 'SAVE_LOGIN_INFO', data }
 }
-
 // 取成员信息
 export const memberInfo = (data) => {
     return { type: 'SAVE_MEMBER_INFO', data }

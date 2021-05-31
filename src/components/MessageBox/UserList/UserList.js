@@ -5,26 +5,62 @@ import { Flex, Text, Image } from 'rebass'
 import { useSelector } from 'react-redux'
 import { getRoomMuteList } from '../../../api/chatroom'
 import WebIM from '../../../utils/WebIM'
-// import MuteList from './MuteList'
 import SearchList from './SearchList'
 import { getUserInfo } from '../../../api/userInfo'
-// import SearchMember from './SearchMember'
+import _ from 'lodash'
 import './userList.css'
 
-const UserList = ({ userList }) => {
+const UserList = () => {
     // 禁言列表
     const [isMute, setIsMute] = useState(false);
     const [searchUser, setSearchUser] = useState('');
     const [muteMembers, setMuteMembers] = useState([]);
     const [loading, setLoading] = useState(false)
     const roomId = useSelector((state) => state.room.info.id)
-    const roomOwner = useSelector((state) => state.room.info.owner);
-    // const roomAdmins = useSelector((state) => state.room.admins);
+    const roomAdmins = useSelector((state) => state.room.admins);
+    const roomUsers = useSelector(state => state.room.users)
     const roomMuteList = useSelector((state) => state.room.muteList);
     const roomListInfo = useSelector((state) => state.userListInfo);
+    let speakerTeacher = []
+    let coachTeacher = []
+    let student = []
+    _.forIn(roomListInfo, (val, key) => {
+        let newVal = {}
+        switch (val.ext) {
+            case '1':
+                newVal = _.assign(val, { id: key })
+                speakerTeacher.push(newVal)
+                break;
+            case '2':
+                newVal = _.assign(val, { id: key })
+                student.push(newVal)
+                break;
+            case '3':
+                newVal = _.assign(val, { id: key })
+                coachTeacher.push(newVal)
+                break;
+            default:
+                break;
+        }
+    })
+
+    const roomUserList = _.concat(speakerTeacher, coachTeacher, student)
+
+
+    // 遍历成员列表，拿到成员数据，结构和 roomAdmin 统一
+    const newRoomUsers = []
+    roomUsers.map(item => {
+        if (item.owner) {
+            return null
+        }
+        return newRoomUsers.push(item.member);
+    })
+    const roomAllUsers = roomAdmins.concat(newRoomUsers);
+
     useEffect(() => {
-        getUserInfo(userList)
-    }, [userList])
+        getUserInfo(Array.from(new Set(roomAllUsers)))
+    }, [roomUsers])
+
     useEffect(() => {
         let ary = []
         roomMuteList.forEach((item) => {
@@ -32,7 +68,6 @@ const UserList = ({ userList }) => {
         })
         setMuteMembers(ary);
     }, [roomMuteList])
-    // 当前选中的ID
     // 设置个人禁言
     const setUserMute = (roomId, val) => {
         let options = {
@@ -56,7 +91,6 @@ const UserList = ({ userList }) => {
             getRoomMuteList(roomId)
         }).catch(() => { setLoading(false) })
     }
-
     // 禁言开关
     const onMuteList = checked => {
         setIsMute(checked);
@@ -68,7 +102,6 @@ const UserList = ({ userList }) => {
     // 是否禁言
     const onSetMute = val => (e) => {
         let checked = muteMembers.includes(val)
-        console.log('onSetMute---', checked);
         setLoading(true)
         if (!checked) {
             setUserMute(roomId, val);
@@ -96,35 +129,31 @@ const UserList = ({ userList }) => {
                     {/* 是否展示搜索列表 */}
                     {searchUser && <SearchList roomListInfo={roomListInfo} searchUser={searchUser} onSetMute={onSetMute} muteList={muteMembers} />}
                     {/* 展示列表及搜索结果列表 */}
-                    {!searchUser && Object.keys(roomListInfo).map(key => {
-                        console.log('roomListInfo---->>>>', key);
-                        if (key === roomOwner) {
-                            return null
-                        } else {
-                            if (!isMute || (isMute && muteMembers.includes(key))) {
-                                return (
-                                    <Flex key={key} justifyContent='space-between' mt='10px'>
-                                        <Flex alignItems='center'>
-                                            <Image className='lsit-user-img'
-                                                src={roomListInfo[key].avatarurl || 'https://gimg2.baidu.com/image_search/src=http%3A%2F%2Fpic4.zhimg.com%2F50%2Fv2-fde5891065510ef51e4c8dc19f6f3aff_hd.jpg&refer=http%3A%2F%2Fpic4.zhimg.com&app=2002&size=f9999,10000&q=a80&n=0&g=0n&fmt=jpeg?sec=1624035646&t=52e70633abb73d7e2e0d2bd3f0446505'}
-                                            />
-                                            <Flex ml='8px'>
-                                                {Number(roomListInfo[key].ext) === 1 && <Tag className='tags' ><Text className='tags-txt' ml='4px' mt='1px'>主讲老师</Text></Tag>}
-                                                {Number(roomListInfo[key].ext) === 3 && <Tag className='tags' ><Text className='tags-txt' ml='4px' mt='1px'>辅导老师</Text></Tag>}
-                                                <Text className='username' ml='5px' >{roomListInfo[key].nickname || key}</Text>
-                                            </Flex>
-                                        </Flex>
-                                        <Switch
-                                            size="small"
-                                            title="禁言"
-                                            checked={muteMembers.includes(key)}
-                                            onClick={onSetMute(key)}
-                                            loading={loading}
+                    {!searchUser && roomUserList.map((item, key) => {
+                        if (!isMute || (isMute && muteMembers.includes(item.id))) {
+                            return (
+                                <Flex key={key} justifyContent='space-between' mt='10px'>
+                                    <Flex alignItems='center'>
+                                        <Image className='lsit-user-img'
+                                            src={item.avatarurl || 'https://gimg2.baidu.com/image_search/src=http%3A%2F%2Fpic4.zhimg.com%2F50%2Fv2-fde5891065510ef51e4c8dc19f6f3aff_hd.jpg&refer=http%3A%2F%2Fpic4.zhimg.com&app=2002&size=f9999,10000&q=a80&n=0&g=0n&fmt=jpeg?sec=1624035646&t=52e70633abb73d7e2e0d2bd3f0446505'}
                                         />
+                                        <Flex ml='8px'>
+                                            {Number(item.ext) === 1 && <Tag className='tags' ><Text className='tags-txt' ml='4px' mt='1px'>主讲老师</Text></Tag>}
+                                            {Number(item.ext) === 3 && <Tag className='tags' ><Text className='tags-txt' ml='4px' mt='1px'>辅导老师</Text></Tag>}
+                                            <Text className='username' ml='5px' >{item.nickname || item.id}</Text>
+                                        </Flex>
                                     </Flex>
-                                )
-                            }
+                                    <Switch
+                                        size="small"
+                                        title="禁言"
+                                        checked={muteMembers.includes(item.id)}
+                                        onClick={onSetMute(item.id)}
+                                        loading={loading}
+                                    />
+                                </Flex>
+                            )
                         }
+
 
 
                     })}

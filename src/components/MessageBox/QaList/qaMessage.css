@@ -2,14 +2,27 @@
     width: 40px;
     height: 40px;
     background: #2D3340;
+
+    position: relative;
 }
+
+.qa-red-notice {
+    position: absolute;
+    border-radius: 50%;
+    background: red;
+    height: 10px;
+    width: 10px;
+    right: 3px;
+    top: 3px;
+}
+
 
 .qa div:nth-child(1) {
     margin-top: 0
 }
 
 .qa-msg {
-    margin-left: 8px;
+    margin-left: 12px;
     margin-top: 16px;
 }
 

@@ -10,7 +10,7 @@ const QuestionMessage = ({ userName }) => {
         <div style={{ marginLeft: '5px' }}>
             {
                 idQaList ? (
-                    qaList[userName].map((message, index) => {
+                    qaList[userName]?.msg.map((message, index) => {
                         let isText = message.type === "txt" || message.contentsType === "TEXT"
                         let isPic = message.type === "img" || message.contentsType === "IMAGE"
                         return (

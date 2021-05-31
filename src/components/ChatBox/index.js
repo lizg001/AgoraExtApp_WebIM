@@ -30,8 +30,9 @@ const ShowEomji = ({ getEmoji }) => {
     )
 }
 
-const ChatBox = ({ isAllMute, isAdmins, isTool, qaUser, activeKey }) => {
+const ChatBox = ({ isAllMute, isTool, qaUser, activeKey }) => {
     const roomId = useSelector((state) => state.room.info.id);
+    const teacher = useSelector(state => state.loginInfo.ext)
     // 是否开启了提问模式
     const isQa = useSelector((state) => state.isQa).checked;
     // 获取用户详情
@@ -42,6 +43,8 @@ const ChatBox = ({ isAllMute, isAdmins, isTool, qaUser, activeKey }) => {
     const roleType = Number(useSelector(state => state.extData.roleType))
     // 获取是否为单人禁言
     const isUserMute = useSelector(state => state.isUserMute)
+    // 是否为老师
+    const isTeacher = (Number(teacher) === 1 || Number(teacher) === 3)
     const [count, setCount] = useState(0);
     const [content, setContent] = useState('');
     const [isEmoji, setIsEmoji] = useState(false);
@@ -188,19 +191,19 @@ const ChatBox = ({ isAllMute, isAdmins, isTool, qaUser, activeKey }) => {
     }
 
     // 禁言后，判断权限是否遮盖输入框
-    const isMuted = isAllMute && !isAdmins
+    // const isMuted = isAllMute && !isTeacher
     return (
         <div className='chat-box'>
             {/* 是否被禁言 */}
-            {isUserMute && <Flex className='msg-box-mute'>
+            {!isTeacher && isUserMute && <Flex className='msg-box-mute'>
                 <Text className='mute-msg'>您已被禁言</Text>
             </Flex>}
             {/* 是否全局禁言 */}
-            {isMuted && <Flex className='msg-box-mute'>
+            {!isTeacher && isAllMute && <Flex className='msg-box-mute'>
                 <Text className='mute-msg'>全员禁言中</Text>
             </Flex>}
             {/* 不禁言展示发送框 */}
-            {!isMuted && !isUserMute && <div >
+            {(isTeacher || (!isUserMute && !isAllMute)) && <div >
                 {
                     isShow && <Flex className='show-error' alignItems='center' justifyContent='center'>
                         <CloseCircleOutlined style={{ color: 'red', paddingLeft: '10px' }} />

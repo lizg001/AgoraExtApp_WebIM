@@ -23,7 +23,7 @@ const SearchList = ({ roomListInfo, searchUser, onSetMute }) => {
                     if (member[2] === roomOwner) {
                         return null
                     } else {
-                        if (member[0] && member[0].indexOf(searchUser) !== -1) {
+                        if (member[0] && (member[0].toLocaleLowerCase()).indexOf(searchUser.toLocaleLowerCase()) !== -1) {
                             return (
                                 <Flex justifyContent='space-between' alignItems='center' mt='8px' key={key}>
                                     <Flex ml='8px' alignItems='center'>

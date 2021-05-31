@@ -14,7 +14,6 @@ import './MessageList.css'
 const MessageList = ({ messageList, isHiedReward, hasEditPermisson, activeKey }) => {
     const roomId = useSelector(state => state.room.info.id);
     const userInfo = useSelector(state => state.loginInfo)
-    console.log('当前userInfo', userInfo);
     // 控制弹框
     const [showModal, setShowModal] = useState('none');
     // 撤回需要的 msgId

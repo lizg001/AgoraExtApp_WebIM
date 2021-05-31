@@ -8,7 +8,7 @@ const QaMessage = (props) => {
     const qaList = useSelector(state => state.messages.qaList) || [];
     const [newUser, setNewUser] = useState([]);
     useEffect(() => {
-        setNewUser(qaList[props.currentUser])
+        setNewUser(qaList[props.currentUser]?.msg)
     }, [qaList[props.currentUser]])
 
     return (

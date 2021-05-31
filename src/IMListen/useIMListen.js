@@ -7,6 +7,7 @@ import WebIM, { appkey } from '../utils/WebIM';
 import { joinRoom, getRoomInfo, getRoomNotice, getRoomMuteList } from '../api/chatroom'
 import { CHAT_TABS_KEYS } from '../components/MessageBox/constants'
 import loginIM from '../api/login'
+import _ from 'lodash'
 
 // WebIM 注册监听回调
 const useIMListen = ({ currentTab }) => {
@@ -31,7 +32,7 @@ const useIMListen = ({ currentTab }) => {
             // 异常回调
             onError: (message) => {
                 console.log('onError', message);
-                const type = JSON.parse(message.data.data).error_description;
+                const type = JSON.parse(_.get(message, 'data.data')).error_description;
                 const resetName = store.getState().extData.userUuid;
                 if (message.type === '16') {
                     return
