@@ -30,7 +30,7 @@ const QaMessage = (props) => {
                                 <Text className='msg-sender' mb='5px'>{message.ext.nickName || message.from}</Text>
                             </Flex>
                             {isText && <Text className='msg-text'>{message.msg || message.data}</Text>}
-                            {isPic && <Image src={message.body.url} style={{ width: '180px' }} />}
+                            {isPic && <Image src={message.url || message.body.url} style={{ width: '180px' }} />}
                         </div>
                     )
                 })

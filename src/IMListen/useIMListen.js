@@ -94,7 +94,7 @@ const useIMListen = ({ currentTab }) => {
             },
             onPictureMessage: (message) => {
                 console.log('onPictureMessage', message);
-                store.dispatch(qaMessages(message, message.ext.asker, { showNotice: currentTab !== CHAT_TABS_KEYS.chat }))
+                store.dispatch(qaMessages(message, message.ext.asker, { showNotice: currentTab !== CHAT_TABS_KEYS.qa }))
             }, //收到图片消息
             onCmdMessage: (message) => {
                 console.log('onCmdMessage', message);

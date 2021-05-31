@@ -167,7 +167,6 @@ const reducer = (state = defaultState, action) => {
             };
         // 移除提问框成员列表红点通知
         case 'REMOVE_RED_MESSAGE':
-            console.log(111, data)
             return {
                 ...state,
                 messages: {

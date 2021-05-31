@@ -37,8 +37,6 @@
 
 .user-list {
     padding: 10px 15px;
-    min-height: 570px;
-    max-height: 570px;
     overflow-y: scroll;
 }
 

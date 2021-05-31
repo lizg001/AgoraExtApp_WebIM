@@ -19,7 +19,6 @@ const MuteList = ({ roomMuteList, searchUser, roomListInfo }) => {
         <div>
             {
                 newArr.map((member, key) => {
-                    console.log('member----', member, key);
                     // if (showMuteList.includes()) {
                     //     return (
                     //         <Flex justifyContent='space-between' alignItems='center' mt='8px' key={key}>

@@ -155,7 +155,7 @@ const ChatBox = ({ isAllMute, isTool, qaUser, activeKey }) => {
                 to: roomId,
                 ext: {
                     msgtype: msgType,   // 消息类型
-                    roomUuid: '课堂id',
+                    roomUuid: roomUuid,
                     asker: requestUser,
                     role: roleType,
                     avatarUrl: avatarUrl,
