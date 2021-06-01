@@ -23,6 +23,11 @@ export const roomAdmins = data => {
 export const roomUsers = data => {
     return { type: 'GET_ROOM_USERS', data }
 }
+
+// 聊天室全局禁言
+export const roomAllMute = data => {
+    return { type: 'GET_ROOM_ALL_MUTE', data }
+}
 // 聊天室禁言成员
 export const roomMuteUsers = data => {
     return { type: 'GET_ROOM_MUTE_USERS', data }

@@ -19,9 +19,10 @@ const defaultState = {
         }
     },
     isUserMute: false,   //单人禁言
-    isQa: false,        //是否为提问消息开关
-    isReward: false,    //是否隐藏赞赏消息开关
-    userListInfo: {}    //成员信息
+    isQa: false,         //是否为提问消息开关
+    isReward: false,     //是否隐藏赞赏消息开关
+    userListInfo: {},    //成员信息
+    isRoomAllMute: false  //全局禁言
 
 }
 const reducer = (state = defaultState, action) => {
@@ -33,13 +34,13 @@ const reducer = (state = defaultState, action) => {
                 ...state,
                 extData: data
             };
-        //当前登陆的name
+        // 当前登陆的name
         case 'LOGIN_NAME':
             return {
                 ...state,
                 loginName: data
             };
-        //聊天室详情
+        // 聊天室详情
         case 'GET_ROOM_INFO':
             return {
                 ...state,
@@ -48,7 +49,7 @@ const reducer = (state = defaultState, action) => {
                     info: data
                 }
             };
-        //修改聊天室公告
+        // 获取聊天室公告
         case 'UPDATE_ROOM_NOTICE':
             return {
                 ...state,
@@ -56,6 +57,12 @@ const reducer = (state = defaultState, action) => {
                     ...state.room,
                     notice: data
                 }
+            };
+        // 聊天室全局禁言
+        case 'GET_ROOM_ALL_MUTE':
+            return {
+                ...state,
+                isRoomAllMute: data,
             };
         //获取聊天室管理员
         case 'GET_ROOM_ADMINS':

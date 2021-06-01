@@ -4,7 +4,6 @@ import { roomInfo, roomNotice, roomAdmins, roomUsers, roomMuteUsers } from '../r
 import store from '../redux/store'
 import { setUserInfo } from './userInfo'
 
-
 // 加入聊天室
 export const joinRoom = () => {
     const roomId = store.getState().extData.chatRoomId;
@@ -33,11 +32,9 @@ export const getRoomInfo = (roomId) => {
         getRoomNotice(roomId);
         getRoomAdmins(roomId);
         getRoomUsers(roomId);
-        getRoomMuteList(roomId);
+        getRoomWhileList(roomId);
     })
 }
-
-
 
 // 获取群组公告
 export const getRoomNotice = (roomId) => {
@@ -59,8 +56,6 @@ function httpString(str) {
         return newNotice
     }
 }
-
-
 
 // 上传/修改 群组公告
 export const updateRoomNotice = (roomId, noticeCentent) => {
@@ -105,4 +100,12 @@ export const getRoomMuteList = (roomId) => {
     WebIM.conn.getChatRoomMuted(options).then((res) => {
         store.dispatch(roomMuteUsers(res.data));
     })
+}
+
+// 获取聊天室白名单，为了保证禁言时可以提问，使用白名单做完禁言列表
+export const getRoomWhileList = (roomId) => {
+    let options = {
+        chatRoomId: roomId  // 聊天室id
+    }
+    WebIM.conn.getChatRoomWhitelist(options);
 }

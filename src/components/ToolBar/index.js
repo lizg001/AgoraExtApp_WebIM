@@ -1,25 +1,21 @@
+import React from 'react'
 import { useSelector } from "react-redux";
-// import { message } from 'antd'
 import WebIM from '../../utils/WebIM'
 import store from '../../redux/store'
-import { isReward, isQa } from '../../redux/aciton'
+import { isReward, isQa, roomAllMute } from '../../redux/aciton'
 import { Flex, Text } from 'rebass'
 import { Switch } from 'antd';
 import ChatBox from '../ChatBox'
-import { getRoomInfo } from '../../api/chatroom'
 import './index.css'
 
 
 const ToolBar = ({ hide, isTool, qaUser, activeKey }) => {
-    // const userName = useSelector((state) => state.loginName);
     const roomId = useSelector((state) => state.room.info.id);
     const isTeacher = useSelector((state) => state.loginInfo.ext);
-    // const roomAdmins = useSelector((state) => state.room.admins);
-    // const roomOwner = useSelector((state) => state.room.info.owner);
-    const isAllMute = useSelector((state) => state.room.info.mute);
-    const isChatReward = useSelector(state => state.isReward);
+    const isAllMute = useSelector((state) => state.isRoomAllMute);
+    const isGift = useSelector(state => state.isReward);
+    const rommAnnouncement = (useSelector(state => state.room.notice)).slice(1)
     const isAdmins = Number(isTeacher) === 1 || Number(isTeacher) === 3;
-
 
     // 赞赏开关
     const onChangeReward = (val) => {
@@ -45,27 +41,21 @@ const ToolBar = ({ hide, isTool, qaUser, activeKey }) => {
     // 一键禁言
     const setAllmute = () => {
         let options = {
-            chatRoomId: roomId    // 聊天室id
+            roomId: roomId,                 // 聊天室id   
+            announcement: "1" + rommAnnouncement    // 公告内容                        
         };
-        WebIM.conn.disableSendChatRoomMsg(options).then((res) => {
-            getRoomInfo(roomId);
-            // message.success('已设置全局禁言');
-            // setTimeout(() => {
-            //     message.destroy();
-            // }, 3000);
+        WebIM.conn.updateChatRoomAnnouncement(options).then((res) => {
+            store.dispatch(roomAllMute(true))
         })
     }
     // 解除一键禁言
     const removeAllmute = () => {
         let options = {
-            chatRoomId: roomId    // 聊天室id
+            roomId: roomId,                 // 聊天室id   
+            announcement: "0" + rommAnnouncement    // 公告内容                        
         };
-        WebIM.conn.enableSendChatRoomMsg(options).then((res) => {
-            getRoomInfo(roomId);
-            // message.success('已解除全局禁言');
-            // setTimeout(() => {
-            //     message.destroy();
-            // }, 3000);
+        WebIM.conn.updateChatRoomAnnouncement(options).then((res) => {
+            store.dispatch(roomAllMute(false))
         })
     }
     return (
@@ -78,8 +68,8 @@ const ToolBar = ({ hide, isTool, qaUser, activeKey }) => {
                                 <Flex justifyContent="space-between" alignItems='center' m='5px' height='36px'>
                                     <Flex>
                                         <Switch size="small"
-                                            checked={isChatReward}
-                                            onClick={() => { onChangeReward(isChatReward) }} />
+                                            checked={isGift}
+                                            onClick={() => { onChangeReward(isGift) }} />
                                         <Text ml="3px" fontSize="14px" fontWeight="400" color="#7C848C">隐藏赞赏</Text>
                                     </Flex>
                                     <Flex>

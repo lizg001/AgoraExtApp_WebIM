@@ -4,10 +4,10 @@ import { RightOutlined } from '@ant-design/icons'
 import icon_notice from '../../themes/img/icon_notice.png'
 
 
-const ShowNotice = ({ hasEditPermisson, noticeContent, onEdit }) => {
+const ShowNotice = ({ hasEditPermisson, roomAnnouncement, onEdit }) => {
 
     // 判断公告字数，显示更多
-    const shouldShowEllipsis = noticeContent?.length > 39;
+    const shouldShowEllipsis = roomAnnouncement?.length > 39;
     // 辅导权限，可直接展示编辑
     const Edit = () => {
         return (
@@ -38,9 +38,9 @@ const ShowNotice = ({ hasEditPermisson, noticeContent, onEdit }) => {
                 {shouldShowEllipsis && <More />}
             </Flex >
             <div className="content">
-                {noticeContent ? (
+                {roomAnnouncement ? (
                     <div className="content-box">
-                        {shouldShowEllipsis ? noticeContent.slice(0, 38) + "..." : noticeContent}
+                        {shouldShowEllipsis ? roomAnnouncement.slice(0, 38) + "..." : roomAnnouncement}
                     </div>
                 ) : (
                         <div className="content-no">

@@ -2,9 +2,9 @@ import { useEffect } from 'react'
 import { useHistory } from 'react-router-dom'
 import store from '../redux/store'
 // import { message } from 'antd'
-import { roomMessages, qaMessages, userMute } from '../redux/aciton'
+import { roomMessages, qaMessages, userMute, roomAllMute } from '../redux/aciton'
 import WebIM, { appkey } from '../utils/WebIM';
-import { joinRoom, getRoomInfo, getRoomNotice, getRoomMuteList } from '../api/chatroom'
+import { joinRoom, getRoomInfo, getRoomNotice, getRoomWhileList } from '../api/chatroom'
 import { CHAT_TABS_KEYS } from '../components/MessageBox/constants'
 import loginIM from '../api/login'
 import _ from 'lodash'
@@ -17,7 +17,7 @@ const useIMListen = ({ currentTab }) => {
             onOpened: () => {
                 joinRoom();
                 setTimeout(() => {
-                    history.push('/chatroom?chatRoomId=149861134565377&roomUuid=test222&roleType=3&userUuid=lizg8&avatarUrl=https://img2.baidu.com/it/u=1593081528,1330377059&fm=26&fmt=auto&gp=0.jpg&org=easemob-demo&apk=cloudclass&nickName=AB')
+                    history.push('/chatroom?chatRoomId=148364667715585&roomUuid=test222&roleType=3&userUuid=lizg8&avatarUrl=https://img2.baidu.com/it/u=1593081528,1330377059&fm=26&fmt=auto&gp=0.jpg&org=easemob-demo&apk=cloudclass&nickName=AB')
                 }, 500);
             },
             // 文本消息
@@ -50,24 +50,18 @@ const useIMListen = ({ currentTab }) => {
             },
             // 聊天室相关监听
             onPresence: (message) => {
-                console.log('type-----', message.type);
+                console.log('type-----', message);
+                const isRoomAllMute = store.getState().isRoomAllMute;
                 switch (message.type) {
                     case "memberJoinChatRoomSuccess":
                         getRoomInfo(message.gid);
-                        // message.success(message.from + '已成功加入聊天室！');
-                        // setTimeout(() => {
-                        //     message.destroy();
-                        // }, 3000);
                         break;
                     case "leaveChatRoom":
                         getRoomInfo(message.gid);
-                        // message.success(message.from + '已离开聊天室！');
-                        // setTimeout(() => {
-                        //     message.destroy();
-                        // }, 3000);
                         break;
                     case "updateAnnouncement":
                         getRoomNotice(message.gid)
+                        store.dispatch(roomAllMute(!isRoomAllMute))
                         break;
                     case 'muteChatRoom':
                         getRoomInfo(message.gid);
@@ -75,30 +69,33 @@ const useIMListen = ({ currentTab }) => {
                     case 'rmChatRoomMute':
                         getRoomInfo(message.gid);
                         break;
-                    case 'addMute':
-                        getRoomMuteList(message.gid);
-                        store.dispatch(userMute(true))
-                        break;
-                    case 'removeMute':
-                        getRoomMuteList(message.gid);
+                    // 删除聊天室白名单成员
+                    case 'rmUserFromChatRoomWhiteList':
+                        getRoomWhileList(message.gid);
                         store.dispatch(userMute(false))
+                        break;
+                    // 增加聊天室白名单成员
+                    case 'addUserToChatRoomWhiteList':
+                        getRoomWhileList(message.gid);
+                        store.dispatch(userMute(true))
                         break;
                     default:
                         break;
                 }
             },
+            //  收到自定义消息
             onCustomMessage: (message) => {
                 console.log('CUSTOM--', message);
-                // store.dispatch(roomMessages(message))
                 store.dispatch(roomMessages(message, { showNotice: currentTab !== CHAT_TABS_KEYS.chat }))
             },
+            //  收到图片消息
             onPictureMessage: (message) => {
                 console.log('onPictureMessage', message);
                 store.dispatch(qaMessages(message, message.ext.asker, { showNotice: currentTab !== CHAT_TABS_KEYS.qa }))
-            }, //收到图片消息
+            },
+            //  收到CMD消息
             onCmdMessage: (message) => {
                 console.log('onCmdMessage', message);
-                // store.dispatch(roomMessages(message))
                 store.dispatch(roomMessages(message, { showNotice: currentTab !== CHAT_TABS_KEYS.chat }))
             },
         })
