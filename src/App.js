@@ -75,7 +75,6 @@ const App = function () {
     // 聊天室相关监听
     onPresence: (message) => {
       console.log('type-----', message);
-      // const isRoomAllMute = store.getState().isRoomAllMute;
       switch (message.type) {
         case "memberJoinChatRoomSuccess":
           getRoomInfo(message.gid);

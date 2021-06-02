@@ -18,7 +18,7 @@
     font-weight: 400;
     color: #198CFF;
     line-height: 20px;
-    background: 'angular-gradient'(270deg, #FFB319 0%, #FF6619 100%);
+    /* background: 'angular-gradient(270deg, #FFB319 0%, #FF6619 100%)'; */
     -webkit-background-clip: text;
     /* -webkit-text-fill-color: transparent; */
 }
