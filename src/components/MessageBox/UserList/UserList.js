@@ -3,6 +3,8 @@ import { Input, Switch, Tag } from 'antd';
 import { SearchOutlined } from '@ant-design/icons';
 import { Flex, Text, Image } from 'rebass'
 import { useSelector } from 'react-redux'
+// import store from '../../../redux/store'
+// import { roomMuteUsers } from '../../../redux/action'
 import { getRoomWhileList } from '../../../api/chatroom'
 import WebIM from '../../../utils/WebIM'
 import SearchList from './SearchList'
@@ -21,6 +23,7 @@ const UserList = () => {
     const roomUsers = useSelector(state => state.room.users)
     const roomMuteList = useSelector((state) => state.room.muteList);
     const roomListInfo = useSelector((state) => state.userListInfo);
+
     let speakerTeacher = []
     let coachTeacher = []
     let student = []
@@ -58,14 +61,13 @@ const UserList = () => {
     const roomAllUsers = roomAdmins.concat(newRoomUsers);
 
     useEffect(() => {
-        console.log('我执行了');
         getUserInfo(Array.from(new Set(roomAllUsers)))
     }, [roomUsers])
 
     useEffect(() => {
         let ary = []
         roomMuteList.forEach((item) => {
-            ary.push(item.user)
+            ary.push(item)
         })
         setMuteMembers(ary);
     }, [roomMuteList])
@@ -78,6 +80,7 @@ const UserList = () => {
         WebIM.conn.addUsersToChatRoomWhitelist(options).then((res) => {
             setLoading(false)
             getRoomWhileList(roomId)
+            // store.dispatch(roomMuteUsers(true))
         }).catch(() => { setLoading(false) });
     }
     // 移除个人禁言
@@ -89,6 +92,7 @@ const UserList = () => {
         WebIM.conn.rmUsersFromChatRoomWhitelist(options).then((res) => {
             setLoading(false)
             getRoomWhileList(roomId)
+            // store.dispatch(roomMuteUsers(false))
         }).catch(() => { setLoading(false) });
     }
     // 禁言开关
@@ -132,7 +136,7 @@ const UserList = () => {
                     {!searchUser && roomUserList.map((item, key) => {
                         if (!isMute || (isMute && muteMembers.includes(item.id))) {
                             return (
-                                <Flex key={key} justifyContent='space-between' mt='10px'>
+                                <Flex key={key} justifyContent='space-between' mt='10px' alignItems='center'>
                                     <Flex alignItems='center'>
                                         <Image className='lsit-user-img'
                                             src={item.avatarurl || 'https://gimg2.baidu.com/image_search/src=http%3A%2F%2Fpic4.zhimg.com%2F50%2Fv2-fde5891065510ef51e4c8dc19f6f3aff_hd.jpg&refer=http%3A%2F%2Fpic4.zhimg.com&app=2002&size=f9999,10000&q=a80&n=0&g=0n&fmt=jpeg?sec=1624035646&t=52e70633abb73d7e2e0d2bd3f0446505'}
@@ -143,13 +147,13 @@ const UserList = () => {
                                             <Text className='username' ml='5px' >{item.nickname || item.id}</Text>
                                         </Flex>
                                     </Flex>
-                                    <Switch
+                                    {Number(item.ext) === 2 && <Switch
                                         size="small"
                                         title="禁言"
                                         checked={muteMembers.includes(item.id)}
                                         onClick={onSetMute(item.id)}
                                         loading={loading}
-                                    />
+                                    />}
                                 </Flex>
                             )
                         }

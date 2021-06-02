@@ -17,12 +17,10 @@ import './App.css'
 const App = function () {
   const history = useHistory();
   const isRoomAllMute = useSelector(state => state.room.notice).slice(0, 1)
-  console.log('isRoomAllMute', isRoomAllMute);
   const [isEditNotice, isEditNoticeChange] = useState(false)
   const [activeKey, setActiveKey] = useState(CHAT_TABS_KEYS.chat)
   // useIMListen({ currentTab: activeKey })
   useEffect(() => {
-    console.log('-----------11111');
     let im_Data = getPageQuery();
     store.dispatch(extData(im_Data));
     LoginIM();

@@ -60,7 +60,7 @@ const MessageItem = ({ message, setShowModal, setRecallMsgId }) => {
             }
             {
                 isTextMsg && (
-                    <div>
+                    <>
                         <Flex >
                             <div>
                                 <Image src={message.ext.avatarUrl || 'https://gimg2.baidu.com/image_search/src=http%3A%2F%2Fpic4.zhimg.com%2F50%2Fv2-fde5891065510ef51e4c8dc19f6f3aff_hd.jpg&refer=http%3A%2F%2Fpic4.zhimg.com&app=2002&size=f9999,10000&q=a80&n=0&g=0n&fmt=jpeg?sec=1624035646&t=52e70633abb73d7e2e0d2bd3f0446505'}
@@ -74,9 +74,9 @@ const MessageItem = ({ message, setShowModal, setRecallMsgId }) => {
                                 {isShowIcon &&
                                     <>
                                         {!icon ? (
-                                            <Image src={icon_mute} className='mute-img' onClick={() => { onSetMute(message) }}></Image>
+                                            message.ext.role === 2 && <Image src={icon_mute} className='mute-img' onClick={() => { onSetMute(message) }}></Image>
                                         ) : (
-                                                <Image src={icon_chat} className='mute-img' onClick={() => { onRemoveMute(message) }}></Image>
+                                                message.ext.role === 2 && <Image src={icon_chat} className='mute-img' onClick={() => { onRemoveMute(message) }}></Image>
                                             )}
                                         <DeleteOutlined width='14px' className='delete-icon' title="删除消息" onClick={openModal(message.id)} />
                                     </>
@@ -85,9 +85,9 @@ const MessageItem = ({ message, setShowModal, setRecallMsgId }) => {
                             </Flex>
                         </Flex>
                         <div className='msg-text txt'>
-                            <Text>{message.msg || message.data}</Text>
+                            <Text style={{ wordBreak: 'break-all' }}>{message.msg || message.data}</Text>
                         </div>
-                    </div>
+                    </>
                 )
             }
             {

@@ -42,7 +42,6 @@ export const getRoomNotice = (roomId) => {
         roomId       // 聊天室id                          
     };
     WebIM.conn.fetchChatRoomAnnouncement(options).then((res) => {
-        console.log('res------', res);
         store.dispatch(roomNotice(res.data.announcement));
     })
 };
@@ -108,5 +107,7 @@ export const getRoomWhileList = (roomId) => {
     let options = {
         chatRoomId: roomId  // 聊天室id
     }
-    WebIM.conn.getChatRoomWhitelist(options);
+    WebIM.conn.getChatRoomWhitelist(options).then((res) => {
+        store.dispatch(roomMuteUsers(res.data));
+    });
 }

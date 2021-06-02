@@ -6,7 +6,7 @@ import { LoginName } from '../redux/aciton'
 const loginIM = () => {
     const userName = store.getState().extData.userUuid;
     let potions = {
-        user: userName.toLocaleLowerCase(),
+        user: userName ? userName.toLocaleLowerCase() : '',
         pwd: userName,
         appKey: appkey,
         success: () => {

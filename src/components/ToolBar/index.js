@@ -27,7 +27,6 @@ const ToolBar = ({ hide, isTool, qaUser, activeKey }) => {
     }
     // 全局禁言开关
     const onChangeMute = (val) => {
-        console.log('onChangeMute', val);
         if (!val) {
             setAllmute();
         } else {

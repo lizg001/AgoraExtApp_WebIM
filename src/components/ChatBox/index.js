@@ -233,6 +233,7 @@ const ChatBox = ({ isTool, qaUser, activeKey }) => {
                         placeholder="请输入内容..."
                         onChange={(e) => changeMsg(e)}
                         className="msg-box"
+                        maxLength={300}
                         autoFocus
                         value={content}
                         onClick={hideEmoji}
