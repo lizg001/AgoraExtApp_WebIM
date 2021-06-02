@@ -146,7 +146,8 @@ const ChatBox = ({ isTool, qaUser, activeKey }) => {
             'jpg': true,
             'gif': true,
             'png': true,
-            'bmp': true
+            'bmp': true,
+            'webp': true
         };
         if (file.filetype.toLowerCase() in allowType) {
             var option = {
@@ -193,13 +194,13 @@ const ChatBox = ({ isTool, qaUser, activeKey }) => {
     // 禁言后，判断权限是否遮盖输入框
     return (
         <div className='chat-box'>
-            {/* 是否被禁言 */}
-            {(!isTeacher && isUserMute) && !isQa && <Flex className='msg-box-mute'>
-                <Text className='mute-msg'>您已被禁言</Text>
-            </Flex>}
             {/* 是否全局禁言 */}
             {!isTeacher && isAllMute && !isQa && <Flex className='msg-box-mute'>
                 <Text className='mute-msg'>全员禁言中</Text>
+            </Flex>}
+            {/* 是否被禁言 */}
+            {(!isTeacher && isUserMute) && !isQa && <Flex className='msg-box-mute'>
+                <Text className='mute-msg'>您已被禁言</Text>
             </Flex>}
             {/* 不禁言展示发送框 */}
             {(isQa || (isTeacher || (!isUserMute && !isAllMute))) && <div >

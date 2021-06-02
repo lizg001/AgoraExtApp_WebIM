@@ -58,8 +58,9 @@ const UserList = () => {
     const roomAllUsers = roomAdmins.concat(newRoomUsers);
 
     useEffect(() => {
+        console.log('我执行了');
         getUserInfo(Array.from(new Set(roomAllUsers)))
-    }, [roomAllUsers])
+    }, [roomUsers])
 
     useEffect(() => {
         let ary = []
@@ -110,7 +111,7 @@ const UserList = () => {
     }
 
     return (
-        <div>
+        <div className='user-list'>
             <div className='search-back'>
                 <Input placeholder='请输入用户名' className='search-user' onChange={onSearch} />
                 <SearchOutlined className='search-icon' />

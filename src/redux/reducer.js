@@ -60,6 +60,7 @@ const reducer = (state = defaultState, action) => {
             };
         // 聊天室全局禁言
         case 'GET_ROOM_ALL_MUTE':
+            console.log('GET_ROOM_ALL_MUTE---', action);
             return {
                 ...state,
                 isRoomAllMute: data,

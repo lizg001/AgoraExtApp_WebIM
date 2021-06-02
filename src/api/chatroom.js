@@ -5,13 +5,13 @@ import store from '../redux/store'
 import { setUserInfo } from './userInfo'
 
 // 加入聊天室
-export const joinRoom = () => {
+export const joinRoom = async () => {
     const roomId = store.getState().extData.chatRoomId;
     let options = {
         roomId: roomId,   // 聊天室id
         message: 'reason'   // 原因（可选参数）
     }
-    WebIM.conn.joinChatRoom(options).then((res) => {
+    await WebIM.conn.joinChatRoom(options).then((res) => {
         message.success('已成功加入聊天室！');
         setTimeout(() => {
             message.destroy();
@@ -42,6 +42,7 @@ export const getRoomNotice = (roomId) => {
         roomId       // 聊天室id                          
     };
     WebIM.conn.fetchChatRoomAnnouncement(options).then((res) => {
+        console.log('res------', res);
         store.dispatch(roomNotice(res.data.announcement));
     })
 };
