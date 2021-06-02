@@ -7,7 +7,6 @@ import WebIM from '../../utils/WebIM'
 import store from '../../redux/store'
 import { Emoji } from '../../utils/emoji'
 import { roomMessages, qaMessages } from '../../redux/aciton'
-// import icon_img from '../../themes/img/tupian.png'
 
 import './index.css'
 
@@ -30,9 +29,10 @@ const ShowEomji = ({ getEmoji }) => {
     )
 }
 
-const ChatBox = ({ isAllMute, isTool, qaUser, activeKey }) => {
+const ChatBox = ({ isTool, qaUser, activeKey }) => {
     const roomId = useSelector((state) => state.room.info.id);
     const teacher = useSelector(state => state.loginInfo.ext)
+    const isAllMute = useSelector(state => state.isRoomAllMute)
     // 是否开启了提问模式
     const isQa = useSelector((state) => state.isQa).checked;
     // 获取用户详情
@@ -146,7 +146,8 @@ const ChatBox = ({ isAllMute, isTool, qaUser, activeKey }) => {
             'jpg': true,
             'gif': true,
             'png': true,
-            'bmp': true
+            'bmp': true,
+            'webp': true
         };
         if (file.filetype.toLowerCase() in allowType) {
             var option = {
@@ -191,19 +192,18 @@ const ChatBox = ({ isAllMute, isTool, qaUser, activeKey }) => {
     }
 
     // 禁言后，判断权限是否遮盖输入框
-    // const isMuted = isAllMute && !isTeacher
     return (
         <div className='chat-box'>
-            {/* 是否被禁言 */}
-            {!isTeacher && isUserMute && <Flex className='msg-box-mute'>
-                <Text className='mute-msg'>您已被禁言</Text>
-            </Flex>}
             {/* 是否全局禁言 */}
-            {!isTeacher && isAllMute && <Flex className='msg-box-mute'>
+            {!isTeacher && isAllMute && !isQa && <Flex className='msg-box-mute'>
                 <Text className='mute-msg'>全员禁言中</Text>
             </Flex>}
+            {/* 是否被禁言 */}
+            {(!isTeacher && isUserMute) && !isQa && <Flex className='msg-box-mute'>
+                <Text className='mute-msg'>您已被禁言</Text>
+            </Flex>}
             {/* 不禁言展示发送框 */}
-            {(isTeacher || (!isUserMute && !isAllMute)) && <div >
+            {(isQa || (isTeacher || (!isUserMute && !isAllMute))) && <div >
                 {
                     isShow && <Flex className='show-error' alignItems='center' justifyContent='center'>
                         <CloseCircleOutlined style={{ color: 'red', paddingLeft: '10px' }} />

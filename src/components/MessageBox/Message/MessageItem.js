@@ -3,7 +3,7 @@ import { useSelector } from 'react-redux'
 import { Flex, Text, Image } from 'rebass'
 import { Tag } from 'antd'
 import { DeleteOutlined } from '@ant-design/icons'
-import { getRoomMuteList } from '../../../api/chatroom'
+import { getRoomWhileList } from '../../../api/chatroom'
 import WebIM from '../../../utils/WebIM'
 import icon_mute from '../../../themes/img/jinyan1.png'
 import icon_chat from '../../../themes/img/liaotian.png'
@@ -16,27 +16,24 @@ const MessageItem = ({ message, setShowModal, setRecallMsgId }) => {
     // 聊天框禁言
     const onSetMute = (message) => {
         let options = {
-            chatRoomId: message.to, // 聊天室id
-            username: message.from,     // 被禁言的聊天室成员的id
-            muteDuration: -1000       // 被禁言的时长，单位ms，如果是“-1000”代表永久
+            chatRoomId: message.to,   // 聊天室id
+            users: [message.from]   // 成员id列表
         };
-        WebIM.conn.muteChatRoomMember(options).then((res) => {
-            getRoomMuteList(message.to);
+        WebIM.conn.addUsersToChatRoomWhitelist(options).then((res) => {
+            getRoomWhileList(message.to)
             setIcon(true);
         })
-
     }
     // 聊天框移除禁言
     const onRemoveMute = (message) => {
         let options = {
-            chatRoomId: message.to, // 聊天室id
-            username: message.from        // 解除禁言的聊天室成员的id
-        };
-        WebIM.conn.removeMuteChatRoomMember(options).then((res) => {
-            getRoomMuteList(message.to);
+            chatRoomId: message.to,  // 群组id
+            userName: message.from            // 要移除的成员
+        }
+        WebIM.conn.rmUsersFromChatRoomWhitelist(options).then((res) => {
+            getRoomWhileList(message.to)
             setIcon(false);
         })
-
     }
     // 打开确认框
     const openModal = (val) => () => {
@@ -47,7 +44,6 @@ const MessageItem = ({ message, setShowModal, setRecallMsgId }) => {
     let isTextMsg = message.type === 'txt' || message.contentsType === 'TEXT';
     let isCustomMsg = message.contentsType === "CUSTOM";
     let isCmdMsg = message.contentsType === 'COMMAND' || message.type === "cmd"
-    // let isShowIcon = !(message.from === '' || message.ext.role === 3) && (Number(isTeacher) === 1 || Number(isTeacher) === 3)
     let isShowIcon = (Number(isTeacher) === 1 || Number(isTeacher) === 3)
 
 

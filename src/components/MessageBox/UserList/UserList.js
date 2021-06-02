@@ -3,7 +3,7 @@ import { Input, Switch, Tag } from 'antd';
 import { SearchOutlined } from '@ant-design/icons';
 import { Flex, Text, Image } from 'rebass'
 import { useSelector } from 'react-redux'
-import { getRoomMuteList } from '../../../api/chatroom'
+import { getRoomWhileList } from '../../../api/chatroom'
 import WebIM from '../../../utils/WebIM'
 import SearchList from './SearchList'
 import { getUserInfo } from '../../../api/userInfo'
@@ -58,6 +58,7 @@ const UserList = () => {
     const roomAllUsers = roomAdmins.concat(newRoomUsers);
 
     useEffect(() => {
+        console.log('我执行了');
         getUserInfo(Array.from(new Set(roomAllUsers)))
     }, [roomUsers])
 
@@ -71,25 +72,24 @@ const UserList = () => {
     // 设置个人禁言
     const setUserMute = (roomId, val) => {
         let options = {
-            chatRoomId: roomId, // 聊天室id
-            username: val,     // 被禁言的聊天室成员的id
-            muteDuration: -1000       // 被禁言的时长，单位ms，如果是“-1000”代表永久
+            chatRoomId: roomId,   // 聊天室id
+            users: [val]   // 成员id列表
         };
-        WebIM.conn.muteChatRoomMember(options).then((res) => {
+        WebIM.conn.addUsersToChatRoomWhitelist(options).then((res) => {
             setLoading(false)
-            getRoomMuteList(roomId)
-        }).catch(() => { setLoading(false) })
+            getRoomWhileList(roomId)
+        }).catch(() => { setLoading(false) });
     }
     // 移除个人禁言
     const removeUserMute = (roomId, val) => {
         let options = {
-            chatRoomId: roomId, // 聊天室id
-            username: val        // 解除禁言的聊天室成员的id
-        };
-        WebIM.conn.removeMuteChatRoomMember(options).then((res) => {
+            chatRoomId: roomId,  // 群组id
+            userName: val           // 要移除的成员
+        }
+        WebIM.conn.rmUsersFromChatRoomWhitelist(options).then((res) => {
             setLoading(false)
-            getRoomMuteList(roomId)
-        }).catch(() => { setLoading(false) })
+            getRoomWhileList(roomId)
+        }).catch(() => { setLoading(false) });
     }
     // 禁言开关
     const onMuteList = checked => {
@@ -111,7 +111,7 @@ const UserList = () => {
     }
 
     return (
-        <div>
+        <div className='user-list'>
             <div className='search-back'>
                 <Input placeholder='请输入用户名' className='search-user' onChange={onSearch} />
                 <SearchOutlined className='search-icon' />

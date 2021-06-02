@@ -1,5 +1,6 @@
 import React, { useEffect, useState } from 'react';
 import { useHistory } from 'react-router-dom'
+import { useSelector } from 'react-redux'
 import store from './redux/store'
 import { roomMessages, qaMessages, userMute, roomAllMute, extData } from './redux/aciton'
 import WebIM, { appkey } from './utils/WebIM';
@@ -15,14 +16,25 @@ import './App.css'
 
 const App = function () {
   const history = useHistory();
+  const isRoomAllMute = useSelector(state => state.room.notice).slice(0, 1)
+  console.log('isRoomAllMute', isRoomAllMute);
   const [isEditNotice, isEditNoticeChange] = useState(false)
   const [activeKey, setActiveKey] = useState(CHAT_TABS_KEYS.chat)
   // useIMListen({ currentTab: activeKey })
   useEffect(() => {
+    console.log('-----------11111');
     let im_Data = getPageQuery();
     store.dispatch(extData(im_Data));
     LoginIM();
   }, [])
+
+  useEffect(() => {
+    if (Number(isRoomAllMute) === 0) {
+      store.dispatch(roomAllMute(false))
+    } else if (Number(isRoomAllMute) === 1) {
+      store.dispatch(roomAllMute(true))
+    }
+  }, [isRoomAllMute])
 
   WebIM.conn.listen({
     onOpened: () => {
@@ -63,7 +75,6 @@ const App = function () {
     // 聊天室相关监听
     onPresence: (message) => {
       console.log('type-----', message);
-      const isRoomAllMute = store.getState().isRoomAllMute;
       switch (message.type) {
         case "memberJoinChatRoomSuccess":
           getRoomInfo(message.gid);
@@ -73,7 +84,7 @@ const App = function () {
           break;
         case "updateAnnouncement":
           getRoomNotice(message.gid)
-          store.dispatch(roomAllMute(!isRoomAllMute))
+          store.dispatch(roomAllMute(!Number(isRoomAllMute)))
           break;
         case 'muteChatRoom':
           getRoomInfo(message.gid);
