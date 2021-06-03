@@ -36,8 +36,9 @@
 }
 
 .user-list {
-    padding: 10px 5px;
+    padding: 10px;
     overflow-y: scroll;
+    height: calc(130%);
 }
 
 .user-border {

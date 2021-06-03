@@ -193,6 +193,7 @@ const ChatBox = ({ isTool, qaUser, activeKey }) => {
 
     // 键盘Enter 直接发送消息
     const pressEnter = (e) => {
+        e.preventDefault()
         if (e.which !== 13) return
         sendMessage(roomId, content)
     }

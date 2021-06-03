@@ -1,6 +1,8 @@
 import { useSelector } from 'react-redux'
 import { Flex, Text, Image } from 'rebass'
 import { Switch, Tag } from 'antd';
+import _ from 'lodash'
+
 
 const SearchList = ({ roomListInfo, searchUser, onSetMute, muteMembers }) => {
     const roomOwner = useSelector((state) => state.room.info.owner);
@@ -15,10 +17,42 @@ const SearchList = ({ roomListInfo, searchUser, onSetMute, muteMembers }) => {
         return aryList;
     })
 
+    let speakerTeacher = []
+    let coachTeacher = []
+    let student = []
+
+    _.forIn(aryList, (val, key) => {
+        console.log('val>>>', val);
+        let newVal = {}
+        switch (val[3]) {
+            case '1':
+                newVal = _.assign(val, { id: val[2] })
+                speakerTeacher.push(newVal)
+                break;
+            case '2':
+                newVal = _.assign(val, { id: val[2] })
+                student.push(newVal)
+                break;
+            case '3':
+                newVal = _.assign(val, { id: val[2] })
+                coachTeacher.push(newVal)
+                break;
+            default:
+                break;
+        }
+    })
+    const roomUserList = _.concat(speakerTeacher, coachTeacher, student)
+
+
+    console.log('roomUserList>>>', roomUserList);
+
+
+    console.log('aryList--->', aryList);
+
     return (
         <div>
             {
-                aryList.map((member, key) => {
+                roomUserList.map((member, key) => {
                     console.log('aryList-number', member);
                     if (member[2] === roomOwner) {
                         return null

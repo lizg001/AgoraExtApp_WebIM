@@ -1,6 +1,5 @@
 
 import UserList from './UserList/UserList'
-import store from '../../redux/store'
 import QaUserList from './QaList/QaUserList'
 import MessageItem from './Message/MessageList'
 export const CHAT_TABS_KEYS = {

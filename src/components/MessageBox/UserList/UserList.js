@@ -3,8 +3,6 @@ import { Input, Switch, Tag } from 'antd';
 import { SearchOutlined } from '@ant-design/icons';
 import { Flex, Text, Image } from 'rebass'
 import { useSelector } from 'react-redux'
-// import store from '../../../redux/store'
-// import { roomMuteUsers } from '../../../redux/action'
 import { getRoomWhileList } from '../../../api/chatroom'
 import WebIM from '../../../utils/WebIM'
 import SearchList from './SearchList'
@@ -19,37 +17,16 @@ const UserList = () => {
     const [muteMembers, setMuteMembers] = useState([]);
     const [loading, setLoading] = useState(false)
     const roomId = useSelector((state) => state.room.info.id)
-    const roomAdmins = useSelector((state) => state.room.admins);
     const roomUsers = useSelector(state => state.room.users)
     const roomMuteList = useSelector((state) => state.room.muteList);
     const roomListInfo = useSelector((state) => state.userListInfo);
 
+
+    console.log('roomUsers---', roomUsers);
     let speakerTeacher = []
     let coachTeacher = []
     let student = []
-    _.forIn(roomListInfo, (val, key) => {
-        let newVal = {}
-        switch (val.ext) {
-            case '1':
-                newVal = _.assign(val, { id: key })
-                speakerTeacher.push(newVal)
-                break;
-            case '2':
-                newVal = _.assign(val, { id: key })
-                student.push(newVal)
-                break;
-            case '3':
-                newVal = _.assign(val, { id: key })
-                coachTeacher.push(newVal)
-                break;
-            default:
-                break;
-        }
-    })
 
-    const roomUserList = _.concat(speakerTeacher, coachTeacher, student)
-
-    // 遍历成员列表，拿到成员数据，结构和 roomAdmin 统一
     const newRoomUsers = []
     roomUsers.map(item => {
         if (item.owner) {
@@ -57,10 +34,41 @@ const UserList = () => {
         }
         return newRoomUsers.push(item.member);
     })
-    const roomAllUsers = roomAdmins.concat(newRoomUsers);
+
+    // 遍历成员列表，拿到成员数据，结构和 roomAdmin 统一
+    roomUsers.map((item) => {
+        console.log('roomListInfo>>', roomListInfo);
+        console.log('roomListInfo[item.member]', roomListInfo[item.member]);
+        let val
+        if (roomListInfo) {
+            val = roomListInfo && roomListInfo[item.member]
+        } else {
+            return
+        }
+        let newVal = {}
+        switch (val && val.ext) {
+            case '1':
+                newVal = _.assign(val, { id: item.member })
+                speakerTeacher.push(newVal)
+                break;
+            case '2':
+                newVal = _.assign(val, { id: item.member })
+                student.push(newVal)
+                break;
+            case '3':
+                newVal = _.assign(val, { id: item.member })
+                coachTeacher.push(newVal)
+                break;
+            default:
+                break;
+        }
+    })
+    const roomUserList = _.concat(speakerTeacher, coachTeacher, _.reverse(student))
     useEffect(() => {
-        getUserInfo(Array.from(new Set(roomAllUsers)))
+        getUserInfo(newRoomUsers)
     }, [roomUsers])
+
+
 
     useEffect(() => {
         let ary = []
@@ -113,7 +121,7 @@ const UserList = () => {
     }
 
     return (
-        <div className='user-list'>
+        <div style={{ height: '100%' }}>
             <div className='search-back'>
                 <Input placeholder='请输入用户名' className='search-user' onChange={onSearch} />
                 <SearchOutlined className='search-icon' />
@@ -155,9 +163,6 @@ const UserList = () => {
                                 </Flex>
                             )
                         }
-
-
-
                     })}
                 </div>
             }

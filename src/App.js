@@ -16,7 +16,7 @@ import './App.css'
 
 const App = function () {
   const history = useHistory();
-  const isRoomAllMute = useSelector(state => state.room.notice).slice(0, 1)
+  const isRoomAllMute = useSelector(state => state.isRoomAllMute,)
   const [isEditNotice, isEditNoticeChange] = useState(false)
   const [activeKey, setActiveKey] = useState(CHAT_TABS_KEYS.chat)
   // useIMListen({ currentTab: activeKey })
@@ -27,10 +27,10 @@ const App = function () {
   }, [])
 
   useEffect(() => {
-    if (Number(isRoomAllMute) === 0) {
-      store.dispatch(roomAllMute(false))
-    } else if (Number(isRoomAllMute) === 1) {
+    if (isRoomAllMute) {
       store.dispatch(roomAllMute(true))
+    } else {
+      store.dispatch(roomAllMute(false))
     }
   }, [isRoomAllMute])
 
@@ -82,7 +82,6 @@ const App = function () {
           break;
         case "updateAnnouncement":
           getRoomNotice(message.gid)
-          store.dispatch(roomAllMute(!Number(isRoomAllMute)))
           break;
         case 'muteChatRoom':
           getRoomInfo(message.gid);

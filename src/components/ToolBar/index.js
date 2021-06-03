@@ -14,7 +14,7 @@ const ToolBar = ({ hide, isTool, qaUser, activeKey }) => {
     const isTeacher = useSelector((state) => state.loginInfo.ext);
     const isAllMute = useSelector((state) => state.isRoomAllMute);
     const isGift = useSelector(state => state.isReward);
-    const rommAnnouncement = (useSelector(state => state.room.notice)).slice(1)
+    const rommAnnouncement = (useSelector(state => state.room.notice))
     const isAdmins = Number(isTeacher) === 1 || Number(isTeacher) === 3;
 
     // 赞赏开关
@@ -46,6 +46,7 @@ const ToolBar = ({ hide, isTool, qaUser, activeKey }) => {
             announcement: "1" + rommAnnouncement    // 公告内容                        
         };
         WebIM.conn.updateChatRoomAnnouncement(options).then((res) => {
+            console.log('toolbar', res);
             store.dispatch(roomAllMute(true))
         })
     }

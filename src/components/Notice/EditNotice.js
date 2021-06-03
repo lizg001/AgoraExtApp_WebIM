@@ -9,6 +9,7 @@ const { TextArea } = Input;
 
 const EditNotice = ({ hasEditPermisson, roomAnnouncement, onView }) => {
     const roomId = useSelector((state) => state.room.info.id);
+    const isRoomAllMute = useSelector(state => state.isRoomAllMute)
     // 公告栏编辑字数
     const [count, setCount] = useState(0);
     // 公告栏内容
@@ -17,8 +18,14 @@ const EditNotice = ({ hasEditPermisson, roomAnnouncement, onView }) => {
     const changeContent = (e) => {
         let content = e.target.value;
         setCount(content.length);
-        setNewContent(content);
+        if (isRoomAllMute) {
+            setNewContent('1' + content);
+        } else {
+            setNewContent('0' + content);
+        }
+
     }
+
     return (
         <div>
             <Flex alignItems="center" color="#A8ADB2" mb="10px">

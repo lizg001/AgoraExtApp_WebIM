@@ -40,7 +40,7 @@ const ShowNotice = ({ hasEditPermisson, roomAnnouncement, onEdit }) => {
             <div className="content">
                 {roomAnnouncement ? (
                     <div className="content-box">
-                        {shouldShowEllipsis ? roomAnnouncement.slice(0, 38) + "..." : roomAnnouncement}
+                        <Text>{roomAnnouncement}</Text>
                     </div>
                 ) : (
                         <div className="content-no">

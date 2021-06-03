@@ -1,4 +1,4 @@
-import { useState, useEffect } from 'react'
+import { useState } from 'react'
 import { useSelector } from 'react-redux'
 import { Tabs } from 'antd';
 import { Text, Flex } from 'rebass'
@@ -8,7 +8,7 @@ import MessageItem from './Message/MessageList'
 import QuestionMessage from './QaList/QuestionMessage'
 import { CHAT_TABS, CHAT_TABS_KEYS } from './constants'
 import store from '../../redux/store'
-import { removeChatNotification, removeQaNotification } from '../../redux/aciton'
+import { removeChatNotification } from '../../redux/aciton'
 
 import './list.css'
 
@@ -21,8 +21,6 @@ const MessageList = ({ activeKey, setActiveKey }) => {
   // 控制 Toolbar 组件是否展示图片 
   const [isTool, setIsTool] = useState(false);
   const [qaUser, setQaUser] = useState('');
-  const [showRed, setShowRed] = useState(false)
-  // const [question,serQuestion] = useState(false);
   const userName = useSelector((state) => state.loginName);
   const userCount = useSelector(state => state.room.users).length - 1;
   // 判断当前登陆的用户权限
@@ -39,15 +37,9 @@ const MessageList = ({ activeKey, setActiveKey }) => {
 
   // 获取提问列表
   const qaList = useSelector(state => state.messages.qaList) || [];
-  // useEffect(() => {
   let bool = _.find(qaList, (v, k) => {
     return v.showRedNotice
   })
-  console.log('qaList>>', qaList);
-  // setShowRed(bool ? bool.showRedNotice : false)
-
-  // }, [qaList])
-  // console.log('qaList>>', qaList);
   // 切换 tab 
   const handleTabChange = (key) => {
     setActiveKey(key)
@@ -60,7 +52,6 @@ const MessageList = ({ activeKey, setActiveKey }) => {
       case "QA":
         sethide(false);
         setIsTool(true);
-        // store.dispatch(removeQaNotification(false))
         break;
       case "USER":
         sethide(true)

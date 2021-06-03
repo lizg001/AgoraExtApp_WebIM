@@ -1,4 +1,4 @@
-import React, { useState } from 'react'
+import React from 'react'
 import { useSelector } from 'react-redux'
 import { Flex, Text, Image } from 'rebass'
 import { Tag } from 'antd'
@@ -11,8 +11,8 @@ import icon_chat from '../../../themes/img/liaotian.png'
 // 消息渲染
 const MessageItem = ({ message, setShowModal, setRecallMsgId }) => {
     const isTeacher = useSelector(state => state.loginInfo.ext)
+    const roomMuteList = useSelector(state => state.room.muteList)
     // 控制展示的禁言图标
-    const [icon, setIcon] = useState(false);
     // 聊天框禁言
     const onSetMute = (message) => {
         let options = {
@@ -21,7 +21,6 @@ const MessageItem = ({ message, setShowModal, setRecallMsgId }) => {
         };
         WebIM.conn.addUsersToChatRoomWhitelist(options).then((res) => {
             getRoomWhileList(message.to)
-            setIcon(true);
         })
     }
     // 聊天框移除禁言
@@ -32,7 +31,6 @@ const MessageItem = ({ message, setShowModal, setRecallMsgId }) => {
         }
         WebIM.conn.rmUsersFromChatRoomWhitelist(options).then((res) => {
             getRoomWhileList(message.to)
-            setIcon(false);
         })
     }
     // 打开确认框
@@ -73,7 +71,7 @@ const MessageItem = ({ message, setShowModal, setRecallMsgId }) => {
                                 <Text className='msg-sender' ml='8px'>{message.ext.nickName || message.from}</Text>
                                 {isShowIcon &&
                                     <>
-                                        {!icon ? (
+                                        {!roomMuteList.includes(message.from) ? (
                                             message.ext.role === 2 && <Image src={icon_mute} className='mute-img' onClick={() => { onSetMute(message) }}></Image>
                                         ) : (
                                                 message.ext.role === 2 && <Image src={icon_chat} className='mute-img' onClick={() => { onRemoveMute(message) }}></Image>

@@ -1,4 +1,4 @@
-import { useState, useEffect } from 'react'
+import { useState } from 'react'
 import { useSelector } from 'react-redux'
 import { Image, Flex } from 'rebass'
 import store from '../../../redux/store'

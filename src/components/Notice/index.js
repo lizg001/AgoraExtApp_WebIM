@@ -15,7 +15,7 @@ const Notice = ({ isEdit, isEditNoticeChange }) => {
 
     useEffect(() => {
         if (noticeContent) {
-            setRoomAnnouncement(noticeContent.slice(1))
+            setRoomAnnouncement(noticeContent)
         }
     }, [noticeContent])
 

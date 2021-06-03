@@ -1,6 +1,6 @@
 import WebIM from "../utils/WebIM";
 import { message } from 'antd'
-import { roomInfo, roomNotice, roomAdmins, roomUsers, roomMuteUsers } from '../redux/aciton'
+import { roomInfo, roomNotice, roomAdmins, roomUsers, roomMuteUsers, roomAllMute } from '../redux/aciton'
 import store from '../redux/store'
 import { setUserInfo } from './userInfo'
 
@@ -42,7 +42,15 @@ export const getRoomNotice = (roomId) => {
         roomId       // 聊天室id                          
     };
     WebIM.conn.fetchChatRoomAnnouncement(options).then((res) => {
-        store.dispatch(roomNotice(res.data.announcement));
+        const isAllMute = res.data.announcement.slice(0, 1)
+        const newAnnouncement = res.data.announcement.slice(1)
+        store.dispatch(roomNotice(newAnnouncement));
+        if (Number(isAllMute) === 0) {
+            store.dispatch(roomAllMute(false))
+        } else {
+            store.dispatch(roomAllMute(true))
+        }
+
     })
 };
 
@@ -65,7 +73,7 @@ export const updateRoomNotice = (roomId, noticeCentent) => {
         announcement: newNotice // 公告内容                        
     };
     WebIM.conn.updateChatRoomAnnouncement(options).then((res) => {
-        // message.info('修改群组成功！')
+        console.log('res__>', res);
         getRoomNotice(res.data.id);
     })
 }
