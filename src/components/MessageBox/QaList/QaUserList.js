@@ -12,11 +12,11 @@ const QaUserList = ({ getClickUser }) => {
     const [currentUser, setCurrentUser] = useState(users[0]);
     const isQaList = (Object.keys(qaList)).length === 0
 
-    useEffect(() => {
-        getClickUser(currentUser)
-        setCurrentUser(currentUser)
-        currentUser && store.dispatch(removeShowRed(currentUser))
-    }, [getClickUser, currentUser])
+    // useEffect(() => {
+    //     getClickUser(currentUser)
+    //     setCurrentUser(currentUser)
+    //     currentUser && store.dispatch(removeShowRed(currentUser))
+    // }, [getClickUser, currentUser])
 
 
     // 拿到需要回复提问者id

@@ -33,6 +33,8 @@
   line-height: 18px;
   height: 40px;
   padding: 10px 0;
+  word-break: break-all;
+  white-space: pre-line;
 }
 
 .notice .content .content-no {

@@ -79,7 +79,7 @@
     text-align: center;
     margin: 0 auto;
     left: 0;
-    right: 100px;
+    right: calc(100% - 280px);
     z-index: 1000;
 }
 
@@ -87,7 +87,8 @@
     position: fixed;
     top: 40%;
     margin: 0 auto;
-    left: 24%;
+    /* left: 24%; */
+    right: calc(100% - 180px);
     z-index: 9999999;
     background: #FFFFFF;
     border-radius: 12px;

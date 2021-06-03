@@ -1,7 +1,8 @@
-import { useState } from 'react'
+import { useState, useEffect } from 'react'
 import { useSelector } from 'react-redux'
 import { Tabs } from 'antd';
 import { Text, Flex } from 'rebass'
+import _ from 'lodash'
 import ToolBar from '../ToolBar'
 import MessageItem from './Message/MessageList'
 import QuestionMessage from './QaList/QuestionMessage'
@@ -20,6 +21,7 @@ const MessageList = ({ activeKey, setActiveKey }) => {
   // 控制 Toolbar 组件是否展示图片 
   const [isTool, setIsTool] = useState(false);
   const [qaUser, setQaUser] = useState('');
+  const [showRed, setShowRed] = useState(false)
   // const [question,serQuestion] = useState(false);
   const userName = useSelector((state) => state.loginName);
   const userCount = useSelector(state => state.room.users).length - 1;
@@ -27,6 +29,7 @@ const MessageList = ({ activeKey, setActiveKey }) => {
   const isTeacher = useSelector(state => state.loginInfo.ext)
   const messageList = useSelector(state => state.messages.list) || [];
   const notification = useSelector(state => state.messages.notification);
+
   // 是否隐藏赞赏消息
   const isHiedReward = useSelector(state => state.isReward);
   // 是否为提问消息
@@ -34,6 +37,17 @@ const MessageList = ({ activeKey, setActiveKey }) => {
   // 是否有权限
   let hasEditPermisson = (Number(isTeacher) === 1 || Number(isTeacher) === 3)
 
+  // 获取提问列表
+  const qaList = useSelector(state => state.messages.qaList) || [];
+  // useEffect(() => {
+  let bool = _.find(qaList, (v, k) => {
+    return v.showRedNotice
+  })
+  console.log('qaList>>', qaList);
+  // setShowRed(bool ? bool.showRedNotice : false)
+
+  // }, [qaList])
+  // console.log('qaList>>', qaList);
   // 切换 tab 
   const handleTabChange = (key) => {
     setActiveKey(key)
@@ -46,7 +60,7 @@ const MessageList = ({ activeKey, setActiveKey }) => {
       case "QA":
         sethide(false);
         setIsTool(true);
-        store.dispatch(removeQaNotification(false))
+        // store.dispatch(removeQaNotification(false))
         break;
       case "USER":
         sethide(true)
@@ -69,7 +83,10 @@ const MessageList = ({ activeKey, setActiveKey }) => {
             CHAT_TABS.map(({ key, name, component: Component, className }) => (
               <TabPane tab={<Flex>
                 <Text whiteSpace="nowrap">{name === '成员' ? `${name}(${userCount})` : name}</Text>
-                {Boolean(notification[key]) && (
+                {name === '提问' && bool && bool.showRedNotice && (
+                  <Text ml="6px" whiteSpace="nowrap" color="red" fontSize='40px'>·</Text>
+                )}
+                {name !== '提问' && Boolean(notification[key]) && (
                   <Text ml="6px" whiteSpace="nowrap" color="red" fontSize='40px'>·</Text>
                 )}
               </Flex>} key={key}>

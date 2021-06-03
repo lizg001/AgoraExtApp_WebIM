@@ -150,7 +150,7 @@ const reducer = (state = defaultState, action) => {
                         ...qaList,
                         [qaSender]: {
                             msg: [...(qaList[qaSender]?.msg || []), data],
-                            showRedNotice: true
+                            showRedNotice: action.options.showNotice
                         }
 
                     },

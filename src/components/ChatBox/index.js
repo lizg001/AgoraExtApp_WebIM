@@ -1,6 +1,6 @@
 import React, { useState, useRef } from 'react'
 import { useSelector } from "react-redux";
-import { Button, Input } from 'antd'
+import { Button, Input, message } from 'antd'
 import { SmileOutlined, CloseCircleOutlined } from '@ant-design/icons';
 import { Flex, Text } from 'rebass'
 import WebIM from '../../utils/WebIM'
@@ -88,6 +88,7 @@ const ChatBox = ({ isTool, qaUser, activeKey }) => {
     const getEmoji = (e) => {
         let emojiMsg = content + e.target.innerText;
         setContent(emojiMsg)
+        setCount(emojiMsg.length);
     }
     // 输入框消息
     const changeMsg = (e) => {
@@ -116,7 +117,7 @@ const ChatBox = ({ isTool, qaUser, activeKey }) => {
                 msg.id = serverId;
                 msg.body.id = serverId;
                 if (msg.body.ext.msgtype === 2) {
-                    store.dispatch(qaMessages(msg.body, msg.body.ext.asker, { showNotice: !activeKey }));
+                    store.dispatch(qaMessages(msg.body, msg.body.ext.asker, { showNotice: false }));
                 } else if (msg.body.ext.msgtype === 1) {
                     store.dispatch(qaMessages(msg.body, msg.body.ext.asker, { showNotice: !activeKey }));
                 } else {
@@ -143,11 +144,10 @@ const ChatBox = ({ isTool, qaUser, activeKey }) => {
         var msg = new WebIM.message('img', id);        // 创建图片消息
         let file = WebIM.utils.getFileUrl(e.target)     // 将图片转化为二进制文件
         var allowType = {
+            'jpeg': true,
             'jpg': true,
-            'gif': true,
             'png': true,
-            'bmp': true,
-            'webp': true
+            'bmp': true
         };
         if (file.filetype.toLowerCase() in allowType) {
             var option = {
@@ -163,15 +163,15 @@ const ChatBox = ({ isTool, qaUser, activeKey }) => {
                     nickName: userNickName
                 },                       // 接收消息对象
                 chatType: 'chatRoom',               // 设置为单聊
-                onFileUploadError: function () {      // 消息上传失败
-                    console.log('onFileUploadError');
+                onFileUploadError: function (err) {      // 消息上传失败
+                    console.log('onFileUploadError', err);
                 },
                 onFileUploadComplete: function (res) {   // 消息上传成功
                     console.log('onFileUploadComplete', res);
 
                 },
                 success: function () {                // 消息发送成功
-                    store.dispatch(qaMessages(msg.body, msg.body.ext.asker, { showNotice: !activeKey }));
+                    store.dispatch(qaMessages(msg.body, msg.body.ext.asker, { showRed: false }));
                 },
                 fail: function (e) {
                     console.log("Fail", e);              //如禁言、拉黑后发送消息会失败
@@ -180,12 +180,32 @@ const ChatBox = ({ isTool, qaUser, activeKey }) => {
             };
             msg.set(option);
             WebIM.conn.send(msg.body);
+        } else {
+            message.error({
+                content: '不支持的图片类型，仅支持JPG、JPEG、PNG、BMP格式图片！',
+                style: { width: '200px' }
+            });
+            setTimeout(() => {
+                message.destroy();
+            }, 2000);
         }
     }
-    // 显示表情框
-    const showEmoji = () => {
-        setIsEmoji(true)
+
+    // 键盘Enter 直接发送消息
+    const pressEnter = (e) => {
+        if (e.which !== 13) return
+        sendMessage(roomId, content)
     }
+
+    // 控制显示/隐藏 表情框
+    const showEmoji = () => {
+        if (!isEmoji) {
+            setIsEmoji(true)
+        } else {
+            hideEmoji()
+        }
+    }
+
     // 隐藏表情框
     const hideEmoji = () => {
         setIsEmoji(false)
@@ -237,6 +257,7 @@ const ChatBox = ({ isTool, qaUser, activeKey }) => {
                         autoFocus
                         value={content}
                         onClick={hideEmoji}
+                        onPressEnter={pressEnter}
                     />
                 </div>
                 <Flex justifyContent='flex-end' className='btn-tool'>

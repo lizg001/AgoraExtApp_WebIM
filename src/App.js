@@ -48,7 +48,7 @@ const App = function () {
       if (msgtype === 0) {
         store.dispatch(roomMessages(message, { showNotice: activeKey !== CHAT_TABS_KEYS.chat }))
       } else if ([1, 2].includes(msgtype)) {
-        store.dispatch(qaMessages(message, asker, { showNotice: activeKey !== CHAT_TABS_KEYS.qa && msgtype === 1 }))
+        store.dispatch(qaMessages(message, asker, { showNotice: true && msgtype === 1 }))
       }
     },
     // 异常回调

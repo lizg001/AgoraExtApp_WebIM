@@ -2,10 +2,9 @@ import { useSelector } from 'react-redux'
 import { Flex, Text, Image } from 'rebass'
 import { Switch, Tag } from 'antd';
 
-const SearchList = ({ roomListInfo, searchUser, onSetMute }) => {
+const SearchList = ({ roomListInfo, searchUser, onSetMute, muteMembers }) => {
     const roomOwner = useSelector((state) => state.room.info.owner);
     // const roomAdmins = useSelector((state) => state.room.admins);
-
     // 新的空数组，存用户头像，昵称，环信ID
     const aryList = [];
     Object.keys(roomListInfo).forEach(item => {
@@ -20,6 +19,7 @@ const SearchList = ({ roomListInfo, searchUser, onSetMute }) => {
         <div>
             {
                 aryList.map((member, key) => {
+                    console.log('aryList-number', member);
                     if (member[2] === roomOwner) {
                         return null
                     } else {
@@ -34,11 +34,14 @@ const SearchList = ({ roomListInfo, searchUser, onSetMute }) => {
                                             <Text className='username' ml='5px' >{member[0]}</Text>
                                         </Flex>
                                     </Flex>
-                                    <Switch
-                                        size="small"
-                                        title="禁言"
-                                        onChange={onSetMute}
-                                    />
+                                    {
+                                        Number(member[3]) === 2 && <Switch
+                                            size="small"
+                                            title="禁言"
+                                            checked={muteMembers.includes(member[2])}
+                                            onClick={onSetMute(member[2])}
+                                        />
+                                    }
                                 </Flex>
                             )
                         }

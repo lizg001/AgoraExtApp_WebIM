@@ -129,7 +129,7 @@ const UserList = () => {
             {
                 <div>
                     {/* 是否展示搜索列表 */}
-                    {searchUser && <SearchList roomListInfo={roomListInfo} searchUser={searchUser} onSetMute={onSetMute} muteList={muteMembers} />}
+                    {searchUser && <SearchList roomListInfo={roomListInfo} searchUser={searchUser} onSetMute={onSetMute} muteMembers={muteMembers} />}
                     {/* 展示列表及搜索结果列表 */}
                     {!searchUser && roomUserList.map((item, key) => {
                         if (!isMute || (isMute && muteMembers.includes(item.id))) {
