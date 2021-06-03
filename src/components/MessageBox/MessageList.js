@@ -22,12 +22,13 @@ const MessageList = ({ activeKey, setActiveKey }) => {
   const [qaUser, setQaUser] = useState('');
   // const [question,serQuestion] = useState(false);
   const userName = useSelector((state) => state.loginName);
+  const userCount = useSelector(state => state.room.users).length - 1;
   // 判断当前登陆的用户权限
   const isTeacher = useSelector(state => state.loginInfo.ext)
   const messageList = useSelector(state => state.messages.list) || [];
   const notification = useSelector(state => state.messages.notification);
-  // 是够隐藏赞赏消息
-  const isHiedReward = useSelector(state => state.isReward).checked;
+  // 是否隐藏赞赏消息
+  const isHiedReward = useSelector(state => state.isReward);
   // 是否为提问消息
   const isHiedQuestion = useSelector(state => state.isQa).checked;
   // 是否有权限
@@ -67,7 +68,7 @@ const MessageList = ({ activeKey, setActiveKey }) => {
           {
             CHAT_TABS.map(({ key, name, component: Component, className }) => (
               <TabPane tab={<Flex>
-                <Text whiteSpace="nowrap">{name}</Text>
+                <Text whiteSpace="nowrap">{name === '成员' ? `${name}(${userCount})` : name}</Text>
                 {Boolean(notification[key]) && (
                   <Text ml="6px" whiteSpace="nowrap" color="red" fontSize='40px'>·</Text>
                 )}
@@ -82,6 +83,7 @@ const MessageList = ({ activeKey, setActiveKey }) => {
                   } {...key === CHAT_TABS_KEYS.qa && {
                     getClickUser
                   }} {...key === CHAT_TABS_KEYS.user && {
+
                   }} />
                 </div>
               </TabPane>

@@ -1,12 +1,14 @@
+
 import UserList from './UserList/UserList'
+import store from '../../redux/store'
 import QaUserList from './QaList/QaUserList'
 import MessageItem from './Message/MessageList'
-
 export const CHAT_TABS_KEYS = {
     chat: 'CHAT',
     qa: 'QA',
     user: 'USER',
 }
+
 export const CHAT_TABS = [{
     key: CHAT_TABS_KEYS.chat,
     name: '聊天',
@@ -19,7 +21,7 @@ export const CHAT_TABS = [{
     className: 'qa-list'
 }, {
     key: CHAT_TABS_KEYS.user,
-    name: '成员',
+    name: `成员`,
     component: UserList,
     className: 'user-list'
 }]

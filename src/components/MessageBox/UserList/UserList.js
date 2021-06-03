@@ -49,7 +49,6 @@ const UserList = () => {
 
     const roomUserList = _.concat(speakerTeacher, coachTeacher, student)
 
-
     // 遍历成员列表，拿到成员数据，结构和 roomAdmin 统一
     const newRoomUsers = []
     roomUsers.map(item => {
@@ -59,7 +58,6 @@ const UserList = () => {
         return newRoomUsers.push(item.member);
     })
     const roomAllUsers = roomAdmins.concat(newRoomUsers);
-
     useEffect(() => {
         getUserInfo(Array.from(new Set(roomAllUsers)))
     }, [roomUsers])

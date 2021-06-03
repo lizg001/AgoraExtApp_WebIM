@@ -19,6 +19,7 @@ const ToolBar = ({ hide, isTool, qaUser, activeKey }) => {
 
     // 赞赏开关
     const onChangeReward = (val) => {
+        console.log('onChangeReward', val);
         if (!val) {
             store.dispatch(isReward(true))
         } else {

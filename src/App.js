@@ -5,7 +5,7 @@ import store from './redux/store'
 import { roomMessages, qaMessages, userMute, roomAllMute, extData } from './redux/aciton'
 import WebIM, { appkey } from './utils/WebIM';
 import LoginIM from './api/login'
-import { joinRoom, getRoomInfo, getRoomNotice, getRoomWhileList } from './api/chatroom'
+import { joinRoom, getRoomInfo, getRoomNotice, getRoomWhileList, getRoomUsers } from './api/chatroom'
 import Notice from './components/Notice'
 import MessageBox from './components/MessageBox/MessageList'
 import { CHAT_TABS_KEYS } from './components/MessageBox/constants'
@@ -75,10 +75,10 @@ const App = function () {
       console.log('type-----', message);
       switch (message.type) {
         case "memberJoinChatRoomSuccess":
-          getRoomInfo(message.gid);
+          getRoomUsers(message.gid);
           break;
         case "leaveChatRoom":
-          getRoomInfo(message.gid);
+          getRoomUsers(message.gid);
           break;
         case "updateAnnouncement":
           getRoomNotice(message.gid)

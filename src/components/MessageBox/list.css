@@ -69,6 +69,33 @@
     line-height: 20px;
 }
 
+/* 无提问消息禁止点击 */
+.qa-mark {
+    bottom: 0;
+    top: 165px;
+    position: fixed;
+    background-color: #7C848C;
+    opacity: .3;
+    text-align: center;
+    margin: 0 auto;
+    left: 0;
+    right: 100px;
+    z-index: 1000;
+}
+
+.qa-card {
+    position: fixed;
+    top: 40%;
+    margin: 0 auto;
+    left: 24%;
+    z-index: 9999999;
+    background: #FFFFFF;
+    border-radius: 12px;
+    text-align: center;
+    padding: 10px;
+    height: 20px;
+}
+
 /* 成员头像 */
 .lsit-user-img {
     width: 28px;

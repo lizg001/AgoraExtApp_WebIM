@@ -29,7 +29,9 @@ const QaUserList = ({ getClickUser }) => {
         <Flex>
             {
                 isQaList ? (
-                    <></>
+                    <div className='qa-mark '>
+                        <div className='qa-card'>暂无提问</div>
+                    </div>
                 ) : (
                         <div className='user-border'>
                             {
