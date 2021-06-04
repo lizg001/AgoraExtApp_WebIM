@@ -9,7 +9,6 @@ const { TextArea } = Input;
 
 const EditNotice = ({ hasEditPermisson, roomAnnouncement, onView }) => {
     const roomId = useSelector((state) => state.room.info.id);
-    const isRoomAllMute = useSelector(state => state.isRoomAllMute)
     // 公告栏编辑字数
     const [count, setCount] = useState(roomAnnouncement.length);
     // 公告栏内容
@@ -19,11 +18,6 @@ const EditNotice = ({ hasEditPermisson, roomAnnouncement, onView }) => {
         let content = e.target.value;
         setCount(content.length);
         setNewContent(content);
-        // if (isRoomAllMute) {
-        //     setNewContent('1' + content);
-        // } else {
-        //     setNewContent('0' + content);
-        // }
     }
     return (
         <div>

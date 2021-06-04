@@ -1,4 +1,4 @@
-import { useState } from 'react'
+import { useState, useEffect } from 'react'
 import { useSelector } from 'react-redux'
 import { Tabs } from 'antd';
 import { Text, Flex } from 'rebass'
@@ -17,7 +17,7 @@ const { TabPane } = Tabs;
 // 列表项
 const MessageList = ({ activeKey, setActiveKey }) => {
   // 控制 Toolbar 组件是否展示
-  const [hide, sethide] = useState(false);
+  const [hide, sethide] = useState(true);
   // 控制 Toolbar 组件是否展示图片 
   const [isTool, setIsTool] = useState(false);
   const [qaUser, setQaUser] = useState('');
@@ -40,21 +40,26 @@ const MessageList = ({ activeKey, setActiveKey }) => {
   let bool = _.find(qaList, (v, k) => {
     return v.showRedNotice
   })
+  useEffect(() => {
+    if (activeKey === 'USER') {
+      sethide(false)
+    } else return
+  }, [activeKey])
   // 切换 tab 
   const handleTabChange = (key) => {
     setActiveKey(key)
     switch (key) {
       case "CHAT":
-        sethide(false);
+        sethide(true);
         setIsTool(false);
         store.dispatch(removeChatNotification(false))
         break;
       case "QA":
-        sethide(false);
+        sethide(true);
         setIsTool(true);
         break;
       case "USER":
-        sethide(true)
+        sethide(false)
         break;
       default:
         break;

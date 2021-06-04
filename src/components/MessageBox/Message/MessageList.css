@@ -6,6 +6,9 @@
     font-weight: 400;
     color: #CDD1D9;
     line-height: 20px;
+    word-break: break-all;
+    white-space: pre-wrap;;
+    padding: 0 25px 0 0;
 }
 
 .admire-msg {

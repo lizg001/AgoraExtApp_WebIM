@@ -63,6 +63,7 @@ const UserList = () => {
     const roomUserList = _.concat(speakerTeacher, coachTeacher, _.reverse(student))
     useEffect(() => {
         getUserInfo(newRoomUsers)
+        // eslint-disable-next-line react-hooks/exhaustive-deps
     }, [roomUsers])
 
 

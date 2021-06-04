@@ -78,7 +78,6 @@ export const updateRoomNotice = (roomId, noticeCentent) => {
         roomId: roomId,                 // 聊天室id   
         announcement: newNotice // 公告内容                        
     };
-    debugger
     WebIM.conn.updateChatRoomAnnouncement(options).then((res) => {
         getRoomNotice(res.data.id);
     })

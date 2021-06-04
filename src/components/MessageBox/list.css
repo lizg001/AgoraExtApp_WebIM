@@ -33,6 +33,7 @@
     padding: 10px 15px;
     overflow-y: scroll;
     height: calc(100% - 20px);
+    white-space: pre-wrap;;
 }
 
 .user-list {
@@ -68,6 +69,9 @@
     font-weight: 400;
     color: #CDD1D9;
     line-height: 20px;
+    word-break: break-all;
+    white-space: pre-wrap;
+    padding: 0 25px 0 0;
 }
 
 /* 无提问消息禁止点击 */

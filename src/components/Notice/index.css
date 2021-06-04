@@ -34,8 +34,20 @@
   height: 40px;
   padding: 10px 0;
   word-break: break-all;
-  white-space: pre-line;
+  white-space: pre-wrap;;
 }
+
+.notice .content .content-box .text {
+  width: 100%;
+  word-break: keep-all;
+  white-space: pre-wrap;;
+  overflow-y: scroll;
+  text-overflow: ellipsis;
+  display: block;
+  height: 40px;
+  overflow-x: hidden;
+}
+
 
 .notice .content .content-no {
   padding: 5px;

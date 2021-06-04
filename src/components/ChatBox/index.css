@@ -83,10 +83,32 @@ textarea {
     background: #263340;
     border-radius: 8px;
     cursor: pointer;
+    z-index: 1000;
+    -moz-user-select: none;
+    /*火狐*/
+    -webkit-user-select: none;
+    /*webkit浏览器*/
+    -ms-user-select: none;
+    /*IE10*/
+    -khtml-user-select: none;
+    /*早期浏览器*/
+    user-select: none;
 }
 
 .emoji-content {
     margin-left: 5px;
+}
+
+.emoji-mask {
+    bottom: 0;
+    top: 0;
+    position: fixed;
+    opacity: .3;
+    text-align: center;
+    margin: 0 auto;
+    left: 0;
+    right: calc(100% - 280px);
+    z-index: 1000;
 }
 
 .show-error {

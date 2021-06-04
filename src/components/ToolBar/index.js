@@ -44,7 +44,6 @@ const ToolBar = ({ hide, isTool, qaUser, activeKey }) => {
             roomId: roomId,                 // 聊天室id   
             announcement: "1" + rommAnnouncement    // 公告内容                        
         };
-        debugger
         WebIM.conn.updateChatRoomAnnouncement(options).then((res) => {
             store.dispatch(roomAllMute(true))
         })
@@ -61,7 +60,7 @@ const ToolBar = ({ hide, isTool, qaUser, activeKey }) => {
     }
     return (
         <div className='footer'>
-            {!hide ? (
+            {hide ? (
                 <div>
                     {isAdmins ? (
                         <div className='footer-toolBar'>

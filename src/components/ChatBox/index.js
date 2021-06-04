@@ -17,15 +17,18 @@ const ImageIcon = () => (
 
 
 // 展示表情
-const ShowEomji = ({ getEmoji }) => {
+const ShowEomji = ({ getEmoji, hideEmoji }) => {
     return (
-        <div className='emoji-all'>
-            {Emoji.map((emoji, key) => {
-                return <span className='emoji-content' key={key}
-                    onClick={getEmoji}
-                >{emoji}</span>
-            })}
-        </div>
+        <>
+            <div className='emoji-mask' onClick={hideEmoji}></div>
+            <div className='emoji-all'>
+                {Emoji.map((emoji, key) => {
+                    return <span className='emoji-content' key={key}
+                        onClick={getEmoji}
+                    >{emoji}</span>
+                })}
+            </div>
+        </>
     )
 }
 
@@ -97,7 +100,8 @@ const ChatBox = ({ isTool, qaUser, activeKey }) => {
         setContent(msgCentent);
     }
     // 发送消息
-    const sendMessage = (roomId, content) => {
+    const sendMessage = (roomId, content) => (e) => {
+        e.preventDefault()
         if (content === '') return
         let id = WebIM.conn.getUniqueId();         // 生成本地消息id
         let msg = new WebIM.message('txt', id); // 创建文本消息
@@ -191,13 +195,6 @@ const ChatBox = ({ isTool, qaUser, activeKey }) => {
         }
     }
 
-    // 键盘Enter 直接发送消息
-    const pressEnter = (e) => {
-        e.preventDefault()
-        if (e.which !== 13) return
-        sendMessage(roomId, content)
-    }
-
     // 控制显示/隐藏 表情框
     const showEmoji = () => {
         if (!isEmoji) {
@@ -232,7 +229,7 @@ const ChatBox = ({ isTool, qaUser, activeKey }) => {
                     </Flex>
                 }
                 <Flex justifyContent='flex-start' alignItems='center'>
-                    {isEmoji && <ShowEomji getEmoji={getEmoji} />}
+                    {isEmoji && <ShowEomji getEmoji={getEmoji} hideEmoji={hideEmoji} />}
                     <SmileOutlined className='emoji-icon' onClick={showEmoji} />
                     {isTool && <div onClick={updateImage}
                     >
@@ -258,12 +255,12 @@ const ChatBox = ({ isTool, qaUser, activeKey }) => {
                         autoFocus
                         value={content}
                         onClick={hideEmoji}
-                        onPressEnter={pressEnter}
+                        onPressEnter={sendMessage(roomId, content)}
                     />
                 </div>
                 <Flex justifyContent='flex-end' className='btn-tool'>
                     <Text>{count}/300</Text>
-                    <Button onClick={() => { sendMessage(roomId, content) }}
+                    <Button onClick={sendMessage(roomId, content)}
                         className="msg-btn">发送</Button>
                 </Flex>
             </div>}
