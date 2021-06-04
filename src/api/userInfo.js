@@ -21,7 +21,6 @@ export const setUserInfo = () => {
 // 获取用户属性
 export const getUserInfo = (member) => {
     WebIM.conn.fetchUserInfoById(member).then((res) => {
-        console.log('getUserInfo', res.data);
         store.dispatch(memberInfo(res.data))
     })
 }

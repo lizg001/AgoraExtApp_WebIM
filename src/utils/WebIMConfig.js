@@ -106,7 +106,7 @@ var config = {
      */
     enableLocalStorage: true,
 
-    deviceId: 'webim'
+    deviceId: 'webim_test'
 }
 export default config
 

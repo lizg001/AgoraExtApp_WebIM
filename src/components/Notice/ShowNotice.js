@@ -40,7 +40,7 @@ const ShowNotice = ({ hasEditPermisson, roomAnnouncement, onEdit }) => {
             <div className="content">
                 {roomAnnouncement ? (
                     <div className="content-box">
-                        <Text>{roomAnnouncement}</Text>
+                        {roomAnnouncement}
                     </div>
                 ) : (
                         <div className="content-no">

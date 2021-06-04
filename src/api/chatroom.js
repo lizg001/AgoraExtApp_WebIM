@@ -67,13 +67,19 @@ function httpString(str) {
 
 // 上传/修改 群组公告
 export const updateRoomNotice = (roomId, noticeCentent) => {
+    const isRoomAllMute = store.getState().isRoomAllMute;
+    if (isRoomAllMute) {
+        noticeCentent = '1' + noticeCentent
+    } else {
+        noticeCentent = '0' + noticeCentent
+    }
     httpString(noticeCentent)
     let options = {
         roomId: roomId,                 // 聊天室id   
         announcement: newNotice // 公告内容                        
     };
+    debugger
     WebIM.conn.updateChatRoomAnnouncement(options).then((res) => {
-        console.log('res__>', res);
         getRoomNotice(res.data.id);
     })
 }

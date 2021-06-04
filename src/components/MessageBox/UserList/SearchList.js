@@ -22,7 +22,6 @@ const SearchList = ({ roomListInfo, searchUser, onSetMute, muteMembers }) => {
     let student = []
 
     _.forIn(aryList, (val, key) => {
-        console.log('val>>>', val);
         let newVal = {}
         switch (val[3]) {
             case '1':
@@ -42,18 +41,10 @@ const SearchList = ({ roomListInfo, searchUser, onSetMute, muteMembers }) => {
         }
     })
     const roomUserList = _.concat(speakerTeacher, coachTeacher, student)
-
-
-    console.log('roomUserList>>>', roomUserList);
-
-
-    console.log('aryList--->', aryList);
-
     return (
         <div>
             {
                 roomUserList.map((member, key) => {
-                    console.log('aryList-number', member);
                     if (member[2] === roomOwner) {
                         return null
                     } else {

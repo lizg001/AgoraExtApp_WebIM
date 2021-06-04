@@ -168,7 +168,6 @@ const ChatBox = ({ isTool, qaUser, activeKey }) => {
                 },
                 onFileUploadComplete: function (res) {   // 消息上传成功
                     console.log('onFileUploadComplete', res);
-
                 },
                 success: function () {                // 消息发送成功
                     store.dispatch(qaMessages(msg.body, msg.body.ext.asker, { showRed: false }));
@@ -181,10 +180,11 @@ const ChatBox = ({ isTool, qaUser, activeKey }) => {
             msg.set(option);
             WebIM.conn.send(msg.body);
         } else {
-            message.error({
-                content: '不支持的图片类型，仅支持JPG、JPEG、PNG、BMP格式图片！',
-                style: { width: '200px' }
-            });
+            message.error('不支持的图片类型，仅支持JPG、JPEG、PNG、BMP格式图片！')
+            // message.error({
+            //     content: '不支持的图片类型，仅支持JPG、JPEG、PNG、BMP格式图片！',
+            //     style: { width: '200px' }
+            // });
             setTimeout(() => {
                 message.destroy();
             }, 2000);

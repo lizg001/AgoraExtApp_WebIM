@@ -19,7 +19,6 @@ const ToolBar = ({ hide, isTool, qaUser, activeKey }) => {
 
     // 赞赏开关
     const onChangeReward = (val) => {
-        console.log('onChangeReward', val);
         if (!val) {
             store.dispatch(isReward(true))
         } else {
@@ -45,8 +44,8 @@ const ToolBar = ({ hide, isTool, qaUser, activeKey }) => {
             roomId: roomId,                 // 聊天室id   
             announcement: "1" + rommAnnouncement    // 公告内容                        
         };
+        debugger
         WebIM.conn.updateChatRoomAnnouncement(options).then((res) => {
-            console.log('toolbar', res);
             store.dispatch(roomAllMute(true))
         })
     }
