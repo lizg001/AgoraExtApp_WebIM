@@ -97,7 +97,7 @@ export const getRoomAdmins = (roomId) => {
 export const getRoomUsers = (roomId) => {
     let options = {
         pageNum: 1,
-        pageSize: 100,
+        pageSize: 300,
         chatRoomId: roomId
     }
     WebIM.conn.listChatRoomMember(options).then((res) => {

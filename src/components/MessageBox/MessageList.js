@@ -22,7 +22,7 @@ const MessageList = ({ activeKey, setActiveKey }) => {
   const [isTool, setIsTool] = useState(false);
   const [qaUser, setQaUser] = useState('');
   const userName = useSelector((state) => state.loginName);
-  const userCount = useSelector(state => state.room.users).length - 1;
+  const userCount = useSelector(state => state.room.info.affiliations_count - 1);
   // 判断当前登陆的用户权限
   const isTeacher = useSelector(state => state.loginInfo.ext)
   const messageList = useSelector(state => state.messages.list) || [];
