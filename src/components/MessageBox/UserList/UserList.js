@@ -7,8 +7,6 @@ import { getRoomWhileList } from '../../../api/chatroom'
 import WebIM from '../../../utils/WebIM'
 import SearchList from './SearchList'
 import MuteList from './MuteList'
-import { getUserInfo } from '../../../api/userInfo'
-import _ from 'lodash'
 import './userList.css'
 import avatarUrl from '../../../themes/img/avatar-big@2x.png'
 

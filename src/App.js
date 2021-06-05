@@ -18,6 +18,7 @@ const App = function () {
   const history = useHistory();
   const isRoomAllMute = useSelector(state => state.isRoomAllMute)
   const iframeData = useSelector(state => state.extData)
+  const roomUsers = useSelector(state => state.room.users)
   const [isEditNotice, isEditNoticeChange] = useState(false)
   const [activeKey, setActiveKey] = useState(CHAT_TABS_KEYS.chat)
   useEffect(() => {
@@ -77,7 +78,13 @@ const App = function () {
       switch (message.type) {
         case "memberJoinChatRoomSuccess":
           getRoomUsers(message.gid);
-          store.dispatch(roomUserCount({ type: 'add', userCount: userCount }))
+          let ary = []
+          roomUsers.map((v, k) => {
+            ary.push(v.member)
+          })
+          if (!(ary.includes(message.from))) {
+            store.dispatch(roomUserCount({ type: 'add', userCount: userCount }))
+          }
           break;
         case "leaveChatRoom":
           getRoomUsers(message.gid);
