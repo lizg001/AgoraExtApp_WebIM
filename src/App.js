@@ -38,7 +38,6 @@ const App = function () {
     onOpened: () => {
       joinRoom();
       setTimeout(() => {
-        // history.push('/chatroom?chatRoomId=148364667715585&roomUuid=test222&roleType=3&userUuid=lizg8&avatarUrl=https://img2.baidu.com/it/u=1593081528,1330377059&fm=26&fmt=auto&gp=0.jpg&org=easemob-demo&apk=cloudclass&nickName=AB')
         history.push(`/chatroom?chatRoomId=${iframeData.chatRoomId}&roomUuid=${iframeData.roomUuid}&roleType=${iframeData.roleType}&userUuid=${iframeData.userUuid}&avatarUrl=${iframeData.avatarUrl}&org=${iframeData.org}&apk=${iframeData.apk}&nickName=${iframeData.nickName}`)
       }, 500);
     },

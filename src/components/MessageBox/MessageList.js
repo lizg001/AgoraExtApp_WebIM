@@ -9,6 +9,8 @@ import QuestionMessage from './QaList/QuestionMessage'
 import { CHAT_TABS, CHAT_TABS_KEYS } from './constants'
 import store from '../../redux/store'
 import { removeChatNotification } from '../../redux/aciton'
+import { getUserInfo } from '../../api/userInfo'
+
 
 import './list.css'
 
@@ -23,11 +25,13 @@ const MessageList = ({ activeKey, setActiveKey }) => {
   const [qaUser, setQaUser] = useState('');
   const userName = useSelector((state) => state.loginName);
   const userCount = useSelector(state => state.room.info.affiliations_count);
-  console.log('userCount-->list', userCount);
   // 判断当前登陆的用户权限
   const isTeacher = useSelector(state => state.loginInfo.ext)
   const messageList = useSelector(state => state.messages.list) || [];
   const notification = useSelector(state => state.messages.notification);
+
+  const roomUsers = useSelector(state => state.room.users)
+  const roomListInfo = useSelector((state) => state.userListInfo);
 
   // 是否隐藏赞赏消息
   const isHiedReward = useSelector(state => state.isReward);
@@ -44,6 +48,7 @@ const MessageList = ({ activeKey, setActiveKey }) => {
   let bool = _.find(qaList, (v, k) => {
     return v.showRedNotice
   })
+  // 加载默认展示
   useEffect(() => {
     if (activeKey === 'USER') {
       sethide(false)
@@ -71,11 +76,57 @@ const MessageList = ({ activeKey, setActiveKey }) => {
         break;
     }
   }
-
   // 需要拿到选中的提问者id
   const getClickUser = (user) => {
     setQaUser(user)
   }
+
+  // 加载成员信息
+  let speakerTeacher = []
+  let coachTeacher = []
+  let student = []
+
+  const newRoomUsers = []
+  roomUsers.map(item => {
+    if (item.owner) {
+      return null
+    }
+    return newRoomUsers.push(item.member);
+  })
+
+  useEffect(() => {
+    getUserInfo(newRoomUsers)
+    // eslint-disable-next-line react-hooks/exhaustive-deps
+  }, [roomUsers])
+
+  // 遍历成员列表，拿到成员数据，结构和 roomAdmin 统一
+  roomUsers.map((item) => {
+    let val
+    if (roomListInfo) {
+      val = roomListInfo && roomListInfo[item.member]
+    } else {
+      return
+    }
+    let newVal = {}
+    switch (val && val.ext) {
+      case '1':
+        newVal = _.assign(val, { id: item.member })
+        speakerTeacher.push(newVal)
+        break;
+      case '2':
+        newVal = _.assign(val, { id: item.member })
+        student.push(newVal)
+        break;
+      case '3':
+        newVal = _.assign(val, { id: item.member })
+        coachTeacher.push(newVal)
+        break;
+      default:
+        break;
+    }
+  })
+  const roomUserList = _.concat(speakerTeacher, coachTeacher, _.reverse(student))
+
 
   return (
     <div className='message'>
@@ -102,7 +153,7 @@ const MessageList = ({ activeKey, setActiveKey }) => {
                   } {...key === CHAT_TABS_KEYS.qa && {
                     getClickUser
                   }} {...key === CHAT_TABS_KEYS.user && {
-
+                    roomUserList
                   }} />
                 </div>
               </TabPane>

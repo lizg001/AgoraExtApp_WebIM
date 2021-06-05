@@ -10,13 +10,13 @@ import avatarUrl from '../../../themes/img/avatar-big@2x.png'
 
 const QaUserList = ({ getClickUser }) => {
     const roomListInfo = useSelector(state => state.userListInfo)
+
     const qaList = useSelector(state => state.messages.qaList) || [];
     const users = Object.keys(qaList)
     const newUsers = _.reverse(users)
     const [currentUser, setCurrentUser] = useState(users[0]);
     const isQaList = (Object.keys(qaList)).length === 0
 
-    console.log('roomListInfo', roomListInfo);
     // 拿到需要回复提问者id
     const getUser = (user) => {
         getClickUser(user)
@@ -34,11 +34,9 @@ const QaUserList = ({ getClickUser }) => {
                         <div className='user-border'>
                             {
                                 newUsers.map((user, k) => {
-                                    console.log('user', user);
-                                    console.log('roomListInfo', roomListInfo[user]);
                                     return (
                                         <Flex onClick={() => getUser(user)} key={k} className="qa-user-list">
-                                            <Image src={avatarUrl}
+                                            <Image src={roomListInfo[user].avatarurl || avatarUrl}
                                                 className="qa-user-image"
                                             />
                                             {qaList[user].showRedNotice && (

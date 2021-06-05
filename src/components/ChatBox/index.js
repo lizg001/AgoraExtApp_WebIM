@@ -91,14 +91,19 @@ const ChatBox = ({ isTool, qaUser, activeKey }) => {
     // 获取到点击的表情，加入到输入框
     const getEmoji = (e) => {
         let emojiMsg = content + e.target.innerText;
-        setContent(emojiMsg)
-        setCount(emojiMsg.length);
+        if (emojiMsg.length <= 300) {
+            setContent(emojiMsg)
+            setCount(emojiMsg.length);
+        }
     }
     // 输入框消息
     const changeMsg = (e) => {
         let msgCentent = e.target.value;
-        setCount(msgCentent.length);
-        setContent(msgCentent);
+        if (msgCentent.length <= 300) {
+            setCount(msgCentent.length);
+            setContent(msgCentent);
+        }
+
     }
     // 发送消息
     const sendMessage = (roomId, content) => (e) => {

@@ -12,62 +12,15 @@ import _ from 'lodash'
 import './userList.css'
 import avatarUrl from '../../../themes/img/avatar-big@2x.png'
 
-const UserList = () => {
+const UserList = ({ roomUserList }) => {
     // 禁言列表
     const [isMute, setIsMute] = useState(false);
     const [searchUser, setSearchUser] = useState('');
     const [muteMembers, setMuteMembers] = useState([]);
     const [loading, setLoading] = useState(false)
     const roomId = useSelector((state) => state.room.info.id)
-    const roomUsers = useSelector(state => state.room.users)
     const roomMuteList = useSelector((state) => state.room.muteList);
     const roomListInfo = useSelector((state) => state.userListInfo);
-
-    let speakerTeacher = []
-    let coachTeacher = []
-    let student = []
-
-    const newRoomUsers = []
-    roomUsers.map(item => {
-        if (item.owner) {
-            return null
-        }
-        return newRoomUsers.push(item.member);
-    })
-
-    // 遍历成员列表，拿到成员数据，结构和 roomAdmin 统一
-    roomUsers.map((item) => {
-        let val
-        if (roomListInfo) {
-            val = roomListInfo && roomListInfo[item.member]
-        } else {
-            return
-        }
-        let newVal = {}
-        switch (val && val.ext) {
-            case '1':
-                newVal = _.assign(val, { id: item.member })
-                speakerTeacher.push(newVal)
-                break;
-            case '2':
-                newVal = _.assign(val, { id: item.member })
-                student.push(newVal)
-                break;
-            case '3':
-                newVal = _.assign(val, { id: item.member })
-                coachTeacher.push(newVal)
-                break;
-            default:
-                break;
-        }
-    })
-    const roomUserList = _.concat(speakerTeacher, coachTeacher, _.reverse(student))
-    useEffect(() => {
-        getUserInfo(newRoomUsers)
-        // eslint-disable-next-line react-hooks/exhaustive-deps
-    }, [roomUsers])
-
-
 
     useEffect(() => {
         let ary = []
@@ -169,5 +122,4 @@ const UserList = () => {
         </div >
     )
 }
-
 export default UserList;
