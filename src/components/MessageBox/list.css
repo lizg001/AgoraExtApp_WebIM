@@ -2,7 +2,7 @@
     margin-top: 10px;
     background: #263340;
     border-radius: 8px;
-    height: calc(100% - 109px);
+    height: calc(100% - 110px);
 }
 
 .message>.ant-tabs.ant-tabs-top {
@@ -33,7 +33,8 @@
     padding: 10px 15px;
     overflow-y: scroll;
     height: calc(100% - 20px);
-    white-space: pre-wrap;;
+    white-space: pre-wrap;
+    overflow-x: hidden;
 }
 
 .user-list {

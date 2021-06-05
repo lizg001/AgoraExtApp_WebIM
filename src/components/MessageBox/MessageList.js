@@ -4,7 +4,7 @@ import { Tabs } from 'antd';
 import { Text, Flex } from 'rebass'
 import _ from 'lodash'
 import ToolBar from '../ToolBar'
-import MessageItem from './Message/MessageList'
+import MessageItem from './Message/index'
 import QuestionMessage from './QaList/QuestionMessage'
 import { CHAT_TABS, CHAT_TABS_KEYS } from './constants'
 import store from '../../redux/store'

@@ -4,7 +4,7 @@
   background: #263340;
   border-radius: 15px;
   padding: 10px 15px;
-  margin: 28px 5px 0 5px;
+  margin: 18px 5px 0 5px;
 }
 
 .notice-isEdit {
@@ -34,13 +34,13 @@
   height: 40px;
   padding: 10px 0;
   word-break: break-all;
-  white-space: pre-wrap;;
+  white-space: pre-wrap;
 }
 
 .notice .content .content-box .text {
   width: 100%;
   word-break: keep-all;
-  white-space: pre-wrap;;
+  white-space: pre-wrap;
   overflow-y: scroll;
   text-overflow: ellipsis;
   display: block;

@@ -1,7 +1,7 @@
 
 import UserList from './UserList/UserList'
 import QaUserList from './QaList/QaUserList'
-import MessageItem from './Message/MessageList'
+import MessageItem from './Message/index'
 export const CHAT_TABS_KEYS = {
     chat: 'CHAT',
     qa: 'QA',
