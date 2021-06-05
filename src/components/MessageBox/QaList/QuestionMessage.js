@@ -3,6 +3,7 @@ import { useSelector } from 'react-redux'
 import { Flex, Image, Text } from 'rebass'
 import { Tag } from 'antd'
 import './QaMessage.css'
+import avatarUrl from '../../../themes/img/avatar-big@2x.png'
 const QuestionMessage = ({ userName }) => {
     const qaList = useSelector(state => state.messages.qaList) || [];
     const idQaList = qaList[userName] !== undefined;
@@ -16,7 +17,7 @@ const QuestionMessage = ({ userName }) => {
                         return (
                             <div key={index} className='qa-msg'>
                                 <Flex>
-                                    <Image src={message.ext.avatarUrl}
+                                    <Image src={message.ext.avatarUrl || avatarUrl}
                                         className='qa-msg-img'
                                     />
                                     {(message.ext.role === 1) && <Tag className='tags' style={{ marginLeft: '8px' }}><Text className='tags-txt' m='4px' mt='1px'>主讲老师</Text></Tag>}

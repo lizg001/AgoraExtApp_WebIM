@@ -51,7 +51,7 @@ const App = function () {
       if (msgtype === 0) {
         store.dispatch(roomMessages(message, { showNotice: activeKey !== CHAT_TABS_KEYS.chat }))
       } else if ([1, 2].includes(msgtype)) {
-        store.dispatch(qaMessages(message, asker, { showNotice: true && msgtype === 1 }))
+        store.dispatch(qaMessages(message, asker, { showNotice: true }))
       }
     },
     // 异常回调
@@ -79,9 +79,11 @@ const App = function () {
       switch (message.type) {
         case "memberJoinChatRoomSuccess":
           getRoomUsers(message.gid);
+          getRoomInfo(message.gid);
           break;
         case "leaveChatRoom":
           getRoomUsers(message.gid);
+          getRoomInfo(message.gid);
           break;
         case "updateAnnouncement":
           getRoomNotice(message.gid)
@@ -114,7 +116,7 @@ const App = function () {
     //  收到图片消息
     onPictureMessage: (message) => {
       console.log('onPictureMessage', message);
-      store.dispatch(qaMessages(message, message.ext.asker, { showNotice: activeKey !== CHAT_TABS_KEYS.qa }))
+      store.dispatch(qaMessages(message, message.ext.asker, { showNotice: true }))
     },
     //  收到CMD消息
     onCmdMessage: (message) => {

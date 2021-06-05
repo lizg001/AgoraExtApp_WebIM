@@ -7,6 +7,7 @@ import WebIM from '../../utils/WebIM'
 import store from '../../redux/store'
 import { Emoji } from '../../utils/emoji'
 import { roomMessages, qaMessages } from '../../redux/aciton'
+import msgAvatarUrl from '../../themes/img/avatar-big@2x.png'
 
 import './index.css'
 
@@ -37,7 +38,7 @@ const ChatBox = ({ isTool, qaUser, activeKey }) => {
     const teacher = useSelector(state => state.loginInfo.ext)
     const isAllMute = useSelector(state => state.isRoomAllMute)
     // 是否开启了提问模式
-    const isQa = useSelector((state) => state.isQa).checked;
+    const isQa = useSelector((state) => state.isQa);
     // 获取用户详情
     const userInfo = useSelector((state) => state.loginInfo);
     // 获取课堂ID
@@ -68,13 +69,13 @@ const ChatBox = ({ isTool, qaUser, activeKey }) => {
     //  isTool 是控制是否显示图片标签
     if (isTool) {
         msgType = 2;
-        requestUser = qaUser || loginId
+        requestUser = qaUser
     } else if (isQa) {
         msgType = 1;
         requestUser = qaUser || loginId
     }
     if (!userInfo.avatarurl) {
-        avatarUrl = 'https://gimg2.baidu.com/image_search/src=http%3A%2F%2Fpic4.zhimg.com%2F50%2Fv2-0e98d843ef66ae5e9ec846a7c5f98224_hd.jpg&refer=http%3A%2F%2Fpic4.zhimg.com&app=2002&size=f9999,10000&q=a80&n=0&g=0n&fmt=jpeg?sec=1624523290&t=b9ac1951a67c179055c564b21086bd0c';
+        avatarUrl = msgAvatarUrl;
     }
     if (!userInfo.nickname) {
         userNickName = '学生测试'
@@ -103,6 +104,13 @@ const ChatBox = ({ isTool, qaUser, activeKey }) => {
     const sendMessage = (roomId, content) => (e) => {
         e.preventDefault()
         if (content === '') return
+        if (msgType === 2 && requestUser === '') {
+            message.error('请选择提问学生')
+            setTimeout(() => {
+                message.destroy();
+            }, 2000);
+            return
+        }
         let id = WebIM.conn.getUniqueId();         // 生成本地消息id
         let msg = new WebIM.message('txt', id); // 创建文本消息
         let option = {

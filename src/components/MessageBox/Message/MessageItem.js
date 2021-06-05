@@ -7,6 +7,7 @@ import { getRoomWhileList } from '../../../api/chatroom'
 import WebIM from '../../../utils/WebIM'
 import icon_mute from '../../../themes/img/jinyan1.png'
 import icon_chat from '../../../themes/img/liaotian.png'
+import avatarUrl from '../../../themes/img/avatar-big@2x.png'
 
 // 消息渲染
 const MessageItem = ({ message, setShowModal, setRecallMsgId }) => {
@@ -61,7 +62,7 @@ const MessageItem = ({ message, setShowModal, setRecallMsgId }) => {
                     <>
                         <Flex >
                             <div>
-                                <Image src={message.ext.avatarUrl || 'https://gimg2.baidu.com/image_search/src=http%3A%2F%2Fpic4.zhimg.com%2F50%2Fv2-fde5891065510ef51e4c8dc19f6f3aff_hd.jpg&refer=http%3A%2F%2Fpic4.zhimg.com&app=2002&size=f9999,10000&q=a80&n=0&g=0n&fmt=jpeg?sec=1624035646&t=52e70633abb73d7e2e0d2bd3f0446505'}
+                                <Image src={message.ext.avatarUrl || avatarUrl}
                                     className='msg-img'
                                 />
                             </div>
@@ -93,7 +94,7 @@ const MessageItem = ({ message, setShowModal, setRecallMsgId }) => {
                     <div>
                         <Flex >
                             <div>
-                                <Image src={message.ext.avatarUrl || 'https://gimg2.baidu.com/image_search/src=http%3A%2F%2Fpic4.zhimg.com%2F50%2Fv2-0e98d843ef66ae5e9ec846a7c5f98224_hd.jpg&refer=http%3A%2F%2Fpic4.zhimg.com&app=2002&size=f9999,10000&q=a80&n=0&g=0n&fmt=jpeg?sec=1624523290&t=b9ac1951a67c179055c564b21086bd0c'} className='msg-img' />
+                                <Image src={message.ext.avatarUrl || avatarUrl} className='msg-img' />
                             </div>
                             <Flex >
                                 <Text className='msg-sender' ml='8px'>{message.ext.nickName || message.from}</Text>

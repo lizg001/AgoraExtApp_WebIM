@@ -31,9 +31,12 @@ const MessageList = ({ activeKey, setActiveKey }) => {
   // 是否隐藏赞赏消息
   const isHiedReward = useSelector(state => state.isReward);
   // 是否为提问消息
-  const isHiedQuestion = useSelector(state => state.isQa).checked;
+  const isHiedQuestion = useSelector(state => state.isQa);
   // 是否有权限
   let hasEditPermisson = (Number(isTeacher) === 1 || Number(isTeacher) === 3)
+
+
+
 
   // 获取提问列表
   const qaList = useSelector(state => state.messages.qaList) || [];
@@ -43,6 +46,8 @@ const MessageList = ({ activeKey, setActiveKey }) => {
   useEffect(() => {
     if (activeKey === 'USER') {
       sethide(false)
+    } else if (activeKey === 'QA') {
+      setIsTool(true);
     } else return
   }, [activeKey])
   // 切换 tab 

@@ -10,6 +10,7 @@ import MuteList from './MuteList'
 import { getUserInfo } from '../../../api/userInfo'
 import _ from 'lodash'
 import './userList.css'
+import avatarUrl from '../../../themes/img/avatar-big@2x.png'
 
 const UserList = () => {
     // 禁言列表
@@ -144,7 +145,7 @@ const UserList = () => {
                             <Flex key={key} justifyContent='space-between' mt='10px' alignItems='center'>
                                 <Flex alignItems='center'>
                                     <Image className='lsit-user-img'
-                                        src={item.avatarurl || 'https://gimg2.baidu.com/image_search/src=http%3A%2F%2Fpic4.zhimg.com%2F50%2Fv2-fde5891065510ef51e4c8dc19f6f3aff_hd.jpg&refer=http%3A%2F%2Fpic4.zhimg.com&app=2002&size=f9999,10000&q=a80&n=0&g=0n&fmt=jpeg?sec=1624035646&t=52e70633abb73d7e2e0d2bd3f0446505'}
+                                        src={item.avatarurl || avatarUrl}
                                     />
                                     <Flex ml='8px'>
                                         {Number(item.ext) === 1 && <Tag className='tags' ><Text className='tags-txt' ml='4px' mt='1px'>主讲老师</Text></Tag>}

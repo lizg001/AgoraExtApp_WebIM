@@ -13,6 +13,7 @@ const ToolBar = ({ hide, isTool, qaUser, activeKey }) => {
     const roomId = useSelector((state) => state.room.info.id);
     const isTeacher = useSelector((state) => state.loginInfo.ext);
     const isAllMute = useSelector((state) => state.isRoomAllMute);
+    const isQaSwitch = useSelector((state) => state.isQa)
     const isGift = useSelector(state => state.isReward);
     const rommAnnouncement = (useSelector(state => state.room.notice))
     const isAdmins = Number(isTeacher) === 1 || Number(isTeacher) === 3;
@@ -34,8 +35,12 @@ const ToolBar = ({ hide, isTool, qaUser, activeKey }) => {
         }
     }
     // 提问消息开关
-    function onChangeQa(checked) {
-        store.dispatch(isQa({ checked }))
+    function onChangeQa(val) {
+        if (!val) {
+            store.dispatch(isQa(true))
+        } else {
+            store.dispatch(isQa(false))
+        }
     }
 
     // 一键禁言
@@ -85,7 +90,7 @@ const ToolBar = ({ hide, isTool, qaUser, activeKey }) => {
                             <div>
                                 <div>
                                     <Flex justifyContent="flex-end" alignItems='center' m='5px' height='36px'>
-                                        <Switch size="small" onChange={onChangeQa}
+                                        <Switch size="small" checked={isQaSwitch} onClick={() => { onChangeQa(isQaSwitch) }}
                                         />
                                         <Text ml="3px" fontSize="14px" fontWeight="400" color="#7C848C">提问模式</Text>
                                     </Flex>
