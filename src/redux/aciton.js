@@ -11,6 +11,12 @@ export const LoginName = data => {
 export const roomInfo = data => {
     return { type: 'GET_ROOM_INFO', data }
 }
+
+// 成员数
+export const roomUserCount = data => {
+    return { type: 'GET_USERS_COUNT', data }
+}
+
 // 聊天室公告
 export const roomNotice = data => {
     return { type: 'UPDATE_ROOM_NOTICE', data }

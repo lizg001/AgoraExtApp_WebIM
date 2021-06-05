@@ -2,7 +2,7 @@ import React, { useEffect, useState } from 'react';
 import { useHistory } from 'react-router-dom'
 import { useSelector } from 'react-redux'
 import store from './redux/store'
-import { roomMessages, qaMessages, userMute, roomAllMute, extData } from './redux/aciton'
+import { roomMessages, roomUserCount, qaMessages, userMute, roomAllMute, extData } from './redux/aciton'
 import WebIM, { appkey } from './utils/WebIM';
 import LoginIM from './api/login'
 import { joinRoom, getRoomInfo, getRoomNotice, getRoomWhileList, getRoomUsers } from './api/chatroom'
@@ -20,8 +20,6 @@ const App = function () {
   const iframeData = useSelector(state => state.extData)
   const [isEditNotice, isEditNoticeChange] = useState(false)
   const [activeKey, setActiveKey] = useState(CHAT_TABS_KEYS.chat)
-
-  // useIMListen({ currentTab: activeKey })
   useEffect(() => {
     let im_Data = getPageQuery();
     store.dispatch(extData(im_Data));
@@ -76,14 +74,15 @@ const App = function () {
     // 聊天室相关监听
     onPresence: (message) => {
       console.log('type-----', message);
+      const userCount = _.get(store.getState(), 'room.info.affiliations_count')
       switch (message.type) {
         case "memberJoinChatRoomSuccess":
           getRoomUsers(message.gid);
-          getRoomInfo(message.gid);
+          store.dispatch(roomUserCount({ type: 'add', userCount: userCount }))
           break;
         case "leaveChatRoom":
           getRoomUsers(message.gid);
-          getRoomInfo(message.gid);
+          store.dispatch(roomUserCount({ type: 'remove', userCount: userCount }))
           break;
         case "updateAnnouncement":
           getRoomNotice(message.gid)

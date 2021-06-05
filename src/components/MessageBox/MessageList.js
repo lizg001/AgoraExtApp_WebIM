@@ -22,7 +22,8 @@ const MessageList = ({ activeKey, setActiveKey }) => {
   const [isTool, setIsTool] = useState(false);
   const [qaUser, setQaUser] = useState('');
   const userName = useSelector((state) => state.loginName);
-  const userCount = useSelector(state => state.room.info.affiliations_count - 1);
+  const userCount = useSelector(state => state.room.info.affiliations_count);
+  console.log('userCount-->list', userCount);
   // 判断当前登陆的用户权限
   const isTeacher = useSelector(state => state.loginInfo.ext)
   const messageList = useSelector(state => state.messages.list) || [];
@@ -83,7 +84,7 @@ const MessageList = ({ activeKey, setActiveKey }) => {
           {
             CHAT_TABS.map(({ key, name, component: Component, className }) => (
               <TabPane tab={<Flex>
-                <Text whiteSpace="nowrap">{name === '成员' ? `${name}(${userCount})` : name}</Text>
+                <Text whiteSpace="nowrap">{name === '成员' ? `${name}(${userCount - 1})` : name}</Text>
                 {name === '提问' && bool && bool.showRedNotice && (
                   <Text ml="6px" whiteSpace="nowrap" color="red" fontSize='40px'>·</Text>
                 )}

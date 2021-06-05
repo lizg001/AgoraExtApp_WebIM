@@ -54,16 +54,17 @@ export const getRoomNotice = (roomId) => {
     })
 };
 
-let newNotice = '';
-function httpString(str) {
-    var textR = str;
-    var reg = /(http:\/\/|https:\/\/)((\w|=|\?|\.|\/|&|-)+)/g;
-    if (reg.exec('')) {
-    } else {
-        newNotice = textR.replace(reg, "<a href='$1$2'>$1$2</a>");
-        return newNotice
-    }
-}
+// 识别网址
+// let newNotice = '';
+// function httpString(str) {
+//     var textR = str;
+//     var reg = /(http:\/\/|https:\/\/)((\w|=|\?|\.|\/|&|-)+)/g;
+//     if (reg.exec('')) {
+//     } else {
+//         newNotice = textR.replace(reg, "<a href='$1$2'>$1$2</a>");
+//         return newNotice
+//     }
+// }
 
 // 上传/修改 群组公告
 export const updateRoomNotice = (roomId, noticeCentent) => {
@@ -73,11 +74,11 @@ export const updateRoomNotice = (roomId, noticeCentent) => {
     } else {
         noticeCentent = '0' + noticeCentent
     }
-    httpString(noticeCentent)
     let options = {
         roomId: roomId,                 // 聊天室id   
-        announcement: newNotice // 公告内容                        
+        announcement: noticeCentent // 公告内容                        
     };
+    debugger
     WebIM.conn.updateChatRoomAnnouncement(options).then((res) => {
         getRoomNotice(res.data.id);
     })

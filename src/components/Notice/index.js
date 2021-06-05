@@ -11,12 +11,11 @@ const Notice = ({ isEdit, isEditNoticeChange }) => {
     // const roomAdmins = useSelector((state) => state.room.admins);
     const isTeacher = useSelector(state => state.loginInfo.ext)
     const noticeContent = useSelector((state) => state.room.notice);
+    console.log('noticeContent', noticeContent);
     const [roomAnnouncement, setRoomAnnouncement] = useState('')
 
     useEffect(() => {
-        if (noticeContent) {
-            setRoomAnnouncement(noticeContent)
-        }
+        setRoomAnnouncement(noticeContent)
     }, [noticeContent])
 
     // 显示公告编辑框  

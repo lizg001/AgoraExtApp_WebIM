@@ -4,11 +4,13 @@ const defaultState = {
     loginName: '',      //当前登陆ID
     loginInfo: {},      //当前的用户的信息
     room: {             //聊天室
-        info: {},       //详情
+        info: {
+            affiliations_count: 0
+        },       //详情
         notice: "",     //公告
         users: [],      //成员
         admins: [],     //管理员
-        muteList: []    //禁言列表
+        muteList: [],    //禁言列表
     },
     messages: {         //消息
         list: [],       //TXT/TEXT 消息、CMD 消息、CUSTOM 消息
@@ -47,6 +49,23 @@ const reducer = (state = defaultState, action) => {
                 room: {
                     ...state.room,
                     info: data
+                }
+            };
+        case 'GET_USERS_COUNT':
+            let num
+            if (data.type === 'add') {
+                num = data.userCount + 1
+            } else {
+                num = data.userCount - 1
+            }
+            return {
+                ...state,
+                room: {
+                    ...state.room,
+                    info: {
+                        ...state.room.info,
+                        affiliations_count: num
+                    }
                 }
             };
         // 获取聊天室公告

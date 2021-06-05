@@ -103,9 +103,17 @@ const ChatBox = ({ isTool, qaUser, activeKey }) => {
     // 发送消息
     const sendMessage = (roomId, content) => (e) => {
         e.preventDefault()
-        if (content === '') return
+        // 消息为空不发送
+        if (content === '' || content.length > 300) {
+            message.error('消息内容不能为空且字符不能超过300！')
+            setTimeout(() => {
+                message.destroy();
+            }, 2000);
+            return
+        }
+        // 老师回复时必须选中提问学生才能发言
         if (msgType === 2 && requestUser === '') {
-            message.error('请选择提问学生')
+            message.error('请选择提问学生!')
             setTimeout(() => {
                 message.destroy();
             }, 2000);
