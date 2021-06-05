@@ -51,6 +51,7 @@
   },
   "devDependencies": {
     "@rescripts/cli": "0.0.16",
-    "react-scripts": "^4.0.3"
+    "react-scripts": "^4.0.3",
+    "style-loader": "^2.0.0"
   }
 }
