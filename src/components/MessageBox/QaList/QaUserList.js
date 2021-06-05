@@ -10,12 +10,18 @@ import avatarUrl from '../../../themes/img/avatar-big@2x.png'
 
 const QaUserList = ({ getClickUser }) => {
     const roomListInfo = useSelector(state => state.userListInfo)
-
-    const qaList = useSelector(state => state.messages.qaList) || [];
-    const users = Object.keys(qaList)
-    const newUsers = _.reverse(users)
-    const [currentUser, setCurrentUser] = useState(users[0]);
+    const qaList = useSelector(state => state.messages.qaList);
+    const [currentUser, setCurrentUser] = useState('');
     const isQaList = (Object.keys(qaList)).length === 0
+
+    // 遍历，拿到需要的ID和时间
+    let newUser = [];
+    _.forEach(qaList, function (v, k) {
+        newUser.push({ id: k, time: v.time })
+    })
+    // 根据 时间进行排序
+    let sortArr = _.orderBy(newUser, ['time'], ['desc'])
+
 
     // 拿到需要回复提问者id
     const getUser = (user) => {
@@ -33,13 +39,13 @@ const QaUserList = ({ getClickUser }) => {
                 ) : (
                         <div className='user-border'>
                             {
-                                newUsers.map((user, k) => {
+                                sortArr.map((user, k) => {
                                     return (
-                                        <Flex onClick={() => getUser(user)} key={k} className="qa-user-list">
-                                            <Image src={roomListInfo[user].avatarurl || avatarUrl}
+                                        <Flex onClick={() => getUser(user.id)} key={k} className="qa-user-list">
+                                            <Image src={roomListInfo[user.id].avatarurl || avatarUrl}
                                                 className="qa-user-image"
                                             />
-                                            {qaList[user].showRedNotice && (
+                                            {qaList[user.id].showRedNotice && (
                                                 <div className='qa-red-notice'></div>
                                             )}
                                         </Flex>
@@ -49,6 +55,7 @@ const QaUserList = ({ getClickUser }) => {
                         </div>
                     )
             }
+            {/*  */}
             < QaMessage currentUser={currentUser} />
         </Flex>
     )

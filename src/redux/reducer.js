@@ -158,7 +158,7 @@ const reducer = (state = defaultState, action) => {
                 ...state,
                 isReward: data
             };
-        //提问消息
+        // 提问消息
         case 'SAVE_QA_MESSAGE':
             const qaList = state.messages.qaList
             return {
@@ -169,9 +169,9 @@ const reducer = (state = defaultState, action) => {
                         ...qaList,
                         [qaSender]: {
                             msg: [...(qaList[qaSender]?.msg || []), data],
-                            showRedNotice: action.options.showNotice
+                            showRedNotice: action.options.showNotice,
+                            time: action.time
                         }
-
                     },
                     notification: {
                         ...state.messages.notification,

@@ -127,7 +127,6 @@ const MessageList = ({ activeKey, setActiveKey }) => {
   })
   const roomUserList = _.concat(speakerTeacher, coachTeacher, _.reverse(student))
 
-
   return (
     <div className='message'>
       {hasEditPermisson ? (

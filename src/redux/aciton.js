@@ -67,8 +67,8 @@ export const removeShowRed = (data) => {
     return { type: 'REMOVE_RED_MESSAGE', data }
 }
 // 聊天室提问消息
-export const qaMessages = (data, qaSender, options) => {
-    return { type: 'SAVE_QA_MESSAGE', data, qaSender, options }
+export const qaMessages = (data, qaSender, options, time) => {
+    return { type: 'SAVE_QA_MESSAGE', data, qaSender, options, time }
 }
 //  存个人信息
 export const loginInfo = data => {

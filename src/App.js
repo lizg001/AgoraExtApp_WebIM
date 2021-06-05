@@ -46,10 +46,11 @@ const App = function () {
     onTextMessage: (message) => {
       console.log('onTextMessage', message);
       const { ext: { msgtype, asker } } = message
+      const { time } = message
       if (msgtype === 0) {
         store.dispatch(roomMessages(message, { showNotice: activeKey !== CHAT_TABS_KEYS.chat }))
       } else if ([1, 2].includes(msgtype)) {
-        store.dispatch(qaMessages(message, asker, { showNotice: true }))
+        store.dispatch(qaMessages(message, asker, { showNotice: true }, time))
       }
     },
     // 异常回调
