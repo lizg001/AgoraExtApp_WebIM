@@ -11,7 +11,7 @@ const MuteList = ({ roomListInfo, muteMembers, onSetMute }) => {
                 if (!isTeacher && !isNaN(Number(_.get(roomListInfo[member], 'ext')))) {
                     return <Flex justifyContent='space-between' alignItems='center' mt='10px' key={key}>
                         <Flex alignItems='center'>
-                            <Image src={(_.get(roomListInfo[member], 'avatarUrl'))} className='lsit-user-img' />
+                            <Image src={(_.get(roomListInfo[member], 'avatarurl'))} className='lsit-user-img' />
                             <Text className='username' ml='5px' >{_.get(roomListInfo[member], 'nickname') || _.get(roomListInfo[member], 'id')}</Text>
                         </Flex>
                         <Switch

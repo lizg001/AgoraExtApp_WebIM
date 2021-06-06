@@ -76,19 +76,22 @@ const UserList = ({ roomUserList }) => {
                 <Input placeholder='请输入用户名' className='search-user' onChange={onSearch} />
                 <SearchOutlined className='search-icon' />
             </div>
-            <Flex justifyContent='flex-start' alignItems='center' mt='8px'>
+            {
+                !searchUser && <Flex justifyContent='flex-start' alignItems='center' mt='8px'>
                 <Switch
                     size="small"
                     title="禁言"
+                    checked={isMute}
                     onChange={onMuteList}
                 />
                 <Text className='only-mute'>只看禁言</Text>
             </Flex>
+}
             {
                 <div>
                     {/* 是否展示搜索列表 */}
                     {searchUser && <SearchList roomListInfo={roomListInfo} searchUser={searchUser} onSetMute={onSetMute} muteMembers={muteMembers} />}
-                    {isMute && <MuteList roomListInfo={roomListInfo} muteMembers={muteMembers} onSetMute={onSetMute} />}
+                    {!searchUser && isMute && <MuteList roomListInfo={roomListInfo} muteMembers={muteMembers} onSetMute={onSetMute} />}
                     {/* 展示列表及搜索结果列表 */}
                     {!searchUser && !isMute && roomUserList.map((item, key) => {
                         // if (!isMute || (isMute && muteMembers.includes(item.id))) {

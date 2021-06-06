@@ -73,9 +73,9 @@ const MessageItem = ({ message, setShowModal, setRecallMsgId }) => {
                                 {isShowIcon &&
                                     <>
                                         {!roomMuteList.includes(message.from) ? (
-                                            message.ext.role === 2 && <Image src={icon_mute} className='mute-img' onClick={() => { onSetMute(message) }}></Image>
+                                            message.ext.role === 2 && <Image src={icon_mute} className='mute-img' title="禁言" onClick={() => { onSetMute(message) }}></Image>
                                         ) : (
-                                                message.ext.role === 2 && <Image src={icon_chat} className='mute-img' onClick={() => { onRemoveMute(message) }}></Image>
+                                                message.ext.role === 2 && <Image src={icon_chat} className='mute-img' title="解除禁言" onClick={() => { onRemoveMute(message) }}></Image>
                                             )}
                                         <DeleteOutlined width='14px' className='delete-icon' title="删除消息" onClick={openModal(message.id)} />
                                     </>
