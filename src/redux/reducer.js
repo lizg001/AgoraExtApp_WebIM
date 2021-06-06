@@ -51,6 +51,7 @@ const reducer = (state = defaultState, action) => {
                     info: data
                 }
             };
+        // 聊天室成员加减
         case 'GET_USERS_COUNT':
             let num
             if (data.type === 'add') {
@@ -170,7 +171,7 @@ const reducer = (state = defaultState, action) => {
                         [qaSender]: {
                             msg: [...(qaList[qaSender]?.msg || []), data],
                             showRedNotice: action.options.showNotice,
-                            time: action.time
+                            time: qaList[qaSender]?.time || action.time
                         }
                     },
                     notification: {
