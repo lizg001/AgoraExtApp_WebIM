@@ -1,4 +1,5 @@
 import React from 'react';
+import ReactDOM from 'react-dom';
 import { Provider } from 'react-redux'
 import store from './redux/store'
 import App from './App';
@@ -16,4 +17,11 @@ export const HXChatRoom = () => {
       </Provider>
     </React.StrictMode>
   )
+}
+
+export const renderHXChatRoom = (dom) => {
+  ReactDOM.render(
+  <HXChatRoom />,
+  dom
+  );
 }
