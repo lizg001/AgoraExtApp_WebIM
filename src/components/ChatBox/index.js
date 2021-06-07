@@ -7,24 +7,19 @@ import WebIM from '../../utils/WebIM'
 import store from '../../redux/store'
 import { Emoji } from '../../utils/emoji'
 import { roomMessages, qaMessages } from '../../redux/aciton'
-// import icon_img from '../../themes/img/tupian.png'
-
+import iconSmiley from '../../themes/img/icon-smiley.svg'
+import iconImage from '../../themes/img/icon-image.svg'
 import './index.css'
-
-const ImageIcon = () => (
-    <svg t="1621616563603" className="icon img-icon " viewBox="0 0 1121 1024" version="1.1" xmlns="http://www.w3.org/2000/svg" p-id="2520" width="16" height="16">
-        <path d="M977.326055 0.000244H145.547377A143.830428 143.830428 0 0 0 1.448791 143.465001V821.783926a42.954104 42.954104 0 0 0 0 21.940235v36.810838a143.830428 143.830428 0 0 0 144.098586 143.464757h831.7543a143.830428 143.830428 0 0 0 144.098586-143.464757V143.586891A143.830428 143.830428 0 0 0 977.326055 0.000244zM145.571755 87.322378h831.7543a56.435159 56.435159 0 0 1 56.386404 56.069489v544.849163a965.85789 965.85789 0 0 0-113.089722-130.056836 103.77731 103.77731 0 0 0-88.029097-27.449671c-52.315271 7.484058-109.701174 50.828211-175.13183 132.226481a1046.622332 1046.622332 0 0 0-41.442665 55.19188c-57.654061-79.204247-171.060697-225.472479-267.23206-292.853378a101.510153 101.510153 0 0 0-93.050973-14.041751c-35.396912 11.530812-69.867459 41.442666-104.947456 91.368889a825.220985 825.220985 0 0 0-62.017731 106.044468V143.465001a56.508294 56.508294 0 0 1 56.776452-56.142623z" fill="#A3A6BC" p-id="2521"></path><path d="M743.516287 299.703851a101.827067 101.827067 0 1 0 101.827067-101.827068 101.827067 101.827067 0 0 0-101.827067 101.827068z" fill="#A3A6BC" p-id="2522"></path></svg>
-);
-
 
 // 展示表情
 const ShowEomji = ({ getEmoji }) => {
+    console.log('展示emoji');
     return (
         <div className='emoji-all'>
             {Emoji.map((emoji, key) => {
-                return <span className='emoji-content' key={key}
-                    onClick={getEmoji}
-                >{emoji}</span>
+                return <span className='emoji-content' key={key} onClick={getEmoji}>
+                    {emoji}
+                </span>
             })}
         </div>
     )
@@ -87,11 +82,12 @@ const ChatBox = ({ isAllMute, isTool, qaUser, activeKey }) => {
     // 获取到点击的表情，加入到输入框
     const getEmoji = (e) => {
         let emojiMsg = content + e.target.innerText;
-        setContent(emojiMsg)
+        setContent(emojiMsg);
     }
     // 输入框消息
     const changeMsg = (e) => {
         let msgCentent = e.target.value;
+        msgCentent = msgCentent?.length > 500 ? msgCentent.slice(0,500) : msgCentent;
         setCount(msgCentent.length);
         setContent(msgCentent);
     }
@@ -203,7 +199,8 @@ const ChatBox = ({ isAllMute, isTool, qaUser, activeKey }) => {
                 <Text className='mute-msg'>全员禁言中</Text>
             </Flex>}
             {/* 不禁言展示发送框 */}
-            {(isTeacher || (!isUserMute && !isAllMute)) && <div >
+            {(isTeacher || (!isUserMute && !isAllMute)) 
+            && <>
                 {
                     isShow && <Flex className='show-error' alignItems='center' justifyContent='center'>
                         <CloseCircleOutlined style={{ color: 'red', paddingLeft: '10px' }} />
@@ -212,11 +209,9 @@ const ChatBox = ({ isAllMute, isTool, qaUser, activeKey }) => {
                 }
                 <Flex justifyContent='flex-start' alignItems='center'>
                     {isEmoji && <ShowEomji getEmoji={getEmoji} />}
-                    <SmileOutlined className='emoji-icon' onClick={showEmoji} />
-                    {isTool && <div onClick={updateImage}
-                    >
-                        <ImageIcon />
-                        {/* <Image src={icon_img} width='18px' background='#D3D6D8' ml='8px' /> */}
+                    <img src={iconSmiley} onClick={showEmoji} className="chat-tool-item"/>
+                    {isTool && <div onClick={updateImage} className="chat-tool-item">
+                        <img src={iconImage} />
                         <input
                             id="uploadImage"
                             onChange={sendImgMessage.bind(this, roomId)}
@@ -228,22 +223,21 @@ const ChatBox = ({ isAllMute, isTool, qaUser, activeKey }) => {
                         />
                     </div>}
                 </Flex>
-                <div>
-                    <Input.TextArea
-                        placeholder="请输入内容..."
-                        onChange={(e) => changeMsg(e)}
-                        className="msg-box"
-                        autoFocus
-                        value={content}
-                        onClick={hideEmoji}
-                    />
-                </div>
+                <Input.TextArea
+                    placeholder="说点什么呗~"
+                    onChange={(e) => changeMsg(e)}
+                    className="msg-box"
+                    autoFocus
+                    value={content}
+                    onClick={hideEmoji}
+                />
                 <Flex justifyContent='flex-end' className='btn-tool'>
-                    <Text>{count}/300</Text>
-                    <Button onClick={() => { sendMessage(roomId, content) }}
-                        className="msg-btn">发送</Button>
+                    <Text color="#626773" fontSize="12px">{count}/500</Text>
+                    <button disabled={count === 0} onClick={() => { sendMessage(roomId, content) }} className="msg-btn">
+                        发送
+                    </button>
                 </Flex>
-            </div>}
+            </>}
         </div>
     )
 }

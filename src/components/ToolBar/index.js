@@ -8,9 +8,10 @@ import { Switch } from 'antd';
 import ChatBox from '../ChatBox'
 import { getRoomInfo } from '../../api/chatroom'
 import './index.css'
+import { CHAT_TABS_KEYS } from '../MessageBox/constants'
 
 
-const ToolBar = ({ hide, isTool, qaUser, activeKey }) => {
+const ToolBar = ({ tabKey, hide, isTool, qaUser, activeKey }) => {
     // const userName = useSelector((state) => state.loginName);
     const roomId = useSelector((state) => state.room.info.id);
     const isTeacher = useSelector((state) => state.loginInfo.ext);
@@ -69,45 +70,46 @@ const ToolBar = ({ hide, isTool, qaUser, activeKey }) => {
         })
     }
     return (
-        <div className='footer'>
-            {!hide ? (
-                <div>
+        // 成员列表不展示footer
+        <>
+        { tabKey !== CHAT_TABS_KEYS.user && <div className='footer'>
+            <>
+                {/* 只有聊天模式下才展示toolBar */}
+                {tabKey === CHAT_TABS_KEYS.chat && <div className='footer-toolBar'>
                     {isAdmins ? (
-                        <div className='footer-toolBar'>
-                            {!isTool && <div>
-                                <Flex justifyContent="space-between" alignItems='center' m='5px' height='36px'>
+                        <div style={{height: 36}}>
+                            {!isTool  && 
+                                <Flex justifyContent="space-between" alignItems='center' m='0 12px' height='36px'>
                                     <Flex>
                                         <Switch size="small"
                                             checked={isChatReward}
-                                            onClick={() => { onChangeReward(isChatReward) }} />
-                                        <Text ml="3px" fontSize="14px" fontWeight="400" color="#7C848C">隐藏赞赏</Text>
+                                            onClick={() => { onChangeReward(isChatReward) }} 
+                                            style={{margin: "3px 0"}}/>
+                                        <Text className="tb-switch-label">隐藏赞赏</Text>
                                     </Flex>
                                     <Flex>
                                         <Switch size="small"
                                             checked={isAllMute}
-                                            onClick={() => { onChangeMute(isAllMute) }} />
-                                        <Text ml="3px" fontSize="14px" fontWeight="400" color="#7C848C">全员禁言</Text>
+                                            onClick={() => { onChangeMute(isAllMute) }} 
+                                            style={{margin: "3px 0"}}/>
+                                        <Text className="tb-switch-label">全员禁言</Text>
                                     </Flex>
                                 </Flex>
-                            </div>}
+                            }
                         </div>
                     ) : (
-                            <div>
-                                <div>
-                                    <Flex justifyContent="flex-end" alignItems='center' m='5px' height='36px'>
-                                        <Switch size="small" onChange={onChangeQa}
-                                        />
-                                        <Text ml="3px" fontSize="14px" fontWeight="400" color="#7C848C">提问模式</Text>
-                                    </Flex>
-                                </div>
-                            </div>
-                        )}
-                    <ChatBox isAllMute={isAllMute} isTool={isTool} qaUser={qaUser} activeKey={activeKey} />
-                </div>
-            ) : (
-                    <div></div>
-                )}
-        </div>
+                        <Flex justifyContent="flex-end" alignItems='center' m='0 12px' height='36px'>
+                            <Switch size="small" onChange={onChangeQa}
+                            />
+                            <Text className="tb-switch-label">提问模式</Text>
+                        </Flex>
+                    )}
+                </div>}
+                {/* 聊天输入框 */}
+                <ChatBox isAllMute={isAllMute} isTool={isTool} qaUser={qaUser} activeKey={activeKey} />
+            </>
+        </div>}
+        </>
     )
 }
 export default ToolBar;

@@ -31,23 +31,28 @@ const MessageList = ({ activeKey, setActiveKey }) => {
   // 是否为提问消息
   const isHiedQuestion = useSelector(state => state.isQa).checked;
   // 是否有权限
-  let hasEditPermisson = (Number(isTeacher) === 1 || Number(isTeacher) === 3)
+  let hasEditPermisson = Number(isTeacher) === 3;
+  // 当前是哪个tab
+  const [tabKey, setTabKey] = useState(CHAT_TABS_KEYS.chat); 
 
   // 切换 tab 
   const handleTabChange = (key) => {
     setActiveKey(key)
     switch (key) {
       case "CHAT":
+        setTabKey(CHAT_TABS_KEYS.chat);
         sethide(false);
         setIsTool(false);
         store.dispatch(removeChatNotification(false))
         break;
       case "QA":
+        setTabKey(CHAT_TABS_KEYS.qa);
         sethide(false);
         setIsTool(true);
         store.dispatch(removeQaNotification(false))
         break;
       case "USER":
+        setTabKey(CHAT_TABS_KEYS.user);
         sethide(true)
         break;
       default:
@@ -89,7 +94,8 @@ const MessageList = ({ activeKey, setActiveKey }) => {
           }
         </Tabs>
       ) : (
-          isHiedQuestion ? (
+          isHiedQuestion 
+          ? (
             <div className="member-msg">
               <QuestionMessage userName={userName} />
             </div>
@@ -107,7 +113,7 @@ const MessageList = ({ activeKey, setActiveKey }) => {
               </div>
             )
         )}
-      <ToolBar hide={hide} isTool={isTool} qaUser={qaUser} activeKey={activeKey} />
+      <ToolBar tabKey={tabKey} hide={hide} isTool={isTool} qaUser={qaUser} activeKey={activeKey} />
     </div>
   )
 }

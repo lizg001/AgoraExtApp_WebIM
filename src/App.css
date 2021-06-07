@@ -1,12 +1,22 @@
+* {
+    box-sizing: border-box;
+}
+
+@media screen and (min-width: 900px) {
+    .app {
+        transform: scale(4);
+        transform-origin: 0 0;
+    }
+}
+
 .app {
     position: absolute;
-    /* left: 100px;
-    top: 40px; */
-    width: 280px;
-    background: #1F2933;
+    width: 296px;
+    background: #14161A;
     display: flex;
     flex-direction: column;
     height: 100%;
+    padding: 28px 8px 8px;
 }
 
 .ant-alert-with-description .ant-alert-message {

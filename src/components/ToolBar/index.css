@@ -1,14 +1,23 @@
 .footer {
-    height: 172px;
-    background-color: #263440;
+    height: 192px;
+    box-shadow: 0px -4px 4px 0px rgba(0, 0, 0, 0.1);
+    border-radius: 4px 4px 0px 0px;
+    /* overflow: hidden; */
 }
-
 
 .footer-toolBar {
     width: auto;
     height: 36px;
-    background: #263340;
+    background: #1D2026;
+    border-bottom: 1px solid #22262E;
+}
 
+.footer-toolBar .tb-switch-label {
+    margin-left: 4px;
+    font-size: 12px;
+    line-height: 20px;
+    font-weight: 400;
+    color: #626773;
 }
 
 .header {
@@ -31,7 +40,7 @@
     height: 22px;
     line-height: 22px;
     vertical-align: middle;
-    background-color: rgba(0, 0, 0, 0.25);
+    background-color: #2D3340;
     border: 0;
     border-radius: 100px;
     cursor: pointer;
@@ -42,21 +51,21 @@
     user-select: none;
 }
 
-.ant-switch:focus {
+/* .ant-switch:focus {
     outline: 0;
     box-shadow: 0 0 0 2px rgba(0, 0, 0, 0.1);
-}
+} */
 
-.ant-switch-checked:focus {
+/* .ant-switch-checked:focus {
     box-shadow: 0 0 0 2px rgba(24, 144, 255, 0.2);
-}
+} */
 
-.ant-switch:focus:hover {
+/* .ant-switch:focus:hover {
     box-shadow: none;
-}
+} */
 
 .ant-switch-checked {
-    background-color: #1890ff;
+    background-color: #0099FF;
 }
 
 .ant-switch-loading,
@@ -85,7 +94,7 @@
 
 .ant-switch-handle {
     position: absolute;
-    top: 2px;
+    top: 1px;
     left: 2px;
     width: 18px;
     height: 18px;
@@ -132,8 +141,8 @@
 
 .ant-switch-small {
     min-width: 28px;
-    height: 16px;
-    line-height: 16px;
+    height: 14px;
+    line-height: 14px;
 }
 
 .ant-switch-small .ant-switch-inner {
@@ -156,7 +165,7 @@
 }
 
 .ant-switch-small.ant-switch-checked .ant-switch-handle {
-    left: calc(100% - 12px - 2px);
+    left: calc(100% - 12px - 1px);
 }
 
 .ant-switch-rtl {

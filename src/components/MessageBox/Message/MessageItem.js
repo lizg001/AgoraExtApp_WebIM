@@ -5,8 +5,9 @@ import { Tag } from 'antd'
 import { DeleteOutlined } from '@ant-design/icons'
 import { getRoomMuteList } from '../../../api/chatroom'
 import WebIM from '../../../utils/WebIM'
-import icon_mute from '../../../themes/img/jinyan1.png'
-import icon_chat from '../../../themes/img/liaotian.png'
+import iconMute from '../../../themes/img/icon-mute.svg'
+import iconChat from '../../../themes/img/icon-chat.svg'
+import iconDelete from '../../../themes/img/icon-delete.svg'
 
 // 消息渲染
 const MessageItem = ({ message, setShowModal, setRecallMsgId }) => {
@@ -39,7 +40,7 @@ const MessageItem = ({ message, setShowModal, setRecallMsgId }) => {
 
     }
     // 打开确认框
-    const openModal = (val) => () => {
+    const openModal = (val) => {
         setShowModal('block')
         setRecallMsgId(val)
     }
@@ -64,37 +65,34 @@ const MessageItem = ({ message, setShowModal, setRecallMsgId }) => {
             }
             {
                 isTextMsg && (
-                    <div>
-                        <Flex >
-                            <div>
-                                <Image src={message.ext.avatarUrl || 'https://gimg2.baidu.com/image_search/src=http%3A%2F%2Fpic4.zhimg.com%2F50%2Fv2-fde5891065510ef51e4c8dc19f6f3aff_hd.jpg&refer=http%3A%2F%2Fpic4.zhimg.com&app=2002&size=f9999,10000&q=a80&n=0&g=0n&fmt=jpeg?sec=1624035646&t=52e70633abb73d7e2e0d2bd3f0446505'}
-                                    className='msg-img'
-                                />
-                            </div>
-                            <Flex ml='8px'>
-                                {(message.ext.role === 1) && <Tag className='tags' ><Text className='tags-txt' ml='4px' mt='1px'>主讲老师</Text></Tag>}
-                                {(message.ext.role === 3) && <Tag className='tags' ><Text className='tags-txt' ml='4px' mt='1px'>辅导老师</Text></Tag>}
-                                <Text className='msg-sender' ml='8px'>{message.ext.nickName || message.from}</Text>
+                    <Flex className="msg-list-item">
+                        <img className='msg-img' src={message.ext.avatarUrl || 'https://gimg2.baidu.com/image_search/src=http%3A%2F%2Fpic4.zhimg.com%2F50%2Fv2-fde5891065510ef51e4c8dc19f6f3aff_hd.jpg&refer=http%3A%2F%2Fpic4.zhimg.com&app=2002&size=f9999,10000&q=a80&n=0&g=0n&fmt=jpeg?sec=1624035646&t=52e70633abb73d7e2e0d2bd3f0446505'}/>
+                        <Flex flexDirection="column">
+                            <Flex alignItems="center">
+                                {/* 主讲/辅导tag */}
+                                {(message.ext.role === 1 || message.ext.role === 3) && <Tag className='tags'>
+                                    {message.ext.role === 1 && '主讲老师'}{message.ext.role === 3 && '辅导老师'}
+                                </Tag>}
+                                {/* 昵称/姓名 */}
+                                <Text className='msg-sender' color={message.ext.role === 1 || message.ext.role === 3 && '#0099FF'}>{message.ext.nickName || message.from}</Text>
+                                {/* 禁言/删除按钮 */}
                                 {isShowIcon &&
                                     <>
                                         {!icon ? (
-                                            <Image src={icon_mute} className='mute-img' onClick={() => { onSetMute(message) }}></Image>
+                                            <img src={iconChat} className='message-tool-icon' onClick={() => { onSetMute(message) }} />
                                         ) : (
-                                                <Image src={icon_chat} className='mute-img' onClick={() => { onRemoveMute(message) }}></Image>
-                                            )}
-                                        <DeleteOutlined width='14px' className='delete-icon' title="删除消息" onClick={openModal(message.id)} />
+                                            <img src={iconMute} className='message-tool-icon' onClick={() => { onRemoveMute(message) }} />
+                                        )}
+                                        <img src={iconDelete} className='message-tool-icon' onClick={() => { openModal(message.id) }} />
                                     </>
                                 }
-
                             </Flex>
+                            <div className='msg-text'>{message.msg || message.data}</div>
                         </Flex>
-                        <div className='msg-text txt'>
-                            <Text>{message.msg || message.data}</Text>
-                        </div>
-                    </div>
+                    </Flex>
                 )
             }
-            {
+            {/* {
                 isCustomMsg && (
                     <div>
                         <Flex >
@@ -111,7 +109,7 @@ const MessageItem = ({ message, setShowModal, setRecallMsgId }) => {
                         </Flex>
                     </div>
                 )
-            }
+            } */}
         </div>
     )
 }

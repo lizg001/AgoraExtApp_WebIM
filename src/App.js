@@ -12,7 +12,7 @@ import './App.css'
 
 const App = function () {
 
-  const [isEditNotice, isEditNoticeChange] = useState(false)
+  const [isEditNotice, isEditNoticeChange] = useState(0) // 0 显示公告  1 编辑公告  2 展示更多内容
   const [activeKey, setActiveKey] = useState(CHAT_TABS_KEYS.chat)
   useIMListen({ currentTab: activeKey })
   useEffect(() => {
@@ -24,7 +24,7 @@ const App = function () {
   return (
     <div className="app">
       <Notice isEdit={isEditNotice} isEditNoticeChange={isEditNoticeChange} />
-      {!isEditNotice && (<MessageBox activeKey={activeKey} setActiveKey={setActiveKey} />)}
+      {isEditNotice === 0 && (<MessageBox activeKey={activeKey} setActiveKey={setActiveKey} />)}
     </div >
   );
 }

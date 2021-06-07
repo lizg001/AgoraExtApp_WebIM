@@ -16,9 +16,9 @@ const useIMListen = ({ currentTab }) => {
         WebIM.conn.listen({
             onOpened: () => {
                 joinRoom();
-                setTimeout(() => {
-                    history.push('/chatroom?chatRoomId=149861134565377&roomUuid=test222&roleType=3&userUuid=lizg8&avatarUrl=https://img2.baidu.com/it/u=1593081528,1330377059&fm=26&fmt=auto&gp=0.jpg&org=easemob-demo&apk=cloudclass&nickName=AB')
-                }, 500);
+                // setTimeout(() => {
+                //     history.push('/chatroom?chatRoomId=149861134565377&roomUuid=test222&roleType=3&userUuid=lizg8&avatarUrl=https://img2.baidu.com/it/u=1593081528,1330377059&fm=26&fmt=auto&gp=0.jpg&org=easemob-demo&apk=cloudclass&nickName=AB')
+                // }, 500);
             },
             // 文本消息
             onTextMessage: (message) => {

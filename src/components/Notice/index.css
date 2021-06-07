@@ -1,15 +1,14 @@
 .notice {
-  width: auto;
-  height: 61px;
-  background: #263340;
-  border-radius: 15px;
-  padding: 10px 15px;
-  margin: 28px 5px 0 5px;
+  width: 280px;
+  height: 94px;
+  background: #1D2026;
+  border-radius: 8px;
+  padding: 18px 12px;
 }
 
-.notice-isEdit {
-  height: 220px;
-  background: none;
+.notice-edit-and-more {
+  background: #1D2026;
+  height: 100%;
 }
 
 .notice-img {
@@ -19,10 +18,12 @@
 }
 
 .notice .content {
-  width: auto;
-  height: 40px;
-  background: #263340;
-  border-radius: 8px;
+  
+
+}
+
+.notice .more-content {
+  min-height: 300px;
 }
 
 .notice .content .content-box {
@@ -32,46 +33,52 @@
   color: #a8adb2;
   line-height: 18px;
   height: 40px;
-  padding: 10px 0;
+  padding-top: 6px;
+  word-break: break-all;
 }
 
 .notice .content .content-no {
-  padding: 5px;
+  
   text-align: center;
-  width: auto;
-  height: 18px;
   font-size: 12px;
-  font-family: "PingFangSC-Regular";
   font-weight: 400;
-  color: #515b66;
-  line-height: 18px;
+  color: #626773;
+  line-height: 46px;
 }
 
 .title_center {
   width: 28px;
   height: 20px;
   font-size: 14px;
-  font-family: 'PingFangSC-Medium',
-    'PingFang SC';
   font-weight: 500;
   color: #CDD1D9;
   line-height: 20px
 }
 
 .update-content {
-  height: 180px;
-  width: 100%;
-  background: #1F2933;
-  color: #a8adb2;
+  color: #CDD1D9;
+  background-color: transparent;
   font-size: 12px;
-  font-weight: 400;
-  margin-bottom: 5px;
-  padding-left: 3px
+  margin-top: 16px;
+  width: 100%;
+  min-height: 300px;
+  text-align: justify;
+}
+
+.update-content::-webkit-input-placeholder{
+  color: #333740;
+  font-size: 12px;
 }
 
 .save-btn {
   border-radius: 18px !important;
-  background: #7ECBFF;
+  background: linear-gradient(90deg, #1DB4FE 0%, #028CFF 100%);
   width: 100%;
-  cursor: pointer,
+  cursor: pointer;
+  font-weight: 400;
+  font-size: 14px;
+}
+
+button.save-btn:disabled {
+  background: #7ECBFF;
 }
