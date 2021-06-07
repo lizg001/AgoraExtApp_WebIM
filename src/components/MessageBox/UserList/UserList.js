@@ -7,67 +7,18 @@ import { getRoomWhileList } from '../../../api/chatroom'
 import WebIM from '../../../utils/WebIM'
 import SearchList from './SearchList'
 import MuteList from './MuteList'
-import { getUserInfo } from '../../../api/userInfo'
-import _ from 'lodash'
 import './userList.css'
 import avatarUrl from '../../../themes/img/avatar-big@2x.png'
 
-const UserList = () => {
+const UserList = ({ roomUserList }) => {
     // 禁言列表
     const [isMute, setIsMute] = useState(false);
     const [searchUser, setSearchUser] = useState('');
     const [muteMembers, setMuteMembers] = useState([]);
     const [loading, setLoading] = useState(false)
     const roomId = useSelector((state) => state.room.info.id)
-    const roomUsers = useSelector(state => state.room.users)
     const roomMuteList = useSelector((state) => state.room.muteList);
     const roomListInfo = useSelector((state) => state.userListInfo);
-
-    let speakerTeacher = []
-    let coachTeacher = []
-    let student = []
-
-    const newRoomUsers = []
-    roomUsers.map(item => {
-        if (item.owner) {
-            return null
-        }
-        return newRoomUsers.push(item.member);
-    })
-
-    // 遍历成员列表，拿到成员数据，结构和 roomAdmin 统一
-    roomUsers.map((item) => {
-        let val
-        if (roomListInfo) {
-            val = roomListInfo && roomListInfo[item.member]
-        } else {
-            return
-        }
-        let newVal = {}
-        switch (val && val.ext) {
-            case '1':
-                newVal = _.assign(val, { id: item.member })
-                speakerTeacher.push(newVal)
-                break;
-            case '2':
-                newVal = _.assign(val, { id: item.member })
-                student.push(newVal)
-                break;
-            case '3':
-                newVal = _.assign(val, { id: item.member })
-                coachTeacher.push(newVal)
-                break;
-            default:
-                break;
-        }
-    })
-    const roomUserList = _.concat(speakerTeacher, coachTeacher, _.reverse(student))
-    useEffect(() => {
-        getUserInfo(newRoomUsers)
-        // eslint-disable-next-line react-hooks/exhaustive-deps
-    }, [roomUsers])
-
-
 
     useEffect(() => {
         let ary = []
@@ -125,19 +76,22 @@ const UserList = () => {
                 <Input placeholder='请输入用户名' className='search-user' onChange={onSearch} />
                 <SearchOutlined className='search-icon' />
             </div>
-            <Flex justifyContent='flex-start' alignItems='center' mt='8px'>
+            {
+                !searchUser && <Flex justifyContent='flex-start' alignItems='center' mt='8px'>
                 <Switch
                     size="small"
                     title="禁言"
+                    checked={isMute}
                     onChange={onMuteList}
                 />
                 <Text className='only-mute'>只看禁言</Text>
             </Flex>
+}
             {
                 <div>
                     {/* 是否展示搜索列表 */}
                     {searchUser && <SearchList roomListInfo={roomListInfo} searchUser={searchUser} onSetMute={onSetMute} muteMembers={muteMembers} />}
-                    {isMute && <MuteList roomListInfo={roomListInfo} muteMembers={muteMembers} onSetMute={onSetMute} />}
+                    {!searchUser && isMute && <MuteList roomListInfo={roomListInfo} muteMembers={muteMembers} onSetMute={onSetMute} />}
                     {/* 展示列表及搜索结果列表 */}
                     {!searchUser && !isMute && roomUserList.map((item, key) => {
                         // if (!isMute || (isMute && muteMembers.includes(item.id))) {
@@ -169,5 +123,4 @@ const UserList = () => {
         </div >
     )
 }
-
 export default UserList;

@@ -11,6 +11,12 @@ export const LoginName = data => {
 export const roomInfo = data => {
     return { type: 'GET_ROOM_INFO', data }
 }
+
+// 成员数
+export const roomUserCount = data => {
+    return { type: 'GET_USERS_COUNT', data }
+}
+
 // 聊天室公告
 export const roomNotice = data => {
     return { type: 'UPDATE_ROOM_NOTICE', data }
@@ -61,8 +67,8 @@ export const removeShowRed = (data) => {
     return { type: 'REMOVE_RED_MESSAGE', data }
 }
 // 聊天室提问消息
-export const qaMessages = (data, qaSender, options) => {
-    return { type: 'SAVE_QA_MESSAGE', data, qaSender, options }
+export const qaMessages = (data, qaSender, options, time) => {
+    return { type: 'SAVE_QA_MESSAGE', data, qaSender, options, time }
 }
 //  存个人信息
 export const loginInfo = data => {

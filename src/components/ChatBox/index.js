@@ -66,6 +66,8 @@ const ChatBox = ({ isTool, qaUser, activeKey }) => {
     let avatarUrl = userInfo.avatarurl;
     //  从当前登陆用户取的属性昵称
     let userNickName = userInfo.nickname;
+    //  获取当前时间，在ext 中携带，便于排序
+    let timestamp = new Date().getTime()
     //  isTool 是控制是否显示图片标签
     if (isTool) {
         msgType = 2;
@@ -91,21 +93,34 @@ const ChatBox = ({ isTool, qaUser, activeKey }) => {
     // 获取到点击的表情，加入到输入框
     const getEmoji = (e) => {
         let emojiMsg = content + e.target.innerText;
-        setContent(emojiMsg)
-        setCount(emojiMsg.length);
+        if (emojiMsg.length <= 300) {
+            setContent(emojiMsg)
+            setCount(emojiMsg.length);
+        }
     }
     // 输入框消息
     const changeMsg = (e) => {
         let msgCentent = e.target.value;
-        setCount(msgCentent.length);
-        setContent(msgCentent);
+        if (msgCentent.length <= 300) {
+            setCount(msgCentent.length);
+            setContent(msgCentent);
+        }
+
     }
     // 发送消息
     const sendMessage = (roomId, content) => (e) => {
         e.preventDefault()
-        if (content === '') return
+        // 消息为空不发送
+        if (content === '' || content.length > 300) {
+            message.error('消息内容不能为空且字符不能超过300！')
+            setTimeout(() => {
+                message.destroy();
+            }, 2000);
+            return
+        }
+        // 老师回复时必须选中提问学生才能发言
         if (msgType === 2 && requestUser === '') {
-            message.error('请选择提问学生')
+            message.error('请选择提问学生!')
             setTimeout(() => {
                 message.destroy();
             }, 2000);
@@ -123,15 +138,16 @@ const ChatBox = ({ isTool, qaUser, activeKey }) => {
                 asker: requestUser,
                 role: roleType,
                 avatarUrl: avatarUrl,
-                nickName: userNickName
+                nickName: userNickName,
+                time: timestamp.toString()
             },                         // 扩展消息
             success: function (id, serverId) {
                 msg.id = serverId;
                 msg.body.id = serverId;
                 if (msg.body.ext.msgtype === 2) {
-                    store.dispatch(qaMessages(msg.body, msg.body.ext.asker, { showNotice: false }));
+                    store.dispatch(qaMessages(msg.body, msg.body.ext.asker, { showNotice: false }, msg.body.ext.time));
                 } else if (msg.body.ext.msgtype === 1) {
-                    store.dispatch(qaMessages(msg.body, msg.body.ext.asker, { showNotice: !activeKey }));
+                    store.dispatch(qaMessages(msg.body, msg.body.ext.asker, { showNotice: !activeKey }, msg.body.ext.time));
                 } else {
                     store.dispatch(roomMessages(msg.body, { showNotice: !activeKey }));
                 }
@@ -172,7 +188,8 @@ const ChatBox = ({ isTool, qaUser, activeKey }) => {
                     asker: requestUser,
                     role: roleType,
                     avatarUrl: avatarUrl,
-                    nickName: userNickName
+                    nickName: userNickName,
+                    time: timestamp.toString()
                 },                       // 接收消息对象
                 chatType: 'chatRoom',               // 设置为单聊
                 onFileUploadError: function (err) {      // 消息上传失败
@@ -182,7 +199,7 @@ const ChatBox = ({ isTool, qaUser, activeKey }) => {
                     console.log('onFileUploadComplete', res);
                 },
                 success: function () {                // 消息发送成功
-                    store.dispatch(qaMessages(msg.body, msg.body.ext.asker, { showRed: false }));
+                    store.dispatch(qaMessages(msg.body, msg.body.ext.asker, { showRed: false }, msg.body.ext.time));
                 },
                 fail: function (e) {
                     console.log("Fail", e);              //如禁言、拉黑后发送消息会失败

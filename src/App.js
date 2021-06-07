@@ -2,7 +2,7 @@ import React, { useEffect, useState } from 'react';
 import { useHistory } from 'react-router-dom'
 import { useSelector } from 'react-redux'
 import store from './redux/store'
-import { roomMessages, qaMessages, userMute, roomAllMute, extData } from './redux/aciton'
+import { roomMessages, roomUserCount, qaMessages, userMute, roomAllMute, extData } from './redux/aciton'
 import WebIM, { appkey } from './utils/WebIM';
 import LoginIM from './api/login'
 import { joinRoom, getRoomInfo, getRoomNotice, getRoomWhileList, getRoomUsers } from './api/chatroom'
@@ -18,10 +18,9 @@ const App = function () {
   const history = useHistory();
   const isRoomAllMute = useSelector(state => state.isRoomAllMute)
   const iframeData = useSelector(state => state.extData)
+  const roomUsers = useSelector(state => state.room.users)
   const [isEditNotice, isEditNoticeChange] = useState(false)
   const [activeKey, setActiveKey] = useState(CHAT_TABS_KEYS.chat)
-
-  // useIMListen({ currentTab: activeKey })
   useEffect(() => {
     let im_Data = getPageQuery();
     store.dispatch(extData(im_Data));
@@ -40,7 +39,6 @@ const App = function () {
     onOpened: () => {
       joinRoom();
       setTimeout(() => {
-        // history.push('/chatroom?chatRoomId=148364667715585&roomUuid=test222&roleType=3&userUuid=lizg8&avatarUrl=https://img2.baidu.com/it/u=1593081528,1330377059&fm=26&fmt=auto&gp=0.jpg&org=easemob-demo&apk=cloudclass&nickName=AB')
         history.push(`/chatroom?chatRoomId=${iframeData.chatRoomId}&roomUuid=${iframeData.roomUuid}&roleType=${iframeData.roleType}&userUuid=${iframeData.userUuid}&avatarUrl=${iframeData.avatarUrl}&org=${iframeData.org}&apk=${iframeData.apk}&nickName=${iframeData.nickName}`)
       }, 500);
     },
@@ -48,10 +46,11 @@ const App = function () {
     onTextMessage: (message) => {
       console.log('onTextMessage', message);
       const { ext: { msgtype, asker } } = message
+      const { time } = message
       if (msgtype === 0) {
         store.dispatch(roomMessages(message, { showNotice: activeKey !== CHAT_TABS_KEYS.chat }))
       } else if ([1, 2].includes(msgtype)) {
-        store.dispatch(qaMessages(message, asker, { showNotice: true }))
+        store.dispatch(qaMessages(message, asker, { showNotice: true }, time))
       }
     },
     // 异常回调
@@ -76,14 +75,21 @@ const App = function () {
     // 聊天室相关监听
     onPresence: (message) => {
       console.log('type-----', message);
+      const userCount = _.get(store.getState(), 'room.info.affiliations_count')
       switch (message.type) {
         case "memberJoinChatRoomSuccess":
           getRoomUsers(message.gid);
-          getRoomInfo(message.gid);
+          let ary = []
+          roomUsers.map((v, k) => {
+            ary.push(v.member)
+          })
+          if (!(ary.includes(message.from))) {
+            store.dispatch(roomUserCount({ type: 'add', userCount: userCount }))
+          }
           break;
         case "leaveChatRoom":
           getRoomUsers(message.gid);
-          getRoomInfo(message.gid);
+          store.dispatch(roomUserCount({ type: 'remove', userCount: userCount }))
           break;
         case "updateAnnouncement":
           getRoomNotice(message.gid)

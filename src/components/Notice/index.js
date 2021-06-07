@@ -6,17 +6,12 @@ import EditNotice from './EditNotice'
 import './index.css'
 
 const Notice = ({ isEdit, isEditNoticeChange }) => {
-    // const userName = useSelector((state) => state.loginName);
-    // const roomOwner = useSelector(state => state.room.info.owner)
-    // const roomAdmins = useSelector((state) => state.room.admins);
     const isTeacher = useSelector(state => state.loginInfo.ext)
     const noticeContent = useSelector((state) => state.room.notice);
     const [roomAnnouncement, setRoomAnnouncement] = useState('')
 
     useEffect(() => {
-        if (noticeContent) {
-            setRoomAnnouncement(noticeContent)
-        }
+        setRoomAnnouncement(noticeContent)
     }, [noticeContent])
 
     // 显示公告编辑框  

@@ -5,12 +5,12 @@ import WebIM from "../utils/WebIM";
 
 // 设置自己的用户属性
 export const setUserInfo = () => {
-    const userAvatarurl = store.getState().extData.avatarurl;
+    const userAvatarUrl = store.getState().extData.avatarUrl;
     const userNickName = store.getState().extData.nickName;
     const userRoleType = Number(store.getState().extData.roleType);
     let options = {
         nickname: userNickName,
-        avatarurl: userAvatarurl,
+        avatarurl: userAvatarUrl,
         ext: userRoleType
     }
     WebIM.conn.updateOwnUserInfo(options).then((res) => {
