@@ -119,8 +119,13 @@ const reducer = (state = defaultState, action) => {
             };
         //聊天室消息
         case 'SAVE_ROOM_MESSAGES':
-            const { showNotice } = action.options
-            let msgs = state.messages.list.concat(data)
+            const { showNotice, isHistory } = action.options
+            let msgs;
+            if (isHistory) {
+                msgs = [data].concat(state.messages.list)
+            } else {
+                msgs = state.messages.list.concat(data)
+            }
             if (data.ext.msgId) {
                 msgs = msgs.filter((item) => item.id !== data.ext.msgId)
             }
@@ -162,6 +167,13 @@ const reducer = (state = defaultState, action) => {
         // 提问消息
         case 'SAVE_QA_MESSAGE':
             const qaList = state.messages.qaList
+            let qaMsgs;
+            if (action.options.isHistory) {
+                qaMsgs = [data, ...(qaList[qaSender]?.msg || [])]
+            } else {
+                qaMsgs = [...(qaList[qaSender]?.msg || []), data]
+            }
+
             return {
                 ...state,
                 messages: {
@@ -169,7 +181,7 @@ const reducer = (state = defaultState, action) => {
                     qaList: {
                         ...qaList,
                         [qaSender]: {
-                            msg: [...(qaList[qaSender]?.msg || []), data],
+                            msg: qaMsgs,
                             showRedNotice: action.options.showNotice,
                             time: qaList[qaSender]?.time || action.time
                         }

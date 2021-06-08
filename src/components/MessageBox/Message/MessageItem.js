@@ -13,7 +13,7 @@ import avatarUrl from '../../../themes/img/avatar-big@2x.png'
 const MessageItem = ({ message, setShowModal, setRecallMsgId }) => {
     const isTeacher = useSelector(state => state.loginInfo.ext)
     const roomMuteList = useSelector(state => state.room.muteList)
-    // 控制展示的禁言图标
+
     // 聊天框禁言
     const onSetMute = (message) => {
         let options = {

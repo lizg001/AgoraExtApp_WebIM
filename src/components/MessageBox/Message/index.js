@@ -18,6 +18,8 @@ const Message = ({ messageList, isHiedReward, hasEditPermisson, activeKey }) => 
     const [showModal, setShowModal] = useState('none');
     // 撤回需要的 msgId
     const [recallMsgId, setRecallMsgId] = useState('');
+
+    // 礼物消息控制
     let renderMsgs = messageList
     if (isHiedReward) {
         renderMsgs = messageList.filter((item) => item.contentsType !== 'CUSTOM')
@@ -27,6 +29,8 @@ const Message = ({ messageList, isHiedReward, hasEditPermisson, activeKey }) => 
             <Text textAlign='center' color='#D3D6D8'>暂无消息</Text>
         )
     }
+
+
 
     // 删除消息
     const deleteMsg = (roomId, recallId, activeKey) => {
@@ -56,7 +60,7 @@ const Message = ({ messageList, isHiedReward, hasEditPermisson, activeKey }) => 
     }
 
     return (
-        <div >
+        <div>
             <div>
                 {renderMsgs.map((message) => <MessageItem message={message} key={message.id} setShowModal={setShowModal} setRecallMsgId={setRecallMsgId} hasEditPermisson={hasEditPermisson} />)
                 }

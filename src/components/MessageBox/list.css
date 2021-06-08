@@ -47,6 +47,20 @@
     border-right: 1px solid #606060 !important
 }
 
+/* 历史记录加载 */
+.more-msg {
+    width: 80px;
+    background: #888;
+    color: #fff;
+    border-radius: 15px;
+    text-align: center;
+    margin: 0 auto;
+    font-size: 12px;
+    font-family: 'PingFangSC-Regular',
+        'PingFang SC';
+}
+
+
 /* 消息发送及接收者  */
 .msg-sender {
     margin-right: 3px;

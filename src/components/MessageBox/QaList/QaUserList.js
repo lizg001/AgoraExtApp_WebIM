@@ -1,4 +1,4 @@
-import { useState } from 'react'
+import { useState, useEffect } from 'react'
 import { useSelector } from 'react-redux'
 import { Image, Flex } from 'rebass'
 import _ from 'lodash'
@@ -22,13 +22,20 @@ const QaUserList = ({ getClickUser }) => {
     // 根据 时间进行排序
     let sortArr = _.orderBy(newUser, ['time'], ['desc'])
 
-
     // 拿到需要回复提问者id
     const getUser = (user) => {
         getClickUser(user)
         setCurrentUser(user)
         store.dispatch(removeShowRed(user))
     }
+
+    // 在当前聊天页，收到新消息不展示红点
+    useEffect(() => {
+        if (qaList[currentUser]) {
+            getClickUser(currentUser)
+            store.dispatch(removeShowRed(currentUser))
+        }
+    }, [_.get(qaList[currentUser], 'msg')])
     return (
         <Flex>
             {
@@ -42,7 +49,7 @@ const QaUserList = ({ getClickUser }) => {
                                 sortArr.map((user, k) => {
                                     return (
                                         <Flex onClick={() => getUser(user.id)} key={k} className="qa-user-list">
-                                            <Image src={roomListInfo[user.id].avatarurl || avatarUrl}
+                                            <Image src={_.get(roomListInfo[user.id], 'avatarurl') || avatarUrl}
                                                 className="qa-user-image"
                                             />
                                             {qaList[user.id].showRedNotice && (

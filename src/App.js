@@ -48,9 +48,9 @@ const App = function () {
       const { ext: { msgtype, asker } } = message
       const { time } = message
       if (msgtype === 0) {
-        store.dispatch(roomMessages(message, { showNotice: activeKey !== CHAT_TABS_KEYS.chat }))
+        store.dispatch(roomMessages(message, { showNotice: activeKey !== CHAT_TABS_KEYS.chat, isHistory: false }))
       } else if ([1, 2].includes(msgtype)) {
-        store.dispatch(qaMessages(message, asker, { showNotice: true }, time))
+        store.dispatch(qaMessages(message, asker, { showNotice: true, isHistory: false }, time))
       }
     },
     // 异常回调
@@ -117,17 +117,17 @@ const App = function () {
     //  收到自定义消息
     onCustomMessage: (message) => {
       console.log('CUSTOM--', message);
-      store.dispatch(roomMessages(message, { showNotice: activeKey !== CHAT_TABS_KEYS.chat }))
+      store.dispatch(roomMessages(message, { showNotice: activeKey !== CHAT_TABS_KEYS.chat, isHistory: false }))
     },
     //  收到图片消息
     onPictureMessage: (message) => {
       console.log('onPictureMessage', message);
-      store.dispatch(qaMessages(message, message.ext.asker, { showNotice: true }))
+      store.dispatch(qaMessages(message, message.ext.asker, { showNotice: true, isHistory: false }))
     },
     //  收到CMD消息
     onCmdMessage: (message) => {
       console.log('onCmdMessage', message);
-      store.dispatch(roomMessages(message, { showNotice: activeKey !== CHAT_TABS_KEYS.chat }))
+      store.dispatch(roomMessages(message, { showNotice: activeKey !== CHAT_TABS_KEYS.chat, isHistory: false }))
     },
   })
 

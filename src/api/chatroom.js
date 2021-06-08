@@ -3,6 +3,7 @@ import { message } from 'antd'
 import { roomInfo, roomNotice, roomAdmins, roomUsers, roomMuteUsers, roomAllMute } from '../redux/aciton'
 import store from '../redux/store'
 import { setUserInfo } from './userInfo'
+import { getHistoryMessages } from './historyMessages'
 
 // 加入聊天室
 export const joinRoom = async () => {
@@ -17,6 +18,7 @@ export const joinRoom = async () => {
             message.destroy();
         }, 3000);
         getRoomInfo(options.roomId);
+        getHistoryMessages(options.roomId);
         setUserInfo();
     })
 
