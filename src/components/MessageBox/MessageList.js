@@ -63,18 +63,18 @@ const MessageList = ({ activeKey, setActiveKey }) => {
     setActiveKey(key)
     switch (key) {
       case "CHAT":
-        // setTabKey(CHAT_TABS_KEYS.chat);
+        setTabKey(CHAT_TABS_KEYS.chat);
         sethide(true);
         setIsTool(false);
         store.dispatch(removeChatNotification(false))
         break;
       case "QA":
-        // setTabKey(CHAT_TABS_KEYS.qa);
+        setTabKey(CHAT_TABS_KEYS.qa);
         sethide(true);
         setIsTool(true);
         break;
       case "USER":
-        // setTabKey(CHAT_TABS_KEYS.user);
+        setTabKey(CHAT_TABS_KEYS.user);
         sethide(false)
         break;
       default:

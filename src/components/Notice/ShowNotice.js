@@ -38,7 +38,7 @@ const ShowNotice = ({ hasEditPermisson, roomAnnouncement, onEdit, onMore }) => {
             </Flex >
             <div className="content">
                 {roomAnnouncement ? (
-                    <div className="content-box" style={{overflow: 'hidden', textOverflow: 'ellipsis', display: '-webkit-box', WebkitLineClamp: 2, WebkitBoxOrient: 'vertical'}}>
+                    <div className="content-box" style={{overflow: 'hidden', textOverflow: 'ellipsis', display: '-webkit-box', WebkitLineClamp: 2, WebkitBoxOrient: 'vertical', whiteSpace: 'break-spaces'}}>
                         {/* {shouldShowEllipsis ? noticeContent.slice(0, 38) + "..." : noticeContent} */}
                         {roomAnnouncement}
                     </div>
