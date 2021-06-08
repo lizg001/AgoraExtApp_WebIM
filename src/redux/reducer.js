@@ -4,11 +4,13 @@ const defaultState = {
     loginName: '',      //当前登陆ID
     loginInfo: {},      //当前的用户的信息
     room: {             //聊天室
-        info: {},       //详情
+        info: {
+            affiliations_count: 0
+        },       //详情
         notice: "",     //公告
         users: [],      //成员
         admins: [],     //管理员
-        muteList: []    //禁言列表
+        muteList: [],    //禁言列表
     },
     messages: {         //消息
         list: [],       //TXT/TEXT 消息、CMD 消息、CUSTOM 消息
@@ -19,9 +21,10 @@ const defaultState = {
         }
     },
     isUserMute: false,   //单人禁言
-    isQa: false,        //是否为提问消息开关
-    isReward: false,    //是否隐藏赞赏消息开关
-    userListInfo: {}    //成员信息
+    isQa: false,         //是否为提问消息开关
+    isReward: false,     //是否隐藏赞赏消息开关
+    userListInfo: {},    //成员信息
+    isRoomAllMute: false  //全局禁言
 
 }
 const reducer = (state = defaultState, action) => {
@@ -33,13 +36,13 @@ const reducer = (state = defaultState, action) => {
                 ...state,
                 extData: data
             };
-        //当前登陆的name
+        // 当前登陆的name
         case 'LOGIN_NAME':
             return {
                 ...state,
                 loginName: data
             };
-        //聊天室详情
+        // 聊天室详情
         case 'GET_ROOM_INFO':
             return {
                 ...state,
@@ -48,7 +51,25 @@ const reducer = (state = defaultState, action) => {
                     info: data
                 }
             };
-        //修改聊天室公告
+        // 聊天室成员加减
+        case 'GET_USERS_COUNT':
+            let num
+            if (data.type === 'add') {
+                num = data.userCount + 1
+            } else {
+                num = data.userCount - 1
+            }
+            return {
+                ...state,
+                room: {
+                    ...state.room,
+                    info: {
+                        ...state.room.info,
+                        affiliations_count: num
+                    }
+                }
+            };
+        // 获取聊天室公告
         case 'UPDATE_ROOM_NOTICE':
             return {
                 ...state,
@@ -56,6 +77,12 @@ const reducer = (state = defaultState, action) => {
                     ...state.room,
                     notice: data
                 }
+            };
+        // 聊天室全局禁言
+        case 'GET_ROOM_ALL_MUTE':
+            return {
+                ...state,
+                isRoomAllMute: data,
             };
         //获取聊天室管理员
         case 'GET_ROOM_ADMINS':
@@ -132,7 +159,7 @@ const reducer = (state = defaultState, action) => {
                 ...state,
                 isReward: data
             };
-        //提问消息
+        // 提问消息
         case 'SAVE_QA_MESSAGE':
             const qaList = state.messages.qaList
             return {
@@ -143,9 +170,9 @@ const reducer = (state = defaultState, action) => {
                         ...qaList,
                         [qaSender]: {
                             msg: [...(qaList[qaSender]?.msg || []), data],
-                            showRedNotice: true
+                            showRedNotice: action.options.showNotice,
+                            time: qaList[qaSender]?.time || action.time
                         }
-
                     },
                     notification: {
                         ...state.messages.notification,

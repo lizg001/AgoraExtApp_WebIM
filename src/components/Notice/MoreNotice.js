@@ -9,12 +9,12 @@ import iconLeft from '../../themes/img/icon-left.svg'
 
 const { TextArea } = Input;
 
-const EditNotice = ({ hasEditPermisson, noticeContent, onView, onEdit }) => {
+const EditNotice = ({ hasEditPermisson, roomAnnouncement, onView, onEdit }) => {
     const roomId = useSelector((state) => state.room.info.id);
     // 公告栏编辑字数
     const [count, setCount] = useState(0);
     // 公告栏内容
-    const [newContent, setNewContent] = useState(noticeContent)
+    const [newContent, setNewContent] = useState(roomAnnouncement)
     // 公告内容修改
     const changeContent = (e) => {
         let content = e.target.value;
@@ -36,7 +36,7 @@ const EditNotice = ({ hasEditPermisson, noticeContent, onView, onEdit }) => {
                 {hasEditPermisson ? <Edit /> : <span></span>}
             </Flex>
             <div className="content more-content">
-                <div className='content-box'>{noticeContent}</div>
+                <div className='content-box'>{roomAnnouncement}</div>
             </div>
             {
                 hasEditPermisson && 

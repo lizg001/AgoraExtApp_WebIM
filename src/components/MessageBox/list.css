@@ -33,6 +33,8 @@
     padding: 10px 15px;
     overflow-y: scroll;
     height: calc(100% - 20px);
+    white-space: pre-wrap;
+    overflow-x: hidden;
 }
 
 .message-list {
@@ -40,8 +42,9 @@
 }
 
 .user-list {
-    padding: 10px 15px;
+    padding: 10px;
     overflow-y: scroll;
+    height: calc(130%);
 }
 
 .user-border {
@@ -64,6 +67,37 @@
     font-weight: 400;
     color: #CDD1D9;
     line-height: 20px;
+    word-break: break-all;
+    white-space: pre-wrap;
+    padding: 0 25px 0 0;
+}
+
+/* 无提问消息禁止点击 */
+.qa-mark {
+    bottom: 0;
+    top: 165px;
+    position: fixed;
+    background-color: #7C848C;
+    opacity: .3;
+    text-align: center;
+    margin: 0 auto;
+    left: 0;
+    right: calc(100% - 280px);
+    z-index: 1000;
+}
+
+.qa-card {
+    position: fixed;
+    top: 40%;
+    margin: 0 auto;
+    /* left: 24%; */
+    right: calc(100% - 180px);
+    z-index: 9999999;
+    background: #FFFFFF;
+    border-radius: 12px;
+    text-align: center;
+    padding: 10px;
+    height: 20px;
 }
 
 /* 成员头像 */
@@ -89,8 +123,19 @@
     margin-right: 4px;
 }
 
+
 .msg-list-item:hover .message-tool-icon {
     display: block;
+}
+
+/* 禁言图片 */
+.mute-img {
+    width: 14px !important;
+    height: 14px !important;
+    /* background-color: #000000; */
+    background-color: #959BA6;
+    margin-left: 5px !important;
+    cursor: pointer;
 }
 
 .message-tool-icon {

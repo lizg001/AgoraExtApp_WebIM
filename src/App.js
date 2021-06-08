@@ -1,25 +1,136 @@
 import React, { useEffect, useState } from 'react';
+import { useHistory } from 'react-router-dom'
+import { useSelector } from 'react-redux'
 import store from './redux/store'
-import { extData } from './redux/aciton'
+import { roomMessages, roomUserCount, qaMessages, userMute, roomAllMute, extData } from './redux/aciton'
+import WebIM, { appkey } from './utils/WebIM';
 import LoginIM from './api/login'
+import { joinRoom, getRoomInfo, getRoomNotice, getRoomWhileList, getRoomUsers } from './api/chatroom'
 import Notice from './components/Notice'
 import MessageBox from './components/MessageBox/MessageList'
-import useIMListen from './IMListen/useIMListen'
 import { CHAT_TABS_KEYS } from './components/MessageBox/constants'
 import { getPageQuery } from './utils'
+import _ from 'lodash'
 
 import './App.css'
 
 const App = function () {
-
+  const history = useHistory();
+  const isRoomAllMute = useSelector(state => state.isRoomAllMute)
+  const iframeData = useSelector(state => state.extData)
+  const roomUsers = useSelector(state => state.room.users)
   const [isEditNotice, isEditNoticeChange] = useState(0) // 0 显示公告  1 编辑公告  2 展示更多内容
+
   const [activeKey, setActiveKey] = useState(CHAT_TABS_KEYS.chat)
-  useIMListen({ currentTab: activeKey })
   useEffect(() => {
     let im_Data = getPageQuery();
     store.dispatch(extData(im_Data));
     LoginIM();
   }, [])
+
+  useEffect(() => {
+    if (isRoomAllMute) {
+      store.dispatch(roomAllMute(true))
+    } else {
+      store.dispatch(roomAllMute(false))
+    }
+  }, [isRoomAllMute])
+
+  WebIM.conn.listen({
+    onOpened: () => {
+      joinRoom();
+      setTimeout(() => {
+        history.push(`/chatroom?chatRoomId=${iframeData.chatRoomId}&roomUuid=${iframeData.roomUuid}&roleType=${iframeData.roleType}&userUuid=${iframeData.userUuid}&avatarUrl=${iframeData.avatarUrl}&org=${iframeData.org}&apk=${iframeData.apk}&nickName=${iframeData.nickName}`)
+      }, 500);
+    },
+    // 文本消息
+    onTextMessage: (message) => {
+      console.log('onTextMessage', message);
+      const { ext: { msgtype, asker } } = message
+      const { time } = message
+      if (msgtype === 0) {
+        store.dispatch(roomMessages(message, { showNotice: activeKey !== CHAT_TABS_KEYS.chat }))
+      } else if ([1, 2].includes(msgtype)) {
+        store.dispatch(qaMessages(message, asker, { showNotice: true }, time))
+      }
+    },
+    // 异常回调
+    onError: (message) => {
+      console.log('onError', message);
+      const type = JSON.parse(_.get(message, 'data.data')).error_description;
+      const resetName = store.getState().extData.userUuid;
+      if (message.type === '16') {
+        return
+      } else if (type === "user not found") {
+        let options = {
+          username: resetName.toLocaleLowerCase(),
+          password: resetName,
+          appKey: appkey,
+          success: function () {
+            LoginIM();
+          },
+        };
+        WebIM.conn.registerUser(options);
+      }
+    },
+    // 聊天室相关监听
+    onPresence: (message) => {
+      console.log('type-----', message);
+      const userCount = _.get(store.getState(), 'room.info.affiliations_count')
+      switch (message.type) {
+        case "memberJoinChatRoomSuccess":
+          getRoomUsers(message.gid);
+          let ary = []
+          roomUsers.map((v, k) => {
+            ary.push(v.member)
+          })
+          if (!(ary.includes(message.from))) {
+            store.dispatch(roomUserCount({ type: 'add', userCount: userCount }))
+          }
+          break;
+        case "leaveChatRoom":
+          getRoomUsers(message.gid);
+          store.dispatch(roomUserCount({ type: 'remove', userCount: userCount }))
+          break;
+        case "updateAnnouncement":
+          getRoomNotice(message.gid)
+          break;
+        case 'muteChatRoom':
+          getRoomInfo(message.gid);
+          break;
+        case 'rmChatRoomMute':
+          getRoomInfo(message.gid);
+          break;
+        // 删除聊天室白名单成员
+        case 'rmUserFromChatRoomWhiteList':
+          getRoomWhileList(message.gid);
+          store.dispatch(userMute(false))
+          break;
+        // 增加聊天室白名单成员
+        case 'addUserToChatRoomWhiteList':
+          getRoomWhileList(message.gid);
+          store.dispatch(userMute(true))
+          break;
+        default:
+          break;
+      }
+    },
+    //  收到自定义消息
+    onCustomMessage: (message) => {
+      console.log('CUSTOM--', message);
+      store.dispatch(roomMessages(message, { showNotice: activeKey !== CHAT_TABS_KEYS.chat }))
+    },
+    //  收到图片消息
+    onPictureMessage: (message) => {
+      console.log('onPictureMessage', message);
+      store.dispatch(qaMessages(message, message.ext.asker, { showNotice: true }))
+    },
+    //  收到CMD消息
+    onCmdMessage: (message) => {
+      console.log('onCmdMessage', message);
+      store.dispatch(roomMessages(message, { showNotice: activeKey !== CHAT_TABS_KEYS.chat }))
+    },
+  })
 
   return (
     <div className="app">

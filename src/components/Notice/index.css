@@ -37,6 +37,18 @@
   word-break: break-all;
 }
 
+.notice .content .content-box .text {
+  width: 100%;
+  word-break: keep-all;
+  white-space: pre-wrap;
+  overflow-y: scroll;
+  text-overflow: ellipsis;
+  display: block;
+  height: 40px;
+  overflow-x: hidden;
+}
+
+
 .notice .content .content-no {
   
   text-align: center;

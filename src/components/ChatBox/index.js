@@ -1,6 +1,6 @@
 import React, { useState, useRef } from 'react'
 import { useSelector } from "react-redux";
-import { Button, Input } from 'antd'
+import { Button, Input, message } from 'antd'
 import { SmileOutlined, CloseCircleOutlined } from '@ant-design/icons';
 import { Flex, Text } from 'rebass'
 import WebIM from '../../utils/WebIM'
@@ -9,27 +9,31 @@ import { Emoji } from '../../utils/emoji'
 import { roomMessages, qaMessages } from '../../redux/aciton'
 import iconSmiley from '../../themes/img/icon-smiley.svg'
 import iconImage from '../../themes/img/icon-image.svg'
+import msgAvatarUrl from '../../themes/img/avatar-big@2x.png'
 import './index.css'
 
 // 展示表情
-const ShowEomji = ({ getEmoji }) => {
-    console.log('展示emoji');
+const ShowEomji = ({ getEmoji, hideEmoji }) => {
     return (
-        <div className='emoji-all'>
-            {Emoji.map((emoji, key) => {
-                return <span className='emoji-content' key={key} onClick={getEmoji}>
-                    {emoji}
-                </span>
-            })}
-        </div>
+        <>
+            <div className='emoji-mask' onClick={hideEmoji}></div>
+            <div className='emoji-all'>
+                {Emoji.map((emoji, key) => {
+                    return <span className='emoji-content' key={key}
+                        onClick={getEmoji}
+                    >{emoji}</span>
+                })}
+            </div>
+        </>
     )
 }
 
-const ChatBox = ({ isAllMute, isTool, qaUser, activeKey }) => {
+const ChatBox = ({ isTool, qaUser, activeKey }) => {
     const roomId = useSelector((state) => state.room.info.id);
     const teacher = useSelector(state => state.loginInfo.ext)
+    const isAllMute = useSelector(state => state.isRoomAllMute)
     // 是否开启了提问模式
-    const isQa = useSelector((state) => state.isQa).checked;
+    const isQa = useSelector((state) => state.isQa);
     // 获取用户详情
     const userInfo = useSelector((state) => state.loginInfo);
     // 获取课堂ID
@@ -57,16 +61,18 @@ const ChatBox = ({ isAllMute, isTool, qaUser, activeKey }) => {
     let avatarUrl = userInfo.avatarurl;
     //  从当前登陆用户取的属性昵称
     let userNickName = userInfo.nickname;
+    //  获取当前时间，在ext 中携带，便于排序
+    let timestamp = new Date().getTime()
     //  isTool 是控制是否显示图片标签
     if (isTool) {
         msgType = 2;
-        requestUser = qaUser || loginId
+        requestUser = qaUser
     } else if (isQa) {
         msgType = 1;
         requestUser = qaUser || loginId
     }
     if (!userInfo.avatarurl) {
-        avatarUrl = 'https://gimg2.baidu.com/image_search/src=http%3A%2F%2Fpic4.zhimg.com%2F50%2Fv2-0e98d843ef66ae5e9ec846a7c5f98224_hd.jpg&refer=http%3A%2F%2Fpic4.zhimg.com&app=2002&size=f9999,10000&q=a80&n=0&g=0n&fmt=jpeg?sec=1624523290&t=b9ac1951a67c179055c564b21086bd0c';
+        avatarUrl = msgAvatarUrl;
     }
     if (!userInfo.nickname) {
         userNickName = '学生测试'
@@ -82,18 +88,38 @@ const ChatBox = ({ isAllMute, isTool, qaUser, activeKey }) => {
     // 获取到点击的表情，加入到输入框
     const getEmoji = (e) => {
         let emojiMsg = content + e.target.innerText;
-        setContent(emojiMsg);
+        if (emojiMsg.length <= 300) {
+            setContent(emojiMsg)
+            setCount(emojiMsg.length);
+        }
     }
     // 输入框消息
     const changeMsg = (e) => {
         let msgCentent = e.target.value;
-        msgCentent = msgCentent?.length > 500 ? msgCentent.slice(0,500) : msgCentent;
-        setCount(msgCentent.length);
-        setContent(msgCentent);
+        if (msgCentent.length <= 300) {
+            setCount(msgCentent.length);
+            setContent(msgCentent);
+        }
     }
     // 发送消息
-    const sendMessage = (roomId, content) => {
-        if (content === '') return
+    const sendMessage = (roomId, content) => (e) => {
+        e.preventDefault()
+        // 消息为空不发送
+        if (content === '' || content.length > 500) {
+            message.error('消息内容不能为空且字符不能超过500！')
+            setTimeout(() => {
+                message.destroy();
+            }, 2000);
+            return
+        }
+        // 老师回复时必须选中提问学生才能发言
+        if (msgType === 2 && requestUser === '') {
+            message.error('请选择提问学生!')
+            setTimeout(() => {
+                message.destroy();
+            }, 2000);
+            return
+        }
         let id = WebIM.conn.getUniqueId();         // 生成本地消息id
         let msg = new WebIM.message('txt', id); // 创建文本消息
         let option = {
@@ -106,15 +132,16 @@ const ChatBox = ({ isAllMute, isTool, qaUser, activeKey }) => {
                 asker: requestUser,
                 role: roleType,
                 avatarUrl: avatarUrl,
-                nickName: userNickName
+                nickName: userNickName,
+                time: timestamp.toString()
             },                         // 扩展消息
             success: function (id, serverId) {
                 msg.id = serverId;
                 msg.body.id = serverId;
                 if (msg.body.ext.msgtype === 2) {
-                    store.dispatch(qaMessages(msg.body, msg.body.ext.asker, { showNotice: !activeKey }));
+                    store.dispatch(qaMessages(msg.body, msg.body.ext.asker, { showNotice: false }, msg.body.ext.time));
                 } else if (msg.body.ext.msgtype === 1) {
-                    store.dispatch(qaMessages(msg.body, msg.body.ext.asker, { showNotice: !activeKey }));
+                    store.dispatch(qaMessages(msg.body, msg.body.ext.asker, { showNotice: !activeKey }, msg.body.ext.time));
                 } else {
                     store.dispatch(roomMessages(msg.body, { showNotice: !activeKey }));
                 }
@@ -139,8 +166,8 @@ const ChatBox = ({ isAllMute, isTool, qaUser, activeKey }) => {
         var msg = new WebIM.message('img', id);        // 创建图片消息
         let file = WebIM.utils.getFileUrl(e.target)     // 将图片转化为二进制文件
         var allowType = {
+            'jpeg': true,
             'jpg': true,
-            'gif': true,
             'png': true,
             'bmp': true
         };
@@ -155,18 +182,18 @@ const ChatBox = ({ isAllMute, isTool, qaUser, activeKey }) => {
                     asker: requestUser,
                     role: roleType,
                     avatarUrl: avatarUrl,
-                    nickName: userNickName
+                    nickName: userNickName,
+                    time: timestamp.toString()
                 },                       // 接收消息对象
                 chatType: 'chatRoom',               // 设置为单聊
-                onFileUploadError: function () {      // 消息上传失败
-                    console.log('onFileUploadError');
+                onFileUploadError: function (err) {      // 消息上传失败
+                    console.log('onFileUploadError', err);
                 },
                 onFileUploadComplete: function (res) {   // 消息上传成功
                     console.log('onFileUploadComplete', res);
-
                 },
                 success: function () {                // 消息发送成功
-                    store.dispatch(qaMessages(msg.body, msg.body.ext.asker, { showNotice: !activeKey }));
+                    store.dispatch(qaMessages(msg.body, msg.body.ext.asker, { showRed: false }, msg.body.ext.time));
                 },
                 fail: function (e) {
                     console.log("Fail", e);              //如禁言、拉黑后发送消息会失败
@@ -175,32 +202,45 @@ const ChatBox = ({ isAllMute, isTool, qaUser, activeKey }) => {
             };
             msg.set(option);
             WebIM.conn.send(msg.body);
+        } else {
+            message.error('不支持的图片类型，仅支持JPG、JPEG、PNG、BMP格式图片！')
+            // message.error({
+            //     content: '不支持的图片类型，仅支持JPG、JPEG、PNG、BMP格式图片！',
+            //     style: { width: '200px' }
+            // });
+            setTimeout(() => {
+                message.destroy();
+            }, 2000);
         }
     }
-    // 显示表情框
+
+    // 控制显示/隐藏 表情框
     const showEmoji = () => {
-        setIsEmoji(true)
+        if (!isEmoji) {
+            setIsEmoji(true)
+        } else {
+            hideEmoji()
+        }
     }
+
     // 隐藏表情框
     const hideEmoji = () => {
         setIsEmoji(false)
     }
 
     // 禁言后，判断权限是否遮盖输入框
-    // const isMuted = isAllMute && !isTeacher
     return (
         <div className='chat-box'>
-            {/* 是否被禁言 */}
-            {!isTeacher && isUserMute && <Flex className='msg-box-mute'>
-                <Text className='mute-msg'>您已被禁言</Text>
-            </Flex>}
             {/* 是否全局禁言 */}
-            {!isTeacher && isAllMute && <Flex className='msg-box-mute'>
+            {!isTeacher && isAllMute && !isQa && <Flex className='msg-box-mute'>
                 <Text className='mute-msg'>全员禁言中</Text>
             </Flex>}
+            {/* 是否被禁言 */}
+            {(!isTeacher && isUserMute) && !isQa && <Flex className='msg-box-mute'>
+                <Text className='mute-msg'>您已被禁言</Text>
+            </Flex>}
             {/* 不禁言展示发送框 */}
-            {(isTeacher || (!isUserMute && !isAllMute)) 
-            && <>
+            {(isQa || (isTeacher || (!isUserMute && !isAllMute))) && <div >
                 {
                     isShow && <Flex className='show-error' alignItems='center' justifyContent='center'>
                         <CloseCircleOutlined style={{ color: 'red', paddingLeft: '10px' }} />
@@ -208,10 +248,11 @@ const ChatBox = ({ isAllMute, isTool, qaUser, activeKey }) => {
                     </Flex>
                 }
                 <Flex justifyContent='flex-start' alignItems='center'>
-                    {isEmoji && <ShowEomji getEmoji={getEmoji} />}
+                    {isEmoji && <ShowEomji getEmoji={getEmoji} hideEmoji={hideEmoji} />}
                     <img src={iconSmiley} onClick={showEmoji} className="chat-tool-item"/>
                     {isTool && <div onClick={updateImage} className="chat-tool-item">
                         <img src={iconImage} />
+                        {/* <Image src={icon_img} width='18px' background='#D3D6D8' ml='8px' /> */}
                         <input
                             id="uploadImage"
                             onChange={sendImgMessage.bind(this, roomId)}
@@ -223,21 +264,25 @@ const ChatBox = ({ isAllMute, isTool, qaUser, activeKey }) => {
                         />
                     </div>}
                 </Flex>
-                <Input.TextArea
-                    placeholder="说点什么呗~"
-                    onChange={(e) => changeMsg(e)}
-                    className="msg-box"
-                    autoFocus
-                    value={content}
-                    onClick={hideEmoji}
-                />
+                <div>
+                    <Input.TextArea
+                        placeholder="说点什么呗~"
+                        onChange={(e) => changeMsg(e)}
+                        className="msg-box"
+                        maxLength={300}
+                        autoFocus
+                        value={content}
+                        onClick={hideEmoji}
+                        onPressEnter={sendMessage(roomId, content)}
+                    />
+                </div>
                 <Flex justifyContent='flex-end' className='btn-tool'>
                     <Text color="#626773" fontSize="12px">{count}/500</Text>
-                    <button disabled={count === 0} onClick={() => { sendMessage(roomId, content) }} className="msg-btn">
+                    <button disabled={count === 0} onClick={ sendMessage(roomId, content) } className="msg-btn">
                         发送
                     </button>
                 </Flex>
-            </>}
+            </div>}
         </div>
     )
 }

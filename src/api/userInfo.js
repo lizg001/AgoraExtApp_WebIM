@@ -5,12 +5,12 @@ import WebIM from "../utils/WebIM";
 
 // 设置自己的用户属性
 export const setUserInfo = () => {
-    const userAvatarurl = store.getState().extData.avatarurl;
+    const userAvatarUrl = store.getState().extData.avatarUrl;
     const userNickName = store.getState().extData.nickName;
     const userRoleType = Number(store.getState().extData.roleType);
     let options = {
         nickname: userNickName,
-        avatarurl: userAvatarurl,
+        avatarurl: userAvatarUrl,
         ext: userRoleType
     }
     WebIM.conn.updateOwnUserInfo(options).then((res) => {
@@ -20,15 +20,6 @@ export const setUserInfo = () => {
 
 // 获取用户属性
 export const getUserInfo = (member) => {
-    // let userArr = [];
-    // member.forEach(user => {
-    //     if (user.member) {
-    //         userArr.push(user.member)
-    //     } else {
-    //         userArr.push(user.owner)
-    //     }
-    //     return
-    // });
     WebIM.conn.fetchUserInfoById(member).then((res) => {
         store.dispatch(memberInfo(res.data))
     })

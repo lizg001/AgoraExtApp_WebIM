@@ -1,4 +1,4 @@
-import React from 'react'
+import React, { useState, useEffect } from 'react'
 import { useSelector } from "react-redux";
 import cx from 'classnames'
 import ShowNotice from './ShowNotice'
@@ -7,11 +7,14 @@ import MoreNotice from './MoreNotice'
 import './index.css'
 
 const Notice = ({ isEdit, isEditNoticeChange }) => {
-    // const userName = useSelector((state) => state.loginName);
-    // const roomOwner = useSelector(state => state.room.info.owner)
-    // const roomAdmins = useSelector((state) => state.room.admins);
     const isTeacher = useSelector(state => state.loginInfo.ext)
     const noticeContent = useSelector((state) => state.room.notice);
+    const [roomAnnouncement, setRoomAnnouncement] = useState('')
+
+    useEffect(() => {
+        setRoomAnnouncement(noticeContent)
+    }, [noticeContent])
+
     // 显示公告编辑框  
     const onEdit = () => {
         isEditNoticeChange(1);
@@ -28,9 +31,9 @@ const Notice = ({ isEdit, isEditNoticeChange }) => {
     const hasEditPermisson = (Number(isTeacher) === 3)
     return (
         <div className={cx("notice", {'notice-edit-and-more': isEdit !== 0 })}>
-            { isEdit === 0 && < ShowNotice hasEditPermisson={hasEditPermisson} noticeContent={noticeContent} onEdit={onEdit} onMore={onMore} /> }
-            { isEdit === 1 && < EditNotice hasEditPermisson={hasEditPermisson} noticeContent={noticeContent} onView={onView} /> }
-            { isEdit === 2 && < MoreNotice hasEditPermisson={hasEditPermisson} noticeContent={noticeContent} onView={onView} onEdit={onEdit} /> }
+            { isEdit === 0 && < ShowNotice hasEditPermisson={hasEditPermisson} roomAnnouncement={roomAnnouncement} onEdit={onEdit} onMore={onMore} /> }
+            { isEdit === 1 && < EditNotice hasEditPermisson={hasEditPermisson} roomAnnouncement={roomAnnouncement} onView={onView} /> }
+            { isEdit === 2 && < MoreNotice hasEditPermisson={hasEditPermisson} roomAnnouncement={roomAnnouncement} onView={onView} onEdit={onEdit} /> }
         </div >
     )
 

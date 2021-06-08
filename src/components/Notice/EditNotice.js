@@ -8,13 +8,14 @@ import backImg from '../../themes/img/left-back.png'
 
 const { TextArea } = Input;
 
-const EditNotice = ({ hasEditPermisson, noticeContent, onView}) => {
+const EditNotice = ({ hasEditPermisson, roomAnnouncement, onView}) => {
     const roomId = useSelector((state) => state.room.info.id);
 
     // 公告栏内容
-    const [newContent, setNewContent] = useState(noticeContent)
+    const [newContent, setNewContent] = useState(roomAnnouncement)
     // 公告栏编辑字数
-    const [count, setCount] = useState(noticeContent?.length || 0);
+    const [count, setCount] = useState(roomAnnouncement?.length || 0);
+
     // 公告内容修改
     const changeContent = (e) => {
         let content = e.target.value;
@@ -30,7 +31,7 @@ const EditNotice = ({ hasEditPermisson, noticeContent, onView}) => {
                 <span></span>
             </Flex>
             <TextArea placeholder="请输入公告..." onChange={changeContent}
-                className='update-content' maxLength={300} defaultValue={noticeContent}
+                className='update-content' maxLength={300} defaultValue={roomAnnouncement}
             ></TextArea>
             {
                 hasEditPermisson && <div>

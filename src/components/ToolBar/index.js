@@ -1,12 +1,11 @@
+import React from 'react'
 import { useSelector } from "react-redux";
-// import { message } from 'antd'
 import WebIM from '../../utils/WebIM'
 import store from '../../redux/store'
-import { isReward, isQa } from '../../redux/aciton'
+import { isReward, isQa, roomAllMute } from '../../redux/aciton'
 import { Flex, Text } from 'rebass'
 import { Switch } from 'antd';
 import ChatBox from '../ChatBox'
-import { getRoomInfo } from '../../api/chatroom'
 import './index.css'
 import { CHAT_TABS_KEYS } from '../MessageBox/constants'
 
@@ -15,12 +14,11 @@ const ToolBar = ({ tabKey, hide, isTool, qaUser, activeKey }) => {
     // const userName = useSelector((state) => state.loginName);
     const roomId = useSelector((state) => state.room.info.id);
     const isTeacher = useSelector((state) => state.loginInfo.ext);
-    // const roomAdmins = useSelector((state) => state.room.admins);
-    // const roomOwner = useSelector((state) => state.room.info.owner);
-    const isAllMute = useSelector((state) => state.room.info.mute);
-    const isChatReward = useSelector(state => state.isReward);
+    const isAllMute = useSelector((state) => state.isRoomAllMute);
+    const isQaSwitch = useSelector((state) => state.isQa)
+    const isGift = useSelector(state => state.isReward);
+    const rommAnnouncement = (useSelector(state => state.room.notice))
     const isAdmins = Number(isTeacher) === 1 || Number(isTeacher) === 3;
-
 
     // 赞赏开关
     const onChangeReward = (val) => {
@@ -39,34 +37,32 @@ const ToolBar = ({ tabKey, hide, isTool, qaUser, activeKey }) => {
         }
     }
     // 提问消息开关
-    function onChangeQa(checked) {
-        store.dispatch(isQa({ checked }))
+    function onChangeQa(val) {
+        if (!val) {
+            store.dispatch(isQa(true))
+        } else {
+            store.dispatch(isQa(false))
+        }
     }
 
     // 一键禁言
     const setAllmute = () => {
         let options = {
-            chatRoomId: roomId    // 聊天室id
+            roomId: roomId,                 // 聊天室id   
+            announcement: "1" + rommAnnouncement    // 公告内容                        
         };
-        WebIM.conn.disableSendChatRoomMsg(options).then((res) => {
-            getRoomInfo(roomId);
-            // message.success('已设置全局禁言');
-            // setTimeout(() => {
-            //     message.destroy();
-            // }, 3000);
+        WebIM.conn.updateChatRoomAnnouncement(options).then((res) => {
+            store.dispatch(roomAllMute(true))
         })
     }
     // 解除一键禁言
     const removeAllmute = () => {
         let options = {
-            chatRoomId: roomId    // 聊天室id
+            roomId: roomId,                 // 聊天室id   
+            announcement: "0" + rommAnnouncement    // 公告内容                        
         };
-        WebIM.conn.enableSendChatRoomMsg(options).then((res) => {
-            getRoomInfo(roomId);
-            // message.success('已解除全局禁言');
-            // setTimeout(() => {
-            //     message.destroy();
-            // }, 3000);
+        WebIM.conn.updateChatRoomAnnouncement(options).then((res) => {
+            store.dispatch(roomAllMute(false))
         })
     }
     return (
@@ -76,14 +72,15 @@ const ToolBar = ({ tabKey, hide, isTool, qaUser, activeKey }) => {
             <>
                 {/* 只有聊天模式下才展示toolBar */}
                 {tabKey === CHAT_TABS_KEYS.chat && <div className='footer-toolBar'>
+
                     {isAdmins ? (
                         <div style={{height: 36}}>
                             {!isTool  && 
                                 <Flex justifyContent="space-between" alignItems='center' m='0 12px' height='36px'>
                                     <Flex>
                                         <Switch size="small"
-                                            checked={isChatReward}
-                                            onClick={() => { onChangeReward(isChatReward) }} 
+                                            checked={isGift}
+                                            onClick={() => { onChangeReward(isGift) }} 
                                             style={{margin: "3px 0"}}/>
                                         <Text className="tb-switch-label">隐藏赞赏</Text>
                                     </Flex>
@@ -99,8 +96,7 @@ const ToolBar = ({ tabKey, hide, isTool, qaUser, activeKey }) => {
                         </div>
                     ) : (
                         <Flex justifyContent="flex-end" alignItems='center' m='0 12px' height='36px'>
-                            <Switch size="small" onChange={onChangeQa}
-                            />
+                            <Switch size="small" checked={isQaSwitch} onClick={() => { onChangeQa(isQaSwitch) }}/>
                             <Text className="tb-switch-label">提问模式</Text>
                         </Flex>
                     )}

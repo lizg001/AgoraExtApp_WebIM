@@ -5,10 +5,10 @@ import iconNotice from '../../themes/img/icon-notice.svg'
 import iconRight from '../../themes/img/icon-right.svg'
 
 
-const ShowNotice = ({ hasEditPermisson, noticeContent, onEdit, onMore }) => {
+const ShowNotice = ({ hasEditPermisson, roomAnnouncement, onEdit, onMore }) => {
 
     // 判断公告字数，显示更多
-    const shouldShowEllipsis = noticeContent?.length > 0;
+    const shouldShowEllipsis = roomAnnouncement?.length > 0;
     // 辅导权限，可直接展示编辑
     const Edit = () => {
         return (
@@ -33,14 +33,14 @@ const ShowNotice = ({ hasEditPermisson, noticeContent, onEdit, onMore }) => {
                     <Image src={iconNotice} style={{ width: '14px' }} />
                     <Text ml="4px" fontSize="12px" fontWeight="500" whiteSpace="nowrap">公告：</Text>
                 </Flex>
-                {hasEditPermisson && !shouldShowEllipsis && <Edit />}
+                {/* {hasEditPermisson && !shouldShowEllipsis && <Edit />} */}
                 {shouldShowEllipsis && <More />}
             </Flex >
             <div className="content">
-                {noticeContent ? (
+                {roomAnnouncement ? (
                     <div className="content-box" style={{overflow: 'hidden', textOverflow: 'ellipsis', display: '-webkit-box', WebkitLineClamp: 2, WebkitBoxOrient: 'vertical'}}>
                         {/* {shouldShowEllipsis ? noticeContent.slice(0, 38) + "..." : noticeContent} */}
-                        {noticeContent}
+                        {roomAnnouncement}
                     </div>
                 ) : (
                         <div className="content-no">
