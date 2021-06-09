@@ -48,7 +48,7 @@ const MessageItem = ({ message, setShowModal, setRecallMsgId }) => {
 
 
     return (
-        <div style={{ marginTop: '16px' }} key={message.id}>
+        <div key={message.id}>
             {
                 isCmdMsg && (
                     <div style={{
@@ -60,7 +60,6 @@ const MessageItem = ({ message, setShowModal, setRecallMsgId }) => {
             }
             {
                 isTextMsg && (
-// <<<<<<< HEAD
                     <Flex className="msg-list-item">
                         <img className='msg-img' src={message.ext.avatarUrl || avatarUrl}/>
                         <Flex flexDirection="column">
@@ -70,7 +69,7 @@ const MessageItem = ({ message, setShowModal, setRecallMsgId }) => {
                                     {message.ext.role === 1 && '主讲老师'}{message.ext.role === 3 && '辅导老师'}
                                 </Tag>}
                                 {/* 昵称/姓名 */}
-                                <Text className='msg-sender' color={message.ext.role === 1 || message.ext.role === 3 && '#0099FF'}>{message.ext.nickName || message.from}</Text>
+                                <Text className='msg-sender' color={(message.ext.role === 1 || message.ext.role === 3) && '#0099FF'}>{message.ext.nickName || message.from}</Text>
                                 {/* 禁言/删除按钮 */}
                                 {isShowIcon &&
                                     <>
@@ -80,27 +79,6 @@ const MessageItem = ({ message, setShowModal, setRecallMsgId }) => {
                                             message.ext.role === 2 && <img src={iconMute} className='message-tool-icon' onClick={() => { onRemoveMute(message) }} />
                                         )}
                                         <img src={iconDelete} className='message-tool-icon' onClick={() => { openModal(message.id) }} />
-{/* =======
-                    <>
-                        <Flex >
-                            <div>
-                                <Image src={message.ext.avatarUrl || avatarUrl}
-                                    className='msg-img'
-                                />
-                            </div>
-                            <Flex ml='8px'>
-                                {(message.ext.role === 1) && <Tag className='tags' ><Text className='tags-txt' ml='4px' mt='1px'>主讲老师</Text></Tag>}
-                                {(message.ext.role === 3) && <Tag className='tags' ><Text className='tags-txt' ml='4px' mt='1px'>辅导老师</Text></Tag>}
-                                <Text className='msg-sender' ml='8px'>{message.ext.nickName || message.from}</Text>
-                                {isShowIcon &&
-                                    <>
-                                        {!roomMuteList.includes(message.from) ? (
-                                            message.ext.role === 2 && <Image src={icon_mute} className='mute-img' title="禁言" onClick={() => { onSetMute(message) }}></Image>
-                                        ) : (
-                                                message.ext.role === 2 && <Image src={icon_chat} className='mute-img' title="解除禁言" onClick={() => { onRemoveMute(message) }}></Image>
-                                            )}
-                                        <DeleteOutlined width='14px' className='delete-icon' title="删除消息" onClick={openModal(message.id)} />
->>>>>>> master */}
                                     </>
                                 }
                             </Flex>
@@ -109,24 +87,6 @@ const MessageItem = ({ message, setShowModal, setRecallMsgId }) => {
                     </Flex>
                 )
             }
-            {/* {
-                isCustomMsg && (
-                    <div>
-                        <Flex >
-                            <div>
-                                <Image src={message.ext.avatarUrl || avatarUrl} className='msg-img' />
-                            </div>
-                            <Flex >
-                                <Text className='msg-sender' ml='8px'>{message.ext.nickName || message.from}</Text>
-                            </Flex>
-                        </Flex>
-                        <Flex className='msg' alignItems='center' ml='28px'>
-                            <Text mr='2px' className='admire-msg'>{message.customExts.des}</Text>
-                            <Image src={message.customExts.url} width='24px' height='24px'></Image>
-                        </Flex>
-                    </div>
-                )
-            } */}
         </div>
     )
 }

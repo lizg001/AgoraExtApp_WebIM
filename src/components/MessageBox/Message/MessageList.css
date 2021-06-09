@@ -1,12 +1,12 @@
 .msg-text {
-    /* width: 224px; */
+    width: 100%;
     font-size: 14px;
     font-weight: 400;
     color: #CDD1D9;
     line-height: 20px;
     word-break: break-all;
-    /* white-space: pre-wrap;; */
-    /* padding: 0 25px 0 0; */
+    white-space: pre-wrap;
+    padding: 0 25px 0 0;
 }
 
 .admire-msg {
@@ -29,6 +29,10 @@
     background: #B2E0FF;
     border-radius: 50%;
     margin-right: 8px;
+}
+
+.msg-list-item {
+    margin-top: 16px !important;
 }
 
 .mask {

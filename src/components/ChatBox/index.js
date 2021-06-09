@@ -7,6 +7,7 @@ import WebIM from '../../utils/WebIM'
 import store from '../../redux/store'
 import { Emoji } from '../../utils/emoji'
 import { roomMessages, qaMessages } from '../../redux/aciton'
+import { CHAT_TABS_KEYS } from '../MessageBox/constants'
 import iconSmiley from '../../themes/img/icon-smiley.svg'
 import iconImage from '../../themes/img/icon-image.svg'
 import msgAvatarUrl from '../../themes/img/avatar-big@2x.png'
@@ -266,7 +267,7 @@ const ChatBox = ({ isTool, qaUser, activeKey }) => {
                 </Flex>
                 <div>
                     <Input.TextArea
-                        placeholder="说点什么呗~"
+                        placeholder={activeKey === CHAT_TABS_KEYS.chat ? '说点什么呗~' : '为Ta解答吧~'}
                         onChange={(e) => changeMsg(e)}
                         className="msg-box"
                         maxLength={300}

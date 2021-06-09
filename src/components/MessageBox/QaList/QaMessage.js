@@ -3,8 +3,10 @@ import { useState, useEffect } from 'react'
 import { useSelector } from 'react-redux'
 import { Tag } from 'antd'
 
-
+// 助教端 提问消息列表
 const QaMessage = (props) => {
+    const teacher = useSelector(state => state.loginInfo.ext);
+    const isTeacher = (Number(teacher) === 1 || Number(teacher) === 3);
     const qaList = useSelector(state => state.messages.qaList) || [];
     const [newUser, setNewUser] = useState([]);
     useEffect(() => {
@@ -18,7 +20,7 @@ const QaMessage = (props) => {
                     let isText = message.type === "txt" || message.contentsType === "TEXT"
                     let isPic = message.type === "img" || message.contentsType === "IMAGE"
                     return (
-                        <div key={index} className='qa-msg'>
+                        <div key={index} className='qa-msg' style={{paddingLeft: isTeacher ? 12 : 0}}>
                             {/* <div>
                                 <Image src={message.ext.avatarUrl}
                                     className='qa-msg-img'
