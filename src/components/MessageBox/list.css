@@ -59,6 +59,19 @@
     padding-top: 4px;
 }
 
+/* 历史记录加载 */
+.more-msg {
+    width: 80px;
+    background: #888;
+    color: #fff;
+    border-radius: 15px;
+    text-align: center;
+    margin: 0 auto;
+    font-size: 12px;
+    font-family: 'PingFangSC-Regular',
+        'PingFang SC';
+}
+
 /* 消息发送及接收者  */
 .msg-sender {
     font-size: 12px;
@@ -100,7 +113,6 @@
     /* left: 24%; */
     right: calc(100% - 180px);
     z-index: 9999999;
-    background: #FFFFFF;
     border-radius: 12px;
     text-align: center;
     padding: 10px;

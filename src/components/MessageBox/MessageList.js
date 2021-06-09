@@ -1,4 +1,4 @@
-import { useState, useEffect } from 'react'
+import { useState, useEffect, useRef } from 'react'
 import { useSelector } from 'react-redux'
 import { Tabs } from 'antd';
 import { Text, Flex } from 'rebass'
@@ -10,6 +10,7 @@ import { CHAT_TABS, CHAT_TABS_KEYS } from './constants'
 import store from '../../redux/store'
 import { removeChatNotification } from '../../redux/aciton'
 import { getUserInfo } from '../../api/userInfo'
+import { getHistoryMessages } from '../../api/historyMessages'
 
 
 import './list.css'
@@ -23,13 +24,14 @@ const MessageList = ({ activeKey, setActiveKey }) => {
   // 控制 Toolbar 组件是否展示图片 
   const [isTool, setIsTool] = useState(false);
   const [qaUser, setQaUser] = useState('');
+  // 获取当前登陆ID，及成员数
   const userName = useSelector((state) => state.loginName);
   const userCount = useSelector(state => state.room.info.affiliations_count);
-  // 判断当前登陆的用户权限
+  // 获取当前登陆的用户权限
   const isTeacher = useSelector(state => state.loginInfo.ext)
   const messageList = useSelector(state => state.messages.list) || [];
   const notification = useSelector(state => state.messages.notification);
-
+  //获取群组成员，及成员的用户属性
   const roomUsers = useSelector(state => state.room.users)
   const roomListInfo = useSelector((state) => state.userListInfo);
 
@@ -38,7 +40,7 @@ const MessageList = ({ activeKey, setActiveKey }) => {
   // 是否为提问消息
   const isHiedQuestion = useSelector(state => state.isQa);
   // 是否有权限
-  let hasEditPermisson = Number(isTeacher) === 3;
+  let hasEditPermisson = (Number(isTeacher) === 1 || Number(isTeacher) === 3);
   // 当前是哪个tab
   const [tabKey, setTabKey] = useState(CHAT_TABS_KEYS.chat); 
 
@@ -91,6 +93,7 @@ const MessageList = ({ activeKey, setActiveKey }) => {
   let coachTeacher = []
   let student = []
 
+  // 遍历群组成员，过滤owner
   const newRoomUsers = []
   roomUsers.map(item => {
     if (item.owner) {
@@ -131,7 +134,12 @@ const MessageList = ({ activeKey, setActiveKey }) => {
     }
   })
   const roomUserList = _.concat(speakerTeacher, coachTeacher, _.reverse(student))
-
+  const msgListRef = useRef()
+  const handleScroll = (e) => {
+    if (e.target.scrollTop === 0) {
+      getHistoryMessages();
+    }
+  }
   return (
     <div className='message'>
       {hasEditPermisson ? (
@@ -148,7 +156,7 @@ const MessageList = ({ activeKey, setActiveKey }) => {
                   <div className="msg-red-dot"></div>
                 )}
               </Flex>} key={key}>
-                <div className={className}>
+                <div className={className} ref={msgListRef} onScroll={handleScroll}>
                   <Component {
                     ...key === CHAT_TABS_KEYS.chat && {
                       messageList,
@@ -168,11 +176,11 @@ const MessageList = ({ activeKey, setActiveKey }) => {
       ) : (
           isHiedQuestion 
           ? (
-            <div className="member-msg">
+            <div className="member-msg" onScroll={handleScroll}>
               <QuestionMessage userName={userName} />
             </div>
           ) : (
-              <div className="member-msg">
+              <div className="member-msg" onScroll={handleScroll}>
                 {
                   messageList.length > 0 ? (
                     <MessageItem messageList={messageList} isHiedReward={isHiedReward} />
