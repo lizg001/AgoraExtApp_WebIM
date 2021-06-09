@@ -27,6 +27,7 @@
 
 .qa-msg {
     padding-top: 16px;
+    padding-left: 12px;
     width: 100%;
 }
 
@@ -53,4 +54,12 @@
     background: #B2E0FF;
     border-radius: 50%;
     margin-right: 8px;
+}
+
+.msg-sender {
+    font-size: 12px;
+    line-height: 18px;
+    font-weight: 400;
+    color: #626773;
+    padding-right: 10px;
 }
