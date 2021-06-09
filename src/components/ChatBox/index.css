@@ -1,5 +1,6 @@
 .chat-box {
     padding: 16px 12px;
+    border-top: 1px solid #22262E;
 }
 
 textarea {
@@ -12,7 +13,7 @@ textarea {
     margin: 8px 0;
     font-size: 14px;
     width: 100%;
-    height: 50px;
+    height: 45px;
     background: #1D2026;
     color: #D3D6D8;
 }

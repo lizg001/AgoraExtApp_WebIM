@@ -32,9 +32,15 @@
     max-height: 400px; */
     padding: 10px 15px;
     overflow-y: scroll;
-    height: calc(100% - 20px);
+    height: 100%;
     white-space: pre-wrap;
     overflow-x: hidden;
+}
+
+.qa-list {
+    overflow-y: inherit;
+    height: calc(100% + 36px);
+    padding: 0;
 }
 
 .message-list {
@@ -42,13 +48,15 @@
 }
 
 .user-list {
-    padding: 10px;
+    padding: 16px 12px;
     overflow-y: scroll;
     height: calc(130%);
 }
 
 .user-border {
-    border-right: 1px solid #606060 !important
+    overflow-y: scroll;
+    border-right: 1px solid #22262E !important;
+    padding-top: 4px;
 }
 
 /* 历史记录加载 */
@@ -74,9 +82,8 @@
 }
 
 .msg-text {
-    width: 224px;
+    width: 100%;
     font-size: 14px;
-    font-family: 'PingFangSC-Regular', 'PingFang SC';
     font-weight: 400;
     color: #CDD1D9;
     line-height: 20px;
@@ -135,6 +142,9 @@
     margin-right: 4px;
 }
 
+.msg-list-item {
+    margin-top: 16px !important;
+}
 
 .msg-list-item:hover .message-tool-icon {
     display: block;
@@ -202,6 +212,7 @@
     font-weight: 500;
     color: #626773;
     padding: 0 6px;
+    position: relative;
 }
 
 .ant-tabs-nav-operations-hidden {
@@ -220,7 +231,6 @@
 } */
 
 .ant-tabs-tab.ant-tabs-tab-active {
-    position: relative;
     color: #CDD1D9;
 }
 
@@ -241,3 +251,12 @@
     text-shadow: 0 0 0.25px currentColor; */
 }
 
+.msg-red-dot {
+    width: 6px;
+    height: 6px;
+    background-color: #FF462D;
+    border-radius: 50%;
+    position: absolute;
+    right: 0;
+    top: 11px;
+}

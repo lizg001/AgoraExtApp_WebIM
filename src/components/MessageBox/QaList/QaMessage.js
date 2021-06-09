@@ -3,7 +3,7 @@ import { useState, useEffect } from 'react'
 import { useSelector } from 'react-redux'
 import { Tag } from 'antd'
 
-
+// 助教端 提问消息列表
 const QaMessage = (props) => {
     const qaList = useSelector(state => state.messages.qaList) || [];
     const [newUser, setNewUser] = useState([]);
@@ -18,16 +18,13 @@ const QaMessage = (props) => {
                     let isText = message.type === "txt" || message.contentsType === "TEXT"
                     let isPic = message.type === "img" || message.contentsType === "IMAGE"
                     return (
-                        <div key={index} className='qa-msg'>
-                            {/* <div>
-                                <Image src={message.ext.avatarUrl}
-                                    className='qa-msg-img'
-                                />
-                            </div> */}
+                        <div key={index} className='qa-msg' >
                             <Flex>
-                                {(message.ext.role === 1) && <Tag className='tags'><Text className='tags-txt' m='4px' mt='1px'>主讲老师</Text></Tag>}
-                                {(message.ext.role === 3) && <Tag className='tags'><Text className='tags-txt' ml='4px' mt='1px'>辅导老师</Text></Tag>}
-                                <Text className='msg-sender' mb='5px'>{message.ext.nickName || message.from}</Text>
+                                {/* 主讲/辅导tag */}
+                                {(message.ext.role === 1 || message.ext.role === 3) && <Tag className='tags'>
+                                    {message.ext.role === 1 && '主讲老师'}{message.ext.role === 3 && '辅导老师'}
+                                </Tag>}
+                                <Text className='msg-sender' mb='5px' color={(message.ext.role === 1 || message.ext.role === 3) && '#0099FF'}>{message.ext.nickName || message.from}</Text>
                             </Flex>
                             {isText && <Text className='msg-text'>{message.msg || message.data}</Text>}
                             {isPic && <Image src={message.url || message.body.url} style={{ width: '180px' }} />}

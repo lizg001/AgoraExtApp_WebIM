@@ -149,10 +149,11 @@ const MessageList = ({ activeKey, setActiveKey }) => {
               <TabPane tab={<Flex>
                 <Text whiteSpace="nowrap">{name === '成员' ? `${name}(${userCount - 1})` : name}</Text>
                 {name === '提问' && bool && bool.showRedNotice && (
-                  <Text ml="6px" whiteSpace="nowrap" color="red" fontSize='40px'>·</Text>
+                  // <Text ml="6px" whiteSpace="nowrap" color="red" fontSize='40px'>·</Text>
+                  <div className="msg-red-dot"></div>
                 )}
                 {name !== '提问' && Boolean(notification[key]) && (
-                  <Text ml="6px" whiteSpace="nowrap" color="red" fontSize='40px'>·</Text>
+                  <div className="msg-red-dot"></div>
                 )}
               </Flex>} key={key}>
                 <div className={className} ref={msgListRef} onScroll={handleScroll}>

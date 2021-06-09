@@ -37,7 +37,7 @@ const QaUserList = ({ getClickUser }) => {
         }
     }, [_.get(qaList[currentUser], 'msg')])
     return (
-        <Flex>
+        <Flex style={{height: '100%'}}>
             {
                 isQaList ? (
                     <div className='qa-mark '>
@@ -48,7 +48,7 @@ const QaUserList = ({ getClickUser }) => {
                             {
                                 sortArr.map((user, k) => {
                                     return (
-                                        <Flex onClick={() => getUser(user.id)} key={k} className="qa-user-list">
+                                        <Flex onClick={() => getUser(user.id)} key={k} className="qa-user-list" m="6px" style={{backgroundColor: currentUser === user.id ? "#2D3340" : "transparent"}}>
                                             <Image src={_.get(roomListInfo[user.id], 'avatarurl') || avatarUrl}
                                                 className="qa-user-image"
                                             />

@@ -71,7 +71,7 @@ const ToolBar = ({ tabKey, hide, isTool, qaUser, activeKey }) => {
         { activeKey !== CHAT_TABS_KEYS.user && <div className='footer'>
             <>
                 {/* 只有聊天模式下才展示toolBar */}
-                {tabKey === CHAT_TABS_KEYS.chat && <div className='footer-toolBar'>
+                <div className='footer-toolBar' style={{visibility: tabKey === CHAT_TABS_KEYS.chat ? 'visible' : 'hidden'}}>
 
                     {isAdmins ? (
                         <div style={{height: 36}}>
@@ -100,7 +100,7 @@ const ToolBar = ({ tabKey, hide, isTool, qaUser, activeKey }) => {
                             <Text className="tb-switch-label">提问模式</Text>
                         </Flex>
                     )}
-                </div>}
+                </div>
                 {/* 聊天输入框 */}
                 <ChatBox isAllMute={isAllMute} isTool={isTool} qaUser={qaUser} activeKey={activeKey} />
             </>
