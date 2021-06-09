@@ -42,7 +42,7 @@
 }
 
 .user-list {
-    padding: 10px;
+    padding: 16px 12px;
     overflow-y: scroll;
     height: calc(130%);
 }
