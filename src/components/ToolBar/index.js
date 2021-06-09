@@ -68,7 +68,7 @@ const ToolBar = ({ tabKey, hide, isTool, qaUser, activeKey }) => {
     return (
         // 成员列表不展示footer
         <>
-        { tabKey !== CHAT_TABS_KEYS.user && <div className='footer'>
+        { activeKey !== CHAT_TABS_KEYS.user && <div className='footer'>
             <>
                 {/* 只有聊天模式下才展示toolBar */}
                 {tabKey === CHAT_TABS_KEYS.chat && <div className='footer-toolBar'>

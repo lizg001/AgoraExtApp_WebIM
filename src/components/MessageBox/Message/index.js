@@ -18,6 +18,7 @@ const Message = ({ messageList, isHiedReward, hasEditPermisson, activeKey }) => 
     const [showModal, setShowModal] = useState('none');
     // 撤回需要的 msgId
     const [recallMsgId, setRecallMsgId] = useState('');
+    // 礼物消息控制
     let renderMsgs = messageList
     if (isHiedReward) {
         renderMsgs = messageList.filter((item) => item.contentsType !== 'CUSTOM')
