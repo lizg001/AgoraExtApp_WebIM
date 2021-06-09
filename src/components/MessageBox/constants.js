@@ -24,3 +24,6 @@ export const CHAT_TABS = [{
     component: UserList,
     className: 'user-list'
 }]
+
+// 分页获取成员数
+export const ROOM_PAGESIZE = 10;

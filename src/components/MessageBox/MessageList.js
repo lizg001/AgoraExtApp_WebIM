@@ -125,7 +125,7 @@ const MessageList = ({ activeKey, setActiveKey }) => {
         break;
     }
   })
-  const roomUserList = _.concat(speakerTeacher, coachTeacher, _.reverse(student))
+  const roomUserList = _.concat(speakerTeacher, coachTeacher, student)
 
   // 监听滚动条滑到顶部
   const msgListRef = useRef()
