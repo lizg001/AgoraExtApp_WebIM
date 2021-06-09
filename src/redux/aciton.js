@@ -26,8 +26,8 @@ export const roomAdmins = data => {
     return { type: 'GET_ROOM_ADMINS', data }
 }
 // 聊天室成员
-export const roomUsers = data => {
-    return { type: 'GET_ROOM_USERS', data }
+export const roomUsers = (data, option) => {
+    return { type: 'GET_ROOM_USERS', data, option }
 }
 
 // 聊天室全局禁言

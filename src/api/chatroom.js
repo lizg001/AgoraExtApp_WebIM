@@ -33,7 +33,7 @@ export const getRoomInfo = (roomId) => {
         store.dispatch(roomInfo(res.data[0]));
         getRoomNotice(roomId);
         getRoomAdmins(roomId);
-        getRoomUsers(roomId);
+        //getRoomUsers(roomId);
         getRoomWhileList(roomId);
     })
 }
@@ -96,13 +96,16 @@ export const getRoomAdmins = (roomId) => {
 };
 
 // 获取聊天室成员列表
-export const getRoomUsers = (roomId) => {
+export const getRoomUsers = (pageNum, pageSize, roomId) => {
     let options = {
-        pageNum: 1,
-        pageSize: 300,
-        chatRoomId: roomId
+        pageNum: pageNum,
+        pageSize: pageSize,
+        chatRoomId: roomId,
     }
     WebIM.conn.listChatRoomMember(options).then((res) => {
+        if ((res.data).length < pageSize) {
+            return
+        }
         store.dispatch(roomUsers(res.data));
     })
 }

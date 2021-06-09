@@ -133,7 +133,7 @@ const MessageList = ({ activeKey, setActiveKey }) => {
         break;
     }
   })
-  const roomUserList = _.concat(speakerTeacher, coachTeacher, _.reverse(student))
+  const roomUserList = _.concat(speakerTeacher, coachTeacher, student)
   const msgListRef = useRef()
   const handleScroll = (e) => {
     if (e.target.scrollTop === 0) {

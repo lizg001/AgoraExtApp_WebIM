@@ -1,12 +1,13 @@
-import { useState, useEffect } from 'react'
+import { useState, useEffect, useRef } from 'react'
 import { Input, Switch, Tag } from 'antd';
 import { SearchOutlined } from '@ant-design/icons';
 import { Flex, Text, Image } from 'rebass'
 import { useSelector } from 'react-redux'
-import { getRoomWhileList } from '../../../api/chatroom'
+import { getRoomWhileList, getRoomUsers } from '../../../api/chatroom'
 import WebIM from '../../../utils/WebIM'
 import SearchList from './SearchList'
 import MuteList from './MuteList'
+import { ROOM_PAGESIZE } from '../constants'
 import './userList.css'
 import avatarUrl from '../../../themes/img/avatar-big@2x.png'
 import voiceOff from '../../../themes/img/icon-mute.svg'
@@ -14,12 +15,15 @@ import voiceNo from '../../../themes/img/icon-chat.svg'
 const UserList = ({ roomUserList }) => {
     // 禁言列表
     const [isMute, setIsMute] = useState(false);
+    // 搜索成员
     const [searchUser, setSearchUser] = useState('');
     const [muteMembers, setMuteMembers] = useState([]);
     const [loading, setLoading] = useState(false)
     const roomId = useSelector((state) => state.room.info.id)
+    const memberCount = useSelector(state => state.room.info.affiliations_count)
     const roomMuteList = useSelector((state) => state.room.muteList);
     const roomListInfo = useSelector((state) => state.userListInfo);
+    const [currentPage, setCurrentPage] = useState(1)
 
     useEffect(() => {
         let ary = []
@@ -71,6 +75,27 @@ const UserList = ({ roomUserList }) => {
         }
     }
 
+    useEffect(() => {
+        getRoomUsers(currentPage, ROOM_PAGESIZE, roomId)
+    }, [])
+
+    // 监听滚动条事件，滚动加载成员
+    const userRef = useRef()
+    const handleUser = () => {
+        const scrollTop = userRef.current.scrollTop;
+        const clientHeight = userRef.current.clientHeight;
+        const scrollHeight = userRef.current.scrollHeight;
+        const isBottom = scrollTop + clientHeight === scrollHeight;
+        if (isBottom) {
+            let count = parseInt(memberCount / ROOM_PAGESIZE) + 1
+            if (currentPage < count) {
+                setCurrentPage(currentPage + 1)
+                getRoomUsers(currentPage, ROOM_PAGESIZE, roomId);
+            }
+
+        }
+    }
+
     return (
         <div style={{ height: '100%' }}>
             <div className='search-back'>
@@ -89,7 +114,7 @@ const UserList = ({ roomUserList }) => {
             </Flex>
 }
             {
-                <div>
+                <div style={{ height: 'calc(100% + 100px)', overflowY: 'scroll' }} ref={userRef} onScroll={handleUser}>
                     {/* 是否展示搜索列表 */}
                     {searchUser && <SearchList roomListInfo={roomListInfo} searchUser={searchUser} onSetMute={onSetMute} muteMembers={muteMembers} />}
                     {!searchUser && isMute && <MuteList roomListInfo={roomListInfo} muteMembers={muteMembers} onSetMute={onSetMute} />}

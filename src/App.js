@@ -2,13 +2,13 @@ import React, { useEffect, useState } from 'react';
 import { useHistory } from 'react-router-dom'
 import { useSelector } from 'react-redux'
 import store from './redux/store'
-import { roomMessages, roomUserCount, qaMessages, userMute, roomAllMute, extData } from './redux/aciton'
+import { roomMessages, roomUserCount, qaMessages, userMute, roomAllMute, extData, roomUsers } from './redux/aciton'
 import WebIM, { appkey } from './utils/WebIM';
 import LoginIM from './api/login'
 import { joinRoom, getRoomInfo, getRoomNotice, getRoomWhileList, getRoomUsers } from './api/chatroom'
 import Notice from './components/Notice'
 import MessageBox from './components/MessageBox/MessageList'
-import { CHAT_TABS_KEYS } from './components/MessageBox/constants'
+import { CHAT_TABS_KEYS, ROOM_PAGESIZE } from './components/MessageBox/constants'
 import { getPageQuery } from './utils'
 import _ from 'lodash'
 
@@ -18,7 +18,7 @@ const App = function () {
   const history = useHistory();
   const isRoomAllMute = useSelector(state => state.isRoomAllMute)
   const iframeData = useSelector(state => state.extData)
-  const roomUsers = useSelector(state => state.room.users)
+  const roomUserList = useSelector(state => state.room.users)
   const [isEditNotice, isEditNoticeChange] = useState(0) // 0 显示公告  1 编辑公告  2 展示更多内容
 
   const [activeKey, setActiveKey] = useState(CHAT_TABS_KEYS.chat)
@@ -79,9 +79,10 @@ const App = function () {
       const userCount = _.get(store.getState(), 'room.info.affiliations_count')
       switch (message.type) {
         case "memberJoinChatRoomSuccess":
-          getRoomUsers(message.gid);
+          // getRoomUsers(1, ROOM_PAGESIZE, message.gid);
+          store.dispatch(roomUsers({ member: message.from }, 'addMember'))
           let ary = []
-          roomUsers.map((v, k) => {
+          roomUserList.map((v, k) => {
             ary.push(v.member)
           })
           if (!(ary.includes(message.from))) {
@@ -89,7 +90,12 @@ const App = function () {
           }
           break;
         case "leaveChatRoom":
-          getRoomUsers(message.gid);
+          if (roomUserList.length <= ROOM_PAGESIZE) {
+            getRoomUsers(1, ROOM_PAGESIZE, message.gid);
+          }
+          // 移除成员
+          store.dispatch(roomUsers({ member: message.from }, 'removeMember'))
+          // 成员数 - 1
           store.dispatch(roomUserCount({ type: 'remove', userCount: userCount }))
           break;
         case "updateAnnouncement":

@@ -49,8 +49,8 @@
 
 .user-list {
     padding: 16px 12px;
-    overflow-y: scroll;
-    height: calc(130%);
+    /* overflow-y: scroll; */
+    height: calc(100%);
 }
 
 .user-border {
