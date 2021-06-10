@@ -46,13 +46,16 @@ const App = function () {
     // 文本消息
     onTextMessage: (message) => {
       console.log('onTextMessage', message);
-      const { ext: { msgtype, asker } } = message
-      const { time } = message
-      if (msgtype === 0) {
-        store.dispatch(roomMessages(message, { showNotice: activeKey !== CHAT_TABS_KEYS.chat, isHistory: false }))
-      } else if ([1, 2].includes(msgtype)) {
-        store.dispatch(qaMessages(message, asker, { showNotice: true, isHistory: false }, time))
+      if (iframeData.chatRoomId == message.to) {
+        const { ext: { msgtype, asker } } = message
+        const { time } = message
+        if (msgtype === 0) {
+          store.dispatch(roomMessages(message, { showNotice: activeKey !== CHAT_TABS_KEYS.chat, isHistory: false }))
+        } else if ([1, 2].includes(msgtype)) {
+          store.dispatch(qaMessages(message, asker, { showNotice: true, isHistory: false }, time))
+        }
       }
+
     },
     // 异常回调
     onError: (message) => {
@@ -76,6 +79,9 @@ const App = function () {
     // 聊天室相关监听
     onPresence: (message) => {
       console.log('type-----', message);
+      if (iframeData.chatRoomId !== message.gid) {
+        return
+      }
       const userCount = _.get(store.getState(), 'room.info.affiliations_count')
       switch (message.type) {
         case "memberJoinChatRoomSuccess":
@@ -90,9 +96,8 @@ const App = function () {
           }
           break;
         case "leaveChatRoom":
-          if (roomUserList.length <= ROOM_PAGESIZE) {
-            getRoomUsers(1, ROOM_PAGESIZE, message.gid);
-          }
+          let num = parseInt((roomUserList.length) / ROOM_PAGESIZE)
+          getRoomUsers(num, ROOM_PAGESIZE, message.gid);
           // 移除成员
           store.dispatch(roomUsers({ member: message.from }, 'removeMember'))
           // 成员数 - 1
@@ -124,17 +129,23 @@ const App = function () {
     //  收到自定义消息
     onCustomMessage: (message) => {
       console.log('CUSTOM--', message);
-      store.dispatch(roomMessages(message, { showNotice: activeKey !== CHAT_TABS_KEYS.chat, isHistory: false }))
+      if (iframeData.chatRoomId == message.to) {
+        store.dispatch(roomMessages(message, { showNotice: activeKey !== CHAT_TABS_KEYS.chat, isHistory: false }))
+      }
     },
     //  收到图片消息
     onPictureMessage: (message) => {
       console.log('onPictureMessage', message);
-      store.dispatch(qaMessages(message, message.ext.asker, { showNotice: true, isHistory: false }))
+      if (iframeData.chatRoomId == message.to) {
+        store.dispatch(qaMessages(message, message.ext.asker, { showNotice: true, isHistory: false }))
+      }
     },
     //  收到CMD消息
     onCmdMessage: (message) => {
       console.log('onCmdMessage', message);
-      store.dispatch(roomMessages(message, { showNotice: activeKey !== CHAT_TABS_KEYS.chat, isHistory: false }))
+      if (iframeData.chatRoomId == message.to) {
+        store.dispatch(roomMessages(message, { showNotice: activeKey !== CHAT_TABS_KEYS.chat, isHistory: false }))
+      }
     },
   })
 

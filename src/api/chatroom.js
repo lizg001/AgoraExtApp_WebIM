@@ -103,9 +103,6 @@ export const getRoomUsers = (pageNum, pageSize, roomId) => {
         chatRoomId: roomId,
     }
     WebIM.conn.listChatRoomMember(options).then((res) => {
-        if ((res.data).length < pageSize) {
-            return
-        }
         store.dispatch(roomUsers(res.data));
     })
 }

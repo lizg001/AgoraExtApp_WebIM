@@ -81,7 +81,8 @@ const UserList = ({ roomUserList }) => {
 
     // 监听滚动条事件，滚动加载成员
     const userRef = useRef()
-    const handleUser = () => {
+    const handleUser = (e) => {
+        e.preventDefault()
         const scrollTop = userRef.current.scrollTop;
         const clientHeight = userRef.current.clientHeight;
         const scrollHeight = userRef.current.scrollHeight;
@@ -89,30 +90,29 @@ const UserList = ({ roomUserList }) => {
         if (isBottom) {
             let count = parseInt(memberCount / ROOM_PAGESIZE) + 1
             if (currentPage < count) {
+                getRoomUsers(currentPage + 1, ROOM_PAGESIZE, roomId);
                 setCurrentPage(currentPage + 1)
-                getRoomUsers(currentPage, ROOM_PAGESIZE, roomId);
             }
-
         }
     }
 
     return (
         <div style={{ height: '100%' }}>
             <div className='search-back'>
-                <Input placeholder='输入学生姓名' className='search-user' onChange={onSearch} allowClear/>
+                <Input placeholder='输入学生姓名' className='search-user' onChange={onSearch} allowClear />
                 <SearchOutlined className='search-icon' />
             </div>
             {
                 !searchUser && <Flex justifyContent='flex-start' alignItems='center' mt='16px' mb='16px'>
-                <Switch
-                    size="small"
-                    title="禁言"
-                    checked={isMute}
-                    onChange={onMuteList}
-                />
-                <Text className='only-mute'>只看禁言</Text>
-            </Flex>
-}
+                    <Switch
+                        size="small"
+                        title="禁言"
+                        checked={isMute}
+                        onChange={onMuteList}
+                    />
+                    <Text className='only-mute'>只看禁言</Text>
+                </Flex>
+            }
             {
                 <div style={{ height: 'calc(100% + 100px)', overflowY: 'scroll' }} ref={userRef} onScroll={handleUser}>
                     {/* 是否展示搜索列表 */}
@@ -140,15 +140,15 @@ const UserList = ({ roomUserList }) => {
                                     onClick={onSetMute(item.id)}
                                     loading={loading}
                                 />} */}
-                                {Number(item.ext) === 2 && 
-                                <div className='voice-img-box'>
-                                    <img
-                                    className='voice-img'
-                                    title="禁言"
-                                    src={muteMembers.includes(item.id)? voiceOff : voiceNo}
-                                    onClick={onSetMute(item.id)}
-                                    />
-                                </div>}
+                                {Number(item.ext) === 2 &&
+                                    <div className='voice-img-box'>
+                                        <img
+                                            className='voice-img'
+                                            title="禁言"
+                                            src={muteMembers.includes(item.id) ? voiceOff : voiceNo}
+                                            onClick={onSetMute(item.id)}
+                                        />
+                                    </div>}
                             </Flex>
                         )
                         // }

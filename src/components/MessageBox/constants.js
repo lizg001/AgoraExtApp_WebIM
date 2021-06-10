@@ -26,4 +26,4 @@ export const CHAT_TABS = [{
 }]
 
 // 分页获取成员数
-export const ROOM_PAGESIZE = 10;
+export const ROOM_PAGESIZE = 5;

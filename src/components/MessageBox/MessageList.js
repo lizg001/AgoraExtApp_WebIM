@@ -42,7 +42,7 @@ const MessageList = ({ activeKey, setActiveKey }) => {
   // 是否有权限
   let hasEditPermisson = (Number(isTeacher) === 1 || Number(isTeacher) === 3);
   // 当前是哪个tab
-  const [tabKey, setTabKey] = useState(CHAT_TABS_KEYS.chat); 
+  const [tabKey, setTabKey] = useState(CHAT_TABS_KEYS.chat);
 
 
 
@@ -164,7 +164,8 @@ const MessageList = ({ activeKey, setActiveKey }) => {
                       activeKey
                     }
                   } {...key === CHAT_TABS_KEYS.qa && {
-                    getClickUser
+                    getClickUser,
+                    tabKey
                   }} {...key === CHAT_TABS_KEYS.user && {
                     roomUserList
                   }} />
@@ -174,12 +175,12 @@ const MessageList = ({ activeKey, setActiveKey }) => {
           }
         </Tabs>
       ) : (
-          isHiedQuestion 
-          ? (
-            <div className="member-msg" onScroll={handleScroll}>
-              <QuestionMessage userName={userName} />
-            </div>
-          ) : (
+          isHiedQuestion
+            ? (
+              <div className="member-msg" onScroll={handleScroll}>
+                <QuestionMessage userName={userName} />
+              </div>
+            ) : (
               <div className="member-msg" onScroll={handleScroll}>
                 {
                   messageList.length > 0 ? (
