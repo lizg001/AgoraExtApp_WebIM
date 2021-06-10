@@ -96,8 +96,12 @@ const ToolBar = ({ tabKey, hide, isTool, qaUser, activeKey }) => {
                     ) : (
                         <Flex justifyContent="space-between" alignItems='center' m='0 12px' height='36px'>
                             <Flex>
-                                <img src={iconQaMode} style={{width: 14}}></img>
-                                <Text className="tb-switch-label" style={{color: '#626773'}}>提问模式已开启</Text>
+                                {isQaSwitch 
+                                &&  <>
+                                        <img src={iconQaMode} style={{width: 14}}></img>
+                                        <Text className="tb-switch-label" style={{color: '#626773'}}>提问模式已开启</Text>
+                                    </>
+                                }
                             </Flex>
                             <Flex>
                                 <Switch size="small" checked={isQaSwitch} onClick={() => { onChangeQa(isQaSwitch) }}/>

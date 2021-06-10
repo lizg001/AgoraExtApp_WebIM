@@ -185,12 +185,11 @@ const MessageList = ({ activeKey, setActiveKey }) => {
           ) : (
               <div className="member-msg" onScroll={handleScroll}>
                 {
-                  messageList.length > 0 ? (
-                    <MessageItem messageList={messageList} isHiedReward={isHiedReward} />
-                  ) : (
-                      <div>
-                        <Text textAlign='center' color='#D3D6D8'>暂无消息</Text>
-                      </div>
+                  messageList.length > 0 
+                  ? (<MessageItem messageList={messageList} isHiedReward={isHiedReward} />)
+                  : (
+                      // 暂无消息
+                      <div></div>
                     )
                 }
               </div>

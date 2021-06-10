@@ -25,7 +25,6 @@ const Message = ({ messageList, isHiedReward, hasEditPermisson, activeKey }) => 
     }
     if (!renderMsgs?.length) {
         return (
-            // <Text textAlign='center' color='#626773' fontSize='14px'>暂无消息</Text>
             <div></div>
         )
     }
