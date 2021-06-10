@@ -7,7 +7,7 @@ import WebIM from '../../utils/WebIM'
 import store from '../../redux/store'
 import { Emoji } from '../../utils/emoji'
 import { roomMessages, qaMessages } from '../../redux/aciton'
-import { CHAT_TABS_KEYS } from '../MessageBox/constants'
+import { CHAT_TABS_KEYS, INPUT_SIZE } from '../MessageBox/constants'
 import iconSmiley from '../../themes/img/icon-smiley.svg'
 import iconImage from '../../themes/img/icon-image.svg'
 import msgAvatarUrl from '../../themes/img/avatar-big@2x.png'
@@ -89,7 +89,7 @@ const ChatBox = ({ isTool, qaUser, activeKey }) => {
     // 获取到点击的表情，加入到输入框
     const getEmoji = (e) => {
         let emojiMsg = content + e.target.innerText;
-        if (emojiMsg.length <= 300) {
+        if (emojiMsg.length <= INPUT_SIZE) {
             setContent(emojiMsg)
             setCount(emojiMsg.length);
         }
@@ -97,7 +97,7 @@ const ChatBox = ({ isTool, qaUser, activeKey }) => {
     // 输入框消息
     const changeMsg = (e) => {
         let msgCentent = e.target.value;
-        if (msgCentent.length <= 300) {
+        if (msgCentent.length <= INPUT_SIZE) {
             setCount(msgCentent.length);
             setContent(msgCentent);
         }
@@ -250,7 +250,7 @@ const ChatBox = ({ isTool, qaUser, activeKey }) => {
                 }
                 <Flex justifyContent='flex-start' alignItems='center'>
                     {isEmoji && <ShowEomji getEmoji={getEmoji} hideEmoji={hideEmoji} />}
-                    <img src={iconSmiley} onClick={showEmoji} className="chat-tool-item"/>
+                    <img src={iconSmiley} onClick={showEmoji} className="chat-tool-item" />
                     {isTool && <div onClick={updateImage} className="chat-tool-item">
                         <img src={iconImage} />
                         {/* <Image src={icon_img} width='18px' background='#D3D6D8' ml='8px' /> */}
@@ -270,7 +270,7 @@ const ChatBox = ({ isTool, qaUser, activeKey }) => {
                         placeholder={activeKey === CHAT_TABS_KEYS.chat ? '说点什么呗~' : '为Ta解答吧~'}
                         onChange={(e) => changeMsg(e)}
                         className="msg-box"
-                        maxLength={300}
+                        maxLength={INPUT_SIZE}
                         autoFocus
                         value={content}
                         onClick={hideEmoji}
@@ -278,8 +278,8 @@ const ChatBox = ({ isTool, qaUser, activeKey }) => {
                     />
                 </div>
                 <Flex justifyContent='flex-end' className='btn-tool'>
-                    <Text color="#626773" fontSize="12px">{count}/500</Text>
-                    <button disabled={count === 0} onClick={ sendMessage(roomId, content) } className="msg-btn">
+                    <Text color="#626773" fontSize="12px">{count}/{INPUT_SIZE}</Text>
+                    <button disabled={count === 0} onClick={sendMessage(roomId, content)} className="msg-btn">
                         发送
                     </button>
                 </Flex>

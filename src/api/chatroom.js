@@ -1,6 +1,6 @@
 import WebIM from "../utils/WebIM";
 import { message } from 'antd'
-import { roomInfo, roomNotice, roomAdmins, roomUsers, roomMuteUsers, roomAllMute } from '../redux/aciton'
+import { roomInfo, roomNotice, roomAdmins, roomUsers, roomMuteUsers, roomAllMute, loadGif } from '../redux/aciton'
 import store from '../redux/store'
 import { setUserInfo } from './userInfo'
 import { getHistoryMessages } from './historyMessages'

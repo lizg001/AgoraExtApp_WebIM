@@ -78,3 +78,12 @@ export const loginInfo = data => {
 export const memberInfo = (data) => {
     return { type: 'SAVE_MEMBER_INFO', data }
 }
+
+// 历史消息
+export const moreHistory = (data) => {
+    return { type: 'MORE_HISTORY', data }
+}
+// 历史消息加载动画
+export const loadGif = (data) => {
+    return { type: 'LOAD_GIF', data }
+}

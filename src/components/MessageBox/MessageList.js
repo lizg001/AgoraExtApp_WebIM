@@ -3,12 +3,13 @@ import { useSelector } from 'react-redux'
 import { Tabs } from 'antd';
 import { Text, Flex } from 'rebass'
 import _ from 'lodash'
+import WebIM from "../../utils/WebIM";
 import ToolBar from '../ToolBar'
 import MessageItem from './Message/index'
 import QuestionMessage from './QaList/QuestionMessage'
-import { CHAT_TABS, CHAT_TABS_KEYS } from './constants'
+import { CHAT_TABS, CHAT_TABS_KEYS, HISTORY_COUNT } from './constants'
 import store from '../../redux/store'
-import { removeChatNotification } from '../../redux/aciton'
+import { roomMessages, qaMessages, removeChatNotification, moreHistory, loadGif } from '../../redux/aciton'
 import { getUserInfo } from '../../api/userInfo'
 import { getHistoryMessages } from '../../api/historyMessages'
 
@@ -19,13 +20,16 @@ const { TabPane } = Tabs;
 
 // 列表项
 const MessageList = ({ activeKey, setActiveKey }) => {
+  console.log('zhixing2');
+
   // 控制 Toolbar 组件是否展示
   const [hide, sethide] = useState(true);
   // 控制 Toolbar 组件是否展示图片 
   const [isTool, setIsTool] = useState(false);
   const [qaUser, setQaUser] = useState('');
-  // 获取当前登陆ID，及成员数
+  // 获取当前登陆ID，RoomId，及成员数
   const userName = useSelector((state) => state.loginName);
+  const roomId = useSelector(state => state.extData.chatRoomId)
   const userCount = useSelector(state => state.room.info.affiliations_count);
   // 获取当前登陆的用户权限
   const isTeacher = useSelector(state => state.loginInfo.ext)
@@ -34,7 +38,10 @@ const MessageList = ({ activeKey, setActiveKey }) => {
   //获取群组成员，及成员的用户属性
   const roomUsers = useSelector(state => state.room.users)
   const roomListInfo = useSelector((state) => state.userListInfo);
-
+  // 是否展示加载更多
+  const isMoreHistory = useSelector(state => state.isMoreHistory)
+  // 展示加载动画
+  const isLoadGif = useSelector(state => state.isLoadGif)
   // 是否隐藏赞赏消息
   const isHiedReward = useSelector(state => state.isReward);
   // 是否为提问消息
@@ -43,9 +50,7 @@ const MessageList = ({ activeKey, setActiveKey }) => {
   let hasEditPermisson = (Number(isTeacher) === 1 || Number(isTeacher) === 3);
   // 当前是哪个tab
   const [tabKey, setTabKey] = useState(CHAT_TABS_KEYS.chat);
-
-
-
+  // 加载历史消息动画
 
   // 获取提问列表
   const qaList = useSelector(state => state.messages.qaList) || [];
@@ -134,12 +139,7 @@ const MessageList = ({ activeKey, setActiveKey }) => {
     }
   })
   const roomUserList = _.concat(speakerTeacher, coachTeacher, student)
-  const msgListRef = useRef()
-  const handleScroll = (e) => {
-    if (e.target.scrollTop === 0) {
-      getHistoryMessages();
-    }
-  }
+
   return (
     <div className='message'>
       {hasEditPermisson ? (
@@ -156,7 +156,9 @@ const MessageList = ({ activeKey, setActiveKey }) => {
                   <div className="msg-red-dot"></div>
                 )}
               </Flex>} key={key}>
-                <div className={className} ref={msgListRef} onScroll={handleScroll}>
+                <div className={className}>
+                  {name !== '成员' && !isLoadGif && (isMoreHistory ? <div className='more-msg' onClick={() => { getHistoryMessages() }}>加载更多</div> : <div className='more-msg'>没有更多消息啦~</div>)}
+                  {isLoadGif && <div className='load'></div>}
                   <Component {
                     ...key === CHAT_TABS_KEYS.chat && {
                       messageList,
@@ -177,17 +179,17 @@ const MessageList = ({ activeKey, setActiveKey }) => {
       ) : (
           isHiedQuestion
             ? (
-              <div className="member-msg" onScroll={handleScroll}>
+              <div className="member-msg">
                 <QuestionMessage userName={userName} />
               </div>
             ) : (
-              <div className="member-msg" onScroll={handleScroll}>
+              <div className="member-msg">
                 {
                   messageList.length > 0 ? (
                     <MessageItem messageList={messageList} isHiedReward={isHiedReward} />
                   ) : (
                       <div>
-                        <Text textAlign='center' color='#D3D6D8'>暂无消息</Text>
+                        {/* <Text textAlign='center' color='#D3D6D8'>暂无消息</Text> */}
                       </div>
                     )
                 }
