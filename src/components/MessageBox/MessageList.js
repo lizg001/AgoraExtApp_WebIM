@@ -40,7 +40,7 @@ const MessageList = ({ activeKey, setActiveKey }) => {
   // 是否为提问消息
   const isHiedQuestion = useSelector(state => state.isQa);
   // 是否有权限
-  let hasEditPermisson = (Number(isTeacher) === 1 || Number(isTeacher) === 3);
+  let hasEditPermisson = Number(isTeacher) === 3;
   // 当前是哪个tab
   const [tabKey, setTabKey] = useState(CHAT_TABS_KEYS.chat); 
 

@@ -12,6 +12,8 @@ import iconSmiley from '../../themes/img/icon-smiley.svg'
 import iconImage from '../../themes/img/icon-image.svg'
 import msgAvatarUrl from '../../themes/img/avatar-big@2x.png'
 import './index.css'
+import RcTooltip from 'rc-tooltip'
+import 'rc-tooltip/assets/bootstrap_white.css'
 
 // 展示表情
 const ShowEomji = ({ getEmoji, hideEmoji }) => {
@@ -250,20 +252,25 @@ const ChatBox = ({ isTool, qaUser, activeKey }) => {
                 }
                 <Flex justifyContent='flex-start' alignItems='center'>
                     {isEmoji && <ShowEomji getEmoji={getEmoji} hideEmoji={hideEmoji} />}
-                    <img src={iconSmiley} onClick={showEmoji} className="chat-tool-item"/>
-                    {isTool && <div onClick={updateImage} className="chat-tool-item">
-                        <img src={iconImage} />
-                        {/* <Image src={icon_img} width='18px' background='#D3D6D8' ml='8px' /> */}
-                        <input
-                            id="uploadImage"
-                            onChange={sendImgMessage.bind(this, roomId)}
-                            type="file"
-                            ref={couterRef}
-                            style={{
-                                display: 'none'
-                            }}
-                        />
-                    </div>}
+                    <RcTooltip placement="top" overlay="表情">
+                        <img src={iconSmiley} onClick={showEmoji} className="chat-tool-item"/>
+                    </RcTooltip>
+                    {isTool 
+                    && <RcTooltip placement="top" overlay="图片">
+                        <div onClick={updateImage} className="chat-tool-item">
+                                <img src={iconImage} />
+                            {/* <Image src={icon_img} width='18px' background='#D3D6D8' ml='8px' /> */}
+                            <input
+                                id="uploadImage"
+                                onChange={sendImgMessage.bind(this, roomId)}
+                                type="file"
+                                ref={couterRef}
+                                style={{
+                                    display: 'none'
+                                }}
+                                />
+                        </div>
+                    </RcTooltip>}
                 </Flex>
                 <div>
                     <Input.TextArea

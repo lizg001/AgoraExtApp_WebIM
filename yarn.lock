@@ -10076,6 +10076,14 @@ rc-tooltip@^5.0.1, rc-tooltip@~5.1.1:
     "@babel/runtime" "^7.11.2"
     rc-trigger "^5.0.0"
 
+rc-tooltip@^5.1.1:
+  version "5.1.1"
+  resolved "https://registry.nlark.com/rc-tooltip/download/rc-tooltip-5.1.1.tgz#94178ed162d0252bc4993b725f5dc2ac0fccf154"
+  integrity sha1-lBeO0WLQJSvEmTtyX13CrA/M8VQ=
+  dependencies:
+    "@babel/runtime" "^7.11.2"
+    rc-trigger "^5.0.0"
+
 rc-tree-select@~4.3.0:
   version "4.3.2"
   resolved "https://registry.yarnpkg.com/rc-tree-select/-/rc-tree-select-4.3.2.tgz#94031e36c819ae23e5154953538d00cc316a7fc0"
