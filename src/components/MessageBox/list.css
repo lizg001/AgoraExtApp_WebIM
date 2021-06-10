@@ -94,29 +94,12 @@
 
 /* 无提问消息禁止点击 */
 .qa-mark {
-    bottom: 0;
-    top: 165px;
-    position: fixed;
-    background-color: #7C848C;
-    opacity: .3;
+    width: calc(100% - 16px);
+    height: 151px;
+    position: absolute;
+    bottom: 8px;
     text-align: center;
-    margin: 0 auto;
-    left: 0;
-    right: calc(100% - 280px);
-    z-index: 1000;
-}
-
-.qa-card {
-    position: fixed;
-    top: 40%;
-    margin: 0 auto;
-    /* left: 24%; */
-    right: calc(100% - 180px);
-    z-index: 9999999;
-    border-radius: 12px;
-    text-align: center;
-    padding: 10px;
-    height: 20px;
+    cursor: no-drop;
 }
 
 /* 成员头像 */
@@ -259,4 +242,14 @@
     position: absolute;
     right: 0;
     top: 11px;
+}
+
+.qa-student-tips {
+    height: 18px;
+    font-size: 12px;
+    font-weight: 400;
+    color: #474D59;
+    line-height: 18px;
+    text-align: center;
+    margin-top: 10px;
 }

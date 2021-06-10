@@ -25,7 +25,8 @@ const Message = ({ messageList, isHiedReward, hasEditPermisson, activeKey }) => 
     }
     if (!renderMsgs?.length) {
         return (
-            <Text textAlign='center' color='#D3D6D8'>暂无消息</Text>
+            // <Text textAlign='center' color='#626773' fontSize='14px'>暂无消息</Text>
+            <div></div>
         )
     }
 
@@ -59,10 +60,9 @@ const Message = ({ messageList, isHiedReward, hasEditPermisson, activeKey }) => 
     return (
         <>
         <div >
-            <div>
-                {renderMsgs.map((message) => <MessageItem message={message} key={message.id} setShowModal={setShowModal} setRecallMsgId={setRecallMsgId} hasEditPermisson={hasEditPermisson} />)
-                }
-            </div>
+            {renderMsgs.map((message) => 
+                <MessageItem message={message} key={message.id} setShowModal={setShowModal} setRecallMsgId={setRecallMsgId} hasEditPermisson={hasEditPermisson} />)
+            }
         </div>
         {/* 弹窗 */}
         <div style={{ display: `${showModal}` }}>

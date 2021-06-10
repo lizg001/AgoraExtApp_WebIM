@@ -177,6 +177,9 @@ const MessageList = ({ activeKey, setActiveKey }) => {
           isHiedQuestion 
           ? (
             <div className="member-msg" onScroll={handleScroll}>
+              {Number(isTeacher) === 2 && <div className="qa-student-tips">
+                提示：提问内容仅你和老师可见
+              </div>}
               <QuestionMessage userName={userName} />
             </div>
           ) : (

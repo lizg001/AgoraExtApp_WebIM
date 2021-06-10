@@ -141,7 +141,7 @@
 .ant-switch-small {
     min-width: 28px;
     height: 14px;
-    line-height: 14px;
+    margin: 3px 0;
 }
 
 .ant-switch-small .ant-switch-inner {
