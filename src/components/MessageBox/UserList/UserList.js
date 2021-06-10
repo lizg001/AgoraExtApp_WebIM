@@ -11,6 +11,7 @@ import './userList.css'
 import avatarUrl from '../../../themes/img/avatar-big@2x.png'
 import voiceOff from '../../../themes/img/icon-mute.svg'
 import voiceNo from '../../../themes/img/icon-chat.svg'
+import forbid from '../../../themes/img/icon_forbid.svg'
 const UserList = ({ roomUserList }) => {
     // 禁言列表
     const [isMute, setIsMute] = useState(false);
@@ -99,28 +100,27 @@ const UserList = ({ roomUserList }) => {
                         return (
                             <Flex key={key} justifyContent='space-between' mt='16px' alignItems='center'>
                                 <Flex alignItems='center'>
-                                    <Image className='lsit-user-img'
-                                        src={item.avatarurl || avatarUrl}
-                                    />
-                                    <Flex ml='8px'>
+                                    <div className='lsit-user-box'>
+                                        <Image className='lsit-user-img'
+                                            src={item.avatarurl || avatarUrl}
+                                        />
+                                        {Number(item.ext) === 2 && muteMembers.includes(item.id)&&
+                                        <Image className='lsit-user-forbid'
+                                            src={forbid}
+                                        />}
+                                    </div>
+                                    <Flex ml='8px' alignItems='center'>
                                         {Number(item.ext) === 1 && <Tag className='tags' ><Text className='tags-txt' ml='4px' mt='1px'>主讲老师</Text></Tag>}
                                         {Number(item.ext) === 3 && <Tag className='tags' ><Text className='tags-txt' ml='4px' mt='1px'>辅导老师</Text></Tag>}
                                         <Text className='username' ml='5px' >{item.nickname || item.id}</Text>
                                     </Flex>
                                 </Flex>
-                                {/* {Number(item.ext) === 2 && <Switch
-                                    size="small"
-                                    title="禁言"
-                                    checked={muteMembers.includes(item.id)}
-                                    onClick={onSetMute(item.id)}
-                                    loading={loading}
-                                />} */}
                                 {Number(item.ext) === 2 && 
                                 <div className='voice-img-box'>
                                     <img
                                     className='voice-img'
                                     title="禁言"
-                                    src={muteMembers.includes(item.id)? voiceOff : voiceNo}
+                                    src={muteMembers.includes(item.id)? voiceNo : voiceOff}
                                     onClick={onSetMute(item.id)}
                                     />
                                 </div>}

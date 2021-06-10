@@ -253,3 +253,11 @@
     text-align: center;
     margin-top: 10px;
 }
+.no-search{
+    font-size: 14px;
+    color: #626773;
+    display: inline-flex;
+    justify-content: center;
+    padding-top: 150px;
+    width: 100%;
+}
