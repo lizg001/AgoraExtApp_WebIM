@@ -1,28 +1,46 @@
-
+import { useState,useEffect } from 'react'
 import { Switch } from 'antd'
 import { Flex, Text, Image } from 'rebass'
 import _ from 'lodash'
-
-const MuteList = ({ roomListInfo, muteMembers, onSetMute }) => {
+import voiceOff from '../../../themes/img/icon-mute.svg'
+import voiceNo from '../../../themes/img/icon-chat.svg'
+import forbid from '../../../themes/img/icon_forbid.svg'
+const MuteList = ({ roomListInfo, muteMembers, onSetMute,searchUser }) => {
+    const [dataLength, setDataLength] = useState(false);
+    useEffect(() => {
+        setDataLength(false)
+    }, [searchUser])
     return (
         <div>
             {muteMembers.map((member, key) => {
                 const isTeacher = roomListInfo && (Number(_.get(roomListInfo[member], 'ext')) === 3 || Number(_.get(roomListInfo[member], 'ext')) === 1);
                 if (!isTeacher && !isNaN(Number(_.get(roomListInfo[member], 'ext')))) {
-                    return <Flex justifyContent='space-between' alignItems='center' mt='10px' key={key}>
+                    if(!dataLength){
+                        setDataLength(true)
+                    }
+                    return <Flex justifyContent='space-between' alignItems='center' mt='16px' key={key}>
                         <Flex alignItems='center'>
-                            <Image src={(_.get(roomListInfo[member], 'avatarurl'))} className='lsit-user-img' />
+                            <div className='lsit-user-box'>
+                                <Image src={(_.get(roomListInfo[member], 'avatarurl'))} className='lsit-user-img' />
+                                <Image className='lsit-user-forbid'
+                                    src={forbid}
+                                />
+                            </div>
+
                             <Text className='username' ml='5px' >{_.get(roomListInfo[member], 'nickname') || _.get(roomListInfo[member], 'id')}</Text>
                         </Flex>
-                        <Switch
-                            size="small"
+                        <div className='voice-img-box'>
+                            <img
+                            className='voice-img'
                             title="禁言"
-                            checked={muteMembers.includes(_.get(roomListInfo[member], 'id'))}
+                            src={muteMembers.includes(_.get(roomListInfo[member], 'id'))? voiceNo : voiceOff}
                             onClick={onSetMute(_.get(roomListInfo[member], 'id'))}
-                        />
+                            />
+                        </div>
                     </Flex>
                 }
             })}
+            {!dataLength && <div className='no-search'>无搜索结果</div>} 
         </div>
     )
 }
