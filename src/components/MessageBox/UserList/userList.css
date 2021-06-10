@@ -60,6 +60,7 @@
 }
 
 .voice-img-box{
+    visibility: hidden;
     position: relative;
     display: inline-flex;
     align-items: center;
@@ -88,18 +89,18 @@
     align-items: center;
 }
 
-.lsit-user-box{
+.list-user-box{
     position: relative;
     width: 28px;
     height: 28px;
 }
 
-.lsit-user-forbid{
+.list-user-forbid{
     width: 12px;
     height: 12px;
     position: absolute;
-    bottom: 0;
-    right: 0;
+    bottom: -2px;
+    right: -2px;
 }
 
 .row-box{
@@ -109,4 +110,8 @@
 .tags-txt{
     margin-top: 0 !important;
     margin-left: 0 !important;
+}
+
+.user-item:hover .voice-img-box {
+    visibility: visible;
 }

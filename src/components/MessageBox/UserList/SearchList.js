@@ -7,6 +7,9 @@ import avatarUrl from '../../../themes/img/avatar-big@2x.png'
 import voiceOff from '../../../themes/img/icon-mute.svg'
 import voiceNo from '../../../themes/img/icon-chat.svg'
 import forbid from '../../../themes/img/icon_forbid.svg'
+import RcTooltip from 'rc-tooltip'
+import 'rc-tooltip/assets/bootstrap_white.css'
+
 const SearchList = ({ roomListInfo, searchUser, onSetMute, muteMembers }) => {
     const [dataLength, setDataLength] = useState(false);
     useEffect(() => {
@@ -60,11 +63,11 @@ const SearchList = ({ roomListInfo, searchUser, onSetMute, muteMembers }) => {
                                 setDataLength(true)
                             }
                             return (
-                                <Flex justifyContent='space-between' alignItems='center' mt='16px' key={key}>
+                                <Flex className="user-item" justifyContent='space-between' alignItems='center' mt='16px' key={key}>
                                     <Flex alignItems='center'>
-                                        <div className='lsit-user-box'>
-                                            <Image src={member[1] || avatarUrl} className='lsit-user-img' />
-                                            {Number(member[3]) === 2 && muteMembers.includes(member[2]) && <Image className='lsit-user-forbid' src={forbid} />}
+                                        <div className='list-user-box'>
+                                            <Image src={member[1] || avatarUrl} className='list-user-img' />
+                                            {Number(member[3]) === 2 && muteMembers.includes(member[2]) && <Image className='list-user-forbid' src={forbid} />}
                                         </div>
                                         
                                         
@@ -84,13 +87,14 @@ const SearchList = ({ roomListInfo, searchUser, onSetMute, muteMembers }) => {
                                     } */}
                                     {
                                         Number(member[3]) === 2 && 
-                                        <div className='voice-img-box'>
-                                            <img
-                                            className='voice-img'
-                                            title="禁言"
-                                            src={muteMembers.includes(member[2])? voiceNo : voiceOff}
-                                            onClick={onSetMute(member[2])}/>
-                                        </div>
+                                        <RcTooltip placement="top" overlay={muteMembers.includes(member[2]) ? '禁言' : '解除禁言'} >
+                                            <div className='voice-img-box'>
+                                                <img 
+                                                className='voice-img'
+                                                src={muteMembers.includes(member[2])? voiceNo : voiceOff}
+                                                onClick={onSetMute(member[2])}/>
+                                            </div>
+                                        </RcTooltip>
                                     }
                                 </Flex>
                             )

@@ -5,6 +5,9 @@ import _ from 'lodash'
 import voiceOff from '../../../themes/img/icon-mute.svg'
 import voiceNo from '../../../themes/img/icon-chat.svg'
 import forbid from '../../../themes/img/icon_forbid.svg'
+import RcTooltip from 'rc-tooltip'
+import 'rc-tooltip/assets/bootstrap_white.css'
+
 const MuteList = ({ roomListInfo, muteMembers, onSetMute,searchUser }) => {
     const [dataLength, setDataLength] = useState(false);
     useEffect(() => {
@@ -18,25 +21,27 @@ const MuteList = ({ roomListInfo, muteMembers, onSetMute,searchUser }) => {
                     if(!dataLength){
                         setDataLength(true)
                     }
-                    return <Flex justifyContent='space-between' alignItems='center' mt='16px' key={key}>
+                    return <Flex className="user-item" justifyContent='space-between' alignItems='center' mt='16px' key={key}>
                         <Flex alignItems='center'>
-                            <div className='lsit-user-box'>
-                                <Image src={(_.get(roomListInfo[member], 'avatarurl'))} className='lsit-user-img' />
-                                <Image className='lsit-user-forbid'
+                            <div className='list-user-box'>
+                                <Image src={(_.get(roomListInfo[member], 'avatarurl'))} className='list-user-img' />
+                                <Image className='list-user-forbid'
                                     src={forbid}
                                 />
                             </div>
 
                             <Text className='username' ml='5px' >{_.get(roomListInfo[member], 'nickname') || _.get(roomListInfo[member], 'id')}</Text>
                         </Flex>
-                        <div className='voice-img-box'>
-                            <img
-                            className='voice-img'
-                            title="禁言"
-                            src={muteMembers.includes(_.get(roomListInfo[member], 'id'))? voiceNo : voiceOff}
-                            onClick={onSetMute(_.get(roomListInfo[member], 'id'))}
-                            />
-                        </div>
+                        <RcTooltip placement="top" overlay={muteMembers.includes(_.get(roomListInfo[member], 'id')) ? '禁言' : '解除禁言'} >
+                            <div className='voice-img-box'>
+                                <img
+                                className='voice-img'
+                                title="禁言"
+                                src={muteMembers.includes(_.get(roomListInfo[member], 'id'))? voiceNo : voiceOff}
+                                onClick={onSetMute(_.get(roomListInfo[member], 'id'))}
+                                />
+                            </div>
+                        </RcTooltip>
                     </Flex>
                 }
             })}
