@@ -87,7 +87,7 @@ const SearchList = ({ roomListInfo, searchUser, onSetMute, muteMembers }) => {
                                     } */}
                                     {
                                         Number(member[3]) === 2 && 
-                                        <RcTooltip placement="top" overlay={muteMembers.includes(member[2]) ? '禁言' : '解除禁言'} >
+                                        <RcTooltip placement="top" overlay={muteMembers.includes(member[2]) ? '解除禁言' : '禁言'} >
                                             <div className='voice-img-box'>
                                                 <img 
                                                 className='voice-img'

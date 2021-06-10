@@ -12,7 +12,7 @@ const MuteList = ({ roomListInfo, muteMembers, onSetMute,searchUser }) => {
     const [dataLength, setDataLength] = useState(false);
     useEffect(() => {
         setDataLength(false)
-    }, [searchUser])
+    }, [searchUser,muteMembers])
     return (
         <div>
             {muteMembers.map((member, key) => {
@@ -32,7 +32,7 @@ const MuteList = ({ roomListInfo, muteMembers, onSetMute,searchUser }) => {
 
                             <Text className='username' ml='5px' >{_.get(roomListInfo[member], 'nickname') || _.get(roomListInfo[member], 'id')}</Text>
                         </Flex>
-                        <RcTooltip placement="top" overlay={muteMembers.includes(_.get(roomListInfo[member], 'id')) ? '禁言' : '解除禁言'} >
+                        <RcTooltip placement="top" overlay={muteMembers.includes(_.get(roomListInfo[member], 'id')) ? '解除禁言' : '禁言'} >
                             <div className='voice-img-box'>
                                 <img
                                 className='voice-img'

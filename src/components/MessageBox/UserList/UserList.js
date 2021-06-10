@@ -119,7 +119,7 @@ const UserList = ({ roomUserList }) => {
                                     </Flex>
                                 </Flex>
                                 {Number(item.ext) === 2 
-                                && <RcTooltip placement="top" overlay={muteMembers.includes(item.id) ? '禁言' : '解除禁言'} >
+                                && <RcTooltip placement="top" overlay={muteMembers.includes(item.id) ? '解除禁言' : '禁言'} >
                                     <div className='voice-img-box'>
                                         <img
                                         className='voice-img'
