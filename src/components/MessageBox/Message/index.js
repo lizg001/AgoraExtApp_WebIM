@@ -11,7 +11,7 @@ import './MessageList.css'
 
 
 // 消息渲染
-const Message = ({ messageList, isHiedReward, hasEditPermisson, activeKey }) => {
+const Message = ({ messageList, isHiedReward, hasEditPermisson, activeKey, isLoadGif, isMoreHistory, getHistoryMessages }) => {
     const roomId = useSelector(state => state.room.info.id);
     const userInfo = useSelector(state => state.loginInfo)
     // 控制弹框

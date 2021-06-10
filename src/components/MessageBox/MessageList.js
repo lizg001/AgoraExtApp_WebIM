@@ -20,8 +20,6 @@ const { TabPane } = Tabs;
 
 // 列表项
 const MessageList = ({ activeKey, setActiveKey }) => {
-  console.log('zhixing2');
-
   // 控制 Toolbar 组件是否展示
   const [hide, sethide] = useState(true);
   // 控制 Toolbar 组件是否展示图片 
@@ -157,7 +155,7 @@ const MessageList = ({ activeKey, setActiveKey }) => {
                 )}
               </Flex>} key={key}>
                 <div className={className}>
-                  {name !== '成员' && !isLoadGif && (isMoreHistory ? <div className='more-msg' onClick={() => { getHistoryMessages() }}>加载更多</div> : <div className='more-msg'>没有更多消息啦~</div>)}
+                  {name !== '成员' && !isLoadGif && (isMoreHistory ? <div className='more-msg' onClick={() => { getHistoryMessages(name === '提问') }}>加载更多</div> : <div className='more-msg'>没有更多消息啦~</div>)}
                   {isLoadGif && <div className='load'></div>}
                   <Component {
                     ...key === CHAT_TABS_KEYS.chat && {
@@ -180,20 +178,26 @@ const MessageList = ({ activeKey, setActiveKey }) => {
           isHiedQuestion
             ? (
               <div className="member-msg">
-                <QuestionMessage userName={userName} />
+                {isLoadGif && <div className='load'></div>}
+                <QuestionMessage userName={userName} isLoadGif={isLoadGif} isMoreHistory={isMoreHistory} getHistoryMessages={getHistoryMessages} />
               </div>
             ) : (
-              <div className="member-msg">
-                {
-                  messageList.length > 0 ? (
-                    <MessageItem messageList={messageList} isHiedReward={isHiedReward} />
-                  ) : (
-                      <div>
-                        {/* <Text textAlign='center' color='#D3D6D8'>暂无消息</Text> */}
-                      </div>
-                    )
-                }
-              </div>
+              <>
+                <div className="member-msg">
+                  {isLoadGif && <div className='load'></div>}
+                  {!isLoadGif && (isMoreHistory ? <div className='more-msg' onClick={() => { getHistoryMessages(false) }}>加载更多</div> : <div className='more-msg'>没有更多消息啦~</div>)}
+
+                  {
+                    messageList.length > 0 ? (
+                      <MessageItem messageList={messageList} isHiedReward={isHiedReward} isLoadGif={isLoadGif} isMoreHistory={isMoreHistory} getHistoryMessages={getHistoryMessages} />
+                    ) : (
+                        <div>
+                          {/* <Text textAlign='center' color='#D3D6D8'>暂无消息</Text> */}
+                        </div>
+                      )
+                  }
+                </div>
+              </>
             )
         )}
       <ToolBar tabKey={tabKey} hide={hide} isTool={isTool} qaUser={qaUser} activeKey={activeKey} />

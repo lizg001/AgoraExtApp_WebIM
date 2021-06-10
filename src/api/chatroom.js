@@ -18,7 +18,7 @@ export const joinRoom = async () => {
             message.destroy();
         }, 3000);
         getRoomInfo(options.roomId);
-        getHistoryMessages(options.roomId);
+        getHistoryMessages(false);
         setUserInfo();
     })
 
