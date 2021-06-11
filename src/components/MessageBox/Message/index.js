@@ -11,7 +11,7 @@ import './MessageList.css'
 
 
 // 消息渲染
-const Message = ({ messageList, isHiedReward, hasEditPermisson, activeKey }) => {
+const Message = ({ messageList, isHiedReward, hasEditPermisson, activeKey, isLoadGif, isMoreHistory, getHistoryMessages }) => {
     const roomId = useSelector(state => state.room.info.id);
     const userInfo = useSelector(state => state.loginInfo)
     // 控制弹框
@@ -67,15 +67,8 @@ const Message = ({ messageList, isHiedReward, hasEditPermisson, activeKey }) => 
         <div style={{ display: `${showModal}` }}>
             <div className='mask'>
             </div>
-            <div className='card'>
-                <div className='card-txt'>确定要删除此消息吗？</div>
-                <Flex justifyContent='center' >
-                    <div className='cancle-btn' onClick={() => { setShowModal('none') }}>取消</div>
-                    <div className='ok-btn' onClick={() => { deleteMsg(roomId, recallMsgId, activeKey) }}>确定</div>
-                </Flex>
-            </div>
         </div>
-    </>
+        </>
     )
 }
 export default Message

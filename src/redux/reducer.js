@@ -1,4 +1,5 @@
 import { CHAT_TABS_KEYS } from '../components/MessageBox/constants'
+import _ from 'lodash'
 const defaultState = {
     extData: {},        //iframe 传递过来的参数
     loginName: '',      //当前登陆ID
@@ -21,6 +22,8 @@ const defaultState = {
         }
     },
     isUserMute: false,   //单人禁言
+    isMoreHistory: true, //展示更多
+    isLoadGif: false,
     isQa: false,         //是否为提问消息开关
     isReward: false,     //是否隐藏赞赏消息开关
     userListInfo: {},    //成员信息
@@ -95,11 +98,20 @@ const reducer = (state = defaultState, action) => {
             };
         //获取聊天室成员
         case 'GET_ROOM_USERS':
+            let ary = [];
+            if (action.option === 'addMember') {
+                ary = ary.concat(data, ...state.room.users)
+            } else if (action.option === 'removeMember') {
+                ary = _.pullAllBy(state.room.users, [data], 'member');
+            } else {
+                ary = state.room.users.concat(data)
+            }
+            let newAry = _.unionBy(ary, 'member');
             return {
                 ...state,
                 room: {
                     ...state.room,
-                    users: data
+                    users: newAry
                 }
             };
         //聊天室禁言列表
@@ -229,7 +241,18 @@ const reducer = (state = defaultState, action) => {
             return {
                 ...state,
                 userListInfo: data
-            }
+            };
+        // 更多消息
+        case 'MORE_HISTORY':
+            return {
+                ...state,
+                isMoreHistory: data
+            };
+        case 'LOAD_GIF':
+            return {
+                ...state,
+                isLoadGif: data
+            };
         default:
             return state;
     }

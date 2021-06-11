@@ -1,12 +1,13 @@
-import { useState, useEffect } from 'react'
+import { useState, useEffect, useRef } from 'react'
 import { Input, Switch, Tag } from 'antd';
 import { SearchOutlined } from '@ant-design/icons';
 import { Flex, Text, Image } from 'rebass'
 import { useSelector } from 'react-redux'
-import { getRoomWhileList } from '../../../api/chatroom'
+import { getRoomWhileList, getRoomUsers } from '../../../api/chatroom'
 import WebIM from '../../../utils/WebIM'
 import SearchList from './SearchList'
 import MuteList from './MuteList'
+import { ROOM_PAGESIZE } from '../constants'
 import './userList.css'
 import avatarUrl from '../../../themes/img/avatar-big@2x.png'
 import voiceOff from '../../../themes/img/icon-mute.svg'
@@ -18,12 +19,15 @@ import 'rc-tooltip/assets/bootstrap_white.css'
 const UserList = ({ roomUserList }) => {
     // 禁言列表
     const [isMute, setIsMute] = useState(false);
+    // 搜索成员
     const [searchUser, setSearchUser] = useState('');
     const [muteMembers, setMuteMembers] = useState([]);
     const [loading, setLoading] = useState(false)
     const roomId = useSelector((state) => state.room.info.id)
+    const memberCount = useSelector(state => state.room.info.affiliations_count)
     const roomMuteList = useSelector((state) => state.room.muteList);
     const roomListInfo = useSelector((state) => state.userListInfo);
+    const [currentPage, setCurrentPage] = useState(1)
 
     useEffect(() => {
         let ary = []
@@ -75,25 +79,46 @@ const UserList = ({ roomUserList }) => {
         }
     }
 
+    useEffect(() => {
+        getRoomUsers(currentPage, ROOM_PAGESIZE, roomId)
+    }, [])
+
+    // 监听滚动条事件，滚动加载成员
+    const userRef = useRef()
+    const handleUser = (e) => {
+        e.preventDefault()
+        const scrollTop = userRef.current.scrollTop;
+        const clientHeight = userRef.current.clientHeight;
+        const scrollHeight = userRef.current.scrollHeight;
+        const isBottom = scrollTop + clientHeight === scrollHeight;
+        if (isBottom) {
+            let count = parseInt(memberCount / ROOM_PAGESIZE) + 1
+            if (currentPage < count) {
+                getRoomUsers(currentPage + 1, ROOM_PAGESIZE, roomId);
+                setCurrentPage(currentPage + 1)
+            }
+        }
+    }
+
     return (
         <div style={{ height: '100%' }}>
             <div className='search-back'>
-                <Input placeholder='输入学生姓名' className='search-user' onChange={onSearch} allowClear/>
+                <Input placeholder='输入学生姓名' className='search-user' onChange={onSearch} allowClear />
                 <SearchOutlined className='search-icon' />
             </div>
             {
                 !searchUser && <Flex justifyContent='flex-start' alignItems='center' mt='16px' mb='16px'>
-                <Switch
-                    size="small"
-                    title="禁言"
-                    checked={isMute}
-                    onChange={onMuteList}
-                />
-                <Text className='only-mute'>只看禁言</Text>
-            </Flex>
-}
+                    <Switch
+                        size="small"
+                        title="禁言"
+                        checked={isMute}
+                        onChange={onMuteList}
+                    />
+                    <Text className='only-mute'>只看禁言</Text>
+                </Flex>
+            }
             {
-                <div>
+                <div style={{ height: 'calc(100% + 100px)', overflowY: 'scroll' }} ref={userRef} onScroll={handleUser}>
                     {/* 是否展示搜索列表 */}
                     {searchUser && <SearchList roomListInfo={roomListInfo} searchUser={searchUser} onSetMute={onSetMute} muteMembers={muteMembers} />}
                     {!searchUser && isMute && <MuteList roomListInfo={roomListInfo} muteMembers={muteMembers} onSetMute={onSetMute} />}
@@ -118,6 +143,7 @@ const UserList = ({ roomUserList }) => {
                                         <Text className='username' ml='5px' >{item.nickname || item.id}</Text>
                                     </Flex>
                                 </Flex>
+
                                 {Number(item.ext) === 2 
                                 && <RcTooltip placement="top" overlay={muteMembers.includes(item.id) ? '解除禁言' : '禁言'} >
                                     <div className='voice-img-box'>

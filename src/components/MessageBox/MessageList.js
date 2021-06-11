@@ -3,12 +3,13 @@ import { useSelector } from 'react-redux'
 import { Tabs } from 'antd';
 import { Text, Flex } from 'rebass'
 import _ from 'lodash'
+import WebIM from "../../utils/WebIM";
 import ToolBar from '../ToolBar'
 import MessageItem from './Message/index'
 import QuestionMessage from './QaList/QuestionMessage'
-import { CHAT_TABS, CHAT_TABS_KEYS } from './constants'
+import { CHAT_TABS, CHAT_TABS_KEYS, HISTORY_COUNT } from './constants'
 import store from '../../redux/store'
-import { removeChatNotification } from '../../redux/aciton'
+import { roomMessages, qaMessages, removeChatNotification, moreHistory, loadGif } from '../../redux/aciton'
 import { getUserInfo } from '../../api/userInfo'
 import { getHistoryMessages } from '../../api/historyMessages'
 
@@ -24,8 +25,9 @@ const MessageList = ({ activeKey, setActiveKey }) => {
   // 控制 Toolbar 组件是否展示图片 
   const [isTool, setIsTool] = useState(false);
   const [qaUser, setQaUser] = useState('');
-  // 获取当前登陆ID，及成员数
+  // 获取当前登陆ID，RoomId，及成员数
   const userName = useSelector((state) => state.loginName);
+  const roomId = useSelector(state => state.extData.chatRoomId)
   const userCount = useSelector(state => state.room.info.affiliations_count);
   // 获取当前登陆的用户权限
   const isTeacher = useSelector(state => state.loginInfo.ext)
@@ -34,7 +36,10 @@ const MessageList = ({ activeKey, setActiveKey }) => {
   //获取群组成员，及成员的用户属性
   const roomUsers = useSelector(state => state.room.users)
   const roomListInfo = useSelector((state) => state.userListInfo);
-
+  // 是否展示加载更多
+  const isMoreHistory = useSelector(state => state.isMoreHistory)
+  // 展示加载动画
+  const isLoadGif = useSelector(state => state.isLoadGif)
   // 是否隐藏赞赏消息
   const isHiedReward = useSelector(state => state.isReward);
   // 是否为提问消息
@@ -42,10 +47,8 @@ const MessageList = ({ activeKey, setActiveKey }) => {
   // 是否有权限
   let hasEditPermisson = Number(isTeacher) === 3;
   // 当前是哪个tab
-  const [tabKey, setTabKey] = useState(CHAT_TABS_KEYS.chat); 
-
-
-
+  const [tabKey, setTabKey] = useState(CHAT_TABS_KEYS.chat);
+  // 加载历史消息动画
 
   // 获取提问列表
   const qaList = useSelector(state => state.messages.qaList) || [];
@@ -133,13 +136,8 @@ const MessageList = ({ activeKey, setActiveKey }) => {
         break;
     }
   })
-  const roomUserList = _.concat(speakerTeacher, coachTeacher, _.reverse(student))
-  const msgListRef = useRef()
-  const handleScroll = (e) => {
-    if (e.target.scrollTop === 0) {
-      getHistoryMessages();
-    }
-  }
+  const roomUserList = _.concat(speakerTeacher, coachTeacher, student)
+
   return (
     <div className='message'>
       {hasEditPermisson ? (
@@ -156,7 +154,9 @@ const MessageList = ({ activeKey, setActiveKey }) => {
                   <div className="msg-red-dot"></div>
                 )}
               </Flex>} key={key}>
-                <div className={className} ref={msgListRef} onScroll={handleScroll}>
+                <div className={className}>
+                  {name !== '成员' && !isLoadGif && (isMoreHistory ? <div className='more-msg' onClick={() => { getHistoryMessages(name === '提问') }}>加载更多</div> : <div className='more-msg'>没有更多消息啦~</div>)}
+                  {isLoadGif && <div className='load'></div>}
                   <Component {
                     ...key === CHAT_TABS_KEYS.chat && {
                       messageList,
@@ -164,7 +164,8 @@ const MessageList = ({ activeKey, setActiveKey }) => {
                       activeKey
                     }
                   } {...key === CHAT_TABS_KEYS.qa && {
-                    getClickUser
+                    getClickUser,
+                    tabKey
                   }} {...key === CHAT_TABS_KEYS.user && {
                     roomUserList
                   }} />
@@ -176,23 +177,30 @@ const MessageList = ({ activeKey, setActiveKey }) => {
       ) : (
           isHiedQuestion 
           ? (
-            <div className="member-msg" onScroll={handleScroll}>
+            <div className="member-msg">
               {Number(isTeacher) === 2 && <div className="qa-student-tips">
                 提示：提问内容仅你和老师可见
               </div>}
-              <QuestionMessage userName={userName} />
+              {isLoadGif && <div className='load'></div>}
+              <QuestionMessage userName={userName} isLoadGif={isLoadGif} isMoreHistory={isMoreHistory} getHistoryMessages={getHistoryMessages} />
             </div>
-          ) : (
-              <div className="member-msg" onScroll={handleScroll}>
-                {
-                  messageList.length > 0 
-                  ? (<MessageItem messageList={messageList} isHiedReward={isHiedReward} />)
-                  : (
-                      // 暂无消息
-                      <div></div>
-                    )
-                }
-              </div>
+          ) :  (
+              <>
+                <div className="member-msg">
+                  {isLoadGif && <div className='load'></div>}
+                  {!isLoadGif && (isMoreHistory ? <div className='more-msg' onClick={() => { getHistoryMessages(false) }}>加载更多</div> : <div className='more-msg'>没有更多消息啦~</div>)}
+
+                  {
+                    messageList.length > 0 ? (
+                      <MessageItem messageList={messageList} isHiedReward={isHiedReward} isLoadGif={isLoadGif} isMoreHistory={isMoreHistory} getHistoryMessages={getHistoryMessages} />
+                    ) : (
+                        <div>
+                          {/* <Text textAlign='center' color='#D3D6D8'>暂无消息</Text> */}
+                        </div>
+                      )
+                  }
+                </div>
+              </>
             )
         )}
       <ToolBar tabKey={tabKey} hide={hide} isTool={isTool} qaUser={qaUser} activeKey={activeKey} />

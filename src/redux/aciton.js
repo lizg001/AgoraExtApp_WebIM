@@ -26,8 +26,8 @@ export const roomAdmins = data => {
     return { type: 'GET_ROOM_ADMINS', data }
 }
 // 聊天室成员
-export const roomUsers = data => {
-    return { type: 'GET_ROOM_USERS', data }
+export const roomUsers = (data, option) => {
+    return { type: 'GET_ROOM_USERS', data, option }
 }
 
 // 聊天室全局禁言
@@ -77,4 +77,13 @@ export const loginInfo = data => {
 // 取成员信息
 export const memberInfo = (data) => {
     return { type: 'SAVE_MEMBER_INFO', data }
+}
+
+// 历史消息
+export const moreHistory = (data) => {
+    return { type: 'MORE_HISTORY', data }
+}
+// 历史消息加载动画
+export const loadGif = (data) => {
+    return { type: 'LOAD_GIF', data }
 }

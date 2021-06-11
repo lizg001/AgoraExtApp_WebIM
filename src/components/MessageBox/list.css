@@ -38,9 +38,9 @@
 }
 
 .qa-list {
-    overflow-y: inherit;
+    overflow-y: hidden;
     height: calc(100% + 36px);
-    padding: 0;
+    padding: 10px 0 0 0
 }
 
 .message-list {
@@ -49,8 +49,8 @@
 
 .user-list {
     padding: 16px 12px;
-    overflow-y: scroll;
-    height: calc(130%);
+    /* overflow-y: scroll; */
+    height: calc(100%);
     background: #1D2026;
 }
 
@@ -62,7 +62,9 @@
 
 /* 历史记录加载 */
 .more-msg {
-    width: 80px;
+    width: 120px;
+    height: 20px;
+    line-height: 20px;
     background: #888;
     color: #fff;
     border-radius: 15px;
@@ -71,7 +73,33 @@
     font-size: 12px;
     font-family: 'PingFangSC-Regular',
         'PingFang SC';
+    cursor: pointer;
 }
+
+/* 历史记录加载动画 */
+.load {
+    position: relative;
+    border-radius: 50%;
+    margin: 0 auto;
+    width: 25px;
+    height: 25px;
+    border-top: 4px solid #f0f0f0;
+    border-left: 4px solid #f0f0f0;
+    border-right: 4px solid #f0f0f0;
+    border-bottom: 4px solid #1D2026;
+    animation: loading 2s infinite;
+}
+
+@keyframes loading {
+    0% {
+        transform: rotate(0deg);
+    }
+
+    100% {
+        transform: rotate(360deg);
+    }
+}
+
 
 /* 消息发送及接收者  */
 .msg-sender {
@@ -218,7 +246,7 @@
     color: #CDD1D9;
 }
 
-.ant-tabs-tab.ant-tabs-tab-active::after{
+.ant-tabs-tab.ant-tabs-tab-active::after {
     content: " ";
     display: inline-block;
     position: absolute;

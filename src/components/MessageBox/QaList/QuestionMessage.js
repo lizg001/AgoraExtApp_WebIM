@@ -4,14 +4,14 @@ import { Flex, Image, Text } from 'rebass'
 import { Tag } from 'antd'
 import './QaMessage.css'
 import avatarUrl from '../../../themes/img/avatar-big@2x.png'
-import { divide } from 'lodash'
 
 // 学生端 提问消息列表
-const QuestionMessage = ({ userName }) => {
+const QuestionMessage = ({ userName, isLoadGif, isMoreHistory, getHistoryMessages }) => {
     const qaList = useSelector(state => state.messages.qaList) || [];
     const idQaList = qaList[userName] !== undefined;
     return (
         <>
+            {!isLoadGif && (isMoreHistory ? <div className='more-msg' onClick={() => { getHistoryMessages(true) }}>加载更多</div> : <div className='more-msg'>没有更多消息啦~</div>)}
             {
                 idQaList ? (
                     qaList[userName]?.msg.map((message, index) => {
@@ -19,9 +19,9 @@ const QuestionMessage = ({ userName }) => {
                         let isPic = message.type === "img" || message.contentsType === "IMAGE"
                         return (
                             <Flex className="msg-list-item">
-                                <img className='msg-img' src={message.ext.avatarUrl || avatarUrl}/>
+                                <img className='msg-img' src={message.ext.avatarUrl || avatarUrl} />
                                 <Flex flexDirection="column">
-                                    <div style={{marginBottom: 5}}>
+                                    <div style={{ marginBottom: 5 }}>
                                         <Flex alignItems="center" >
                                             {/* 主讲/辅导tag */}
                                             {(message.ext.role === 1 || message.ext.role === 3) && <Tag className='tags'>

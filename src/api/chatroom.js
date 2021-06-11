@@ -1,6 +1,6 @@
 import WebIM from "../utils/WebIM";
 import { message } from 'antd'
-import { roomInfo, roomNotice, roomAdmins, roomUsers, roomMuteUsers, roomAllMute } from '../redux/aciton'
+import { roomInfo, roomNotice, roomAdmins, roomUsers, roomMuteUsers, roomAllMute, loadGif } from '../redux/aciton'
 import store from '../redux/store'
 import { setUserInfo } from './userInfo'
 import { getHistoryMessages } from './historyMessages'
@@ -18,7 +18,7 @@ export const joinRoom = async () => {
             message.destroy();
         }, 3000);
         getRoomInfo(options.roomId);
-        getHistoryMessages(options.roomId);
+        getHistoryMessages(false);
         setUserInfo();
     })
 
@@ -33,7 +33,7 @@ export const getRoomInfo = (roomId) => {
         store.dispatch(roomInfo(res.data[0]));
         getRoomNotice(roomId);
         getRoomAdmins(roomId);
-        getRoomUsers(roomId);
+        //getRoomUsers(roomId);
         getRoomWhileList(roomId);
     })
 }
@@ -96,11 +96,11 @@ export const getRoomAdmins = (roomId) => {
 };
 
 // 获取聊天室成员列表
-export const getRoomUsers = (roomId) => {
+export const getRoomUsers = (pageNum, pageSize, roomId) => {
     let options = {
-        pageNum: 1,
-        pageSize: 300,
-        chatRoomId: roomId
+        pageNum: pageNum,
+        pageSize: pageSize,
+        chatRoomId: roomId,
     }
     WebIM.conn.listChatRoomMember(options).then((res) => {
         store.dispatch(roomUsers(res.data));

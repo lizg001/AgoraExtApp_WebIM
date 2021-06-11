@@ -24,3 +24,14 @@ export const CHAT_TABS = [{
     component: UserList,
     className: 'user-list'
 }]
+
+// 获取历史记录消息条数
+export const HISTORY_COUNT = 50;
+
+// 分页获取成员数
+export const ROOM_PAGESIZE = 20;
+
+// 输入框限制字符数
+export const INPUT_SIZE = 500;
+
+
