@@ -38,7 +38,7 @@
 }
 
 .qa-list {
-    overflow-y: inherit;
+    overflow-y: hidden;
     height: calc(100% + 36px);
     padding: 10px 0 0 0
 }
