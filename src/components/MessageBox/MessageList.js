@@ -45,7 +45,7 @@ const MessageList = ({ activeKey, setActiveKey }) => {
   // 是否为提问消息
   const isHiedQuestion = useSelector(state => state.isQa);
   // 是否有权限
-  let hasEditPermisson = (Number(isTeacher) === 1 || Number(isTeacher) === 3);
+  let hasEditPermisson = Number(isTeacher) === 3;
   // 当前是哪个tab
   const [tabKey, setTabKey] = useState(CHAT_TABS_KEYS.chat);
   // 加载历史消息动画
@@ -175,13 +175,16 @@ const MessageList = ({ activeKey, setActiveKey }) => {
           }
         </Tabs>
       ) : (
-          isHiedQuestion
-            ? (
-              <div className="member-msg">
-                {isLoadGif && <div className='load'></div>}
-                <QuestionMessage userName={userName} isLoadGif={isLoadGif} isMoreHistory={isMoreHistory} getHistoryMessages={getHistoryMessages} />
-              </div>
-            ) : (
+          isHiedQuestion 
+          ? (
+            <div className="member-msg">
+              {Number(isTeacher) === 2 && <div className="qa-student-tips">
+                提示：提问内容仅你和老师可见
+              </div>}
+              {isLoadGif && <div className='load'></div>}
+              <QuestionMessage userName={userName} isLoadGif={isLoadGif} isMoreHistory={isMoreHistory} getHistoryMessages={getHistoryMessages} />
+            </div>
+          ) :  (
               <>
                 <div className="member-msg">
                   {isLoadGif && <div className='load'></div>}

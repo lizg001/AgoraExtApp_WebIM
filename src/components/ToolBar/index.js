@@ -8,6 +8,7 @@ import { Switch } from 'antd';
 import ChatBox from '../ChatBox'
 import './index.css'
 import { CHAT_TABS_KEYS } from '../MessageBox/constants'
+import iconQaMode from '../../themes/img/icon-qa-mode.svg'
 
 
 const ToolBar = ({ tabKey, hide, isTool, qaUser, activeKey }) => {
@@ -74,30 +75,38 @@ const ToolBar = ({ tabKey, hide, isTool, qaUser, activeKey }) => {
                 <div className='footer-toolBar' style={{visibility: tabKey === CHAT_TABS_KEYS.chat ? 'visible' : 'hidden'}}>
 
                     {isAdmins ? (
-                        <div style={{height: 36}}>
+                        <>
                             {!isTool  && 
                                 <Flex justifyContent="space-between" alignItems='center' m='0 12px' height='36px'>
                                     <Flex>
                                         <Switch size="small"
                                             checked={isGift}
-                                            onClick={() => { onChangeReward(isGift) }} 
-                                            style={{margin: "3px 0"}}/>
+                                            onClick={() => { onChangeReward(isGift) }}/>
                                         <Text className="tb-switch-label">隐藏赞赏</Text>
                                     </Flex>
                                     <Flex>
                                         <Switch size="small"
                                             checked={isAllMute}
-                                            onClick={() => { onChangeMute(isAllMute) }} 
-                                            style={{margin: "3px 0"}}/>
+                                            onClick={() => { onChangeMute(isAllMute) }}/>
                                         <Text className="tb-switch-label">全员禁言</Text>
                                     </Flex>
                                 </Flex>
                             }
-                        </div>
+                        </>
                     ) : (
-                        <Flex justifyContent="flex-end" alignItems='center' m='0 12px' height='36px'>
-                            <Switch size="small" checked={isQaSwitch} onClick={() => { onChangeQa(isQaSwitch) }}/>
-                            <Text className="tb-switch-label">提问模式</Text>
+                        <Flex justifyContent="space-between" alignItems='center' m='0 12px' height='36px'>
+                            <Flex>
+                                {isQaSwitch 
+                                &&  <>
+                                        <img src={iconQaMode} style={{width: 14}}></img>
+                                        <Text className="tb-switch-label" style={{color: '#626773'}}>提问模式已开启</Text>
+                                    </>
+                                }
+                            </Flex>
+                            <Flex>
+                                <Switch size="small" checked={isQaSwitch} onClick={() => { onChangeQa(isQaSwitch) }}/>
+                                <Text className="tb-switch-label">提问模式</Text>
+                            </Flex>
                         </Flex>
                     )}
                 </div>

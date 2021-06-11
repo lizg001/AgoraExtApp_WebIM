@@ -25,8 +25,7 @@ const Message = ({ messageList, isHiedReward, hasEditPermisson, activeKey, isLoa
     }
     if (!renderMsgs?.length) {
         return (
-            <></>
-            // <Text textAlign='center' color='#D3D6D8'>暂无消息</Text>
+            <div></div>
         )
     }
 
@@ -59,24 +58,16 @@ const Message = ({ messageList, isHiedReward, hasEditPermisson, activeKey, isLoa
 
     return (
         <>
-            <div >
-                <div>
-                    {renderMsgs.map((message) => <MessageItem message={message} key={message.id} setShowModal={setShowModal} setRecallMsgId={setRecallMsgId} hasEditPermisson={hasEditPermisson} />)
-                    }
-                </div>
+        <div >
+            {renderMsgs.map((message) => 
+                <MessageItem message={message} key={message.id} setShowModal={setShowModal} setRecallMsgId={setRecallMsgId} hasEditPermisson={hasEditPermisson} />)
+            }
+        </div>
+        {/* 弹窗 */}
+        <div style={{ display: `${showModal}` }}>
+            <div className='mask'>
             </div>
-            {/* 弹窗 */}
-            <div style={{ display: `${showModal}` }}>
-                <div className='mask'>
-                </div>
-                <div className='card'>
-                    <div className='card-txt'>确定要删除此消息吗？</div>
-                    <Flex justifyContent='center' >
-                        <div className='cancle-btn' onClick={() => { setShowModal('none') }}>取消</div>
-                        <div className='ok-btn' onClick={() => { deleteMsg(roomId, recallMsgId, activeKey) }}>确定</div>
-                    </Flex>
-                </div>
-            </div>
+        </div>
         </>
     )
 }

@@ -43,9 +43,7 @@ const QaUserList = ({ getClickUser, tabKey }) => {
         <Flex style={{ height: '100%' }}>
             {
                 isQaList ? (
-                    <div className='qa-mark '>
-                        <div className='qa-card'>暂无提问</div>
-                    </div>
+                    <div className='qa-mark'></div>
                 ) : (
                         <div className='user-border'>
                             {
