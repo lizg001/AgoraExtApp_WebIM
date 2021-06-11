@@ -133,10 +133,13 @@ const reducer = (state = defaultState, action) => {
         case 'SAVE_ROOM_MESSAGES':
             const { showNotice, isHistory } = action.options
             let msgs;
+            let isTabShowChatNotice;
             if (isHistory) {
                 msgs = [data].concat(state.messages.list)
+                isTabShowChatNotice = state.messages.notification[CHAT_TABS_KEYS.chat];
             } else {
                 msgs = state.messages.list.concat(data)
+                isTabShowChatNotice = showNotice;
             }
             if (data.ext.msgId) {
                 msgs = msgs.filter((item) => item.id !== data.ext.msgId)
@@ -148,7 +151,7 @@ const reducer = (state = defaultState, action) => {
                     list: msgs,
                     notification: {
                         ...state.messages.notification,
-                        [CHAT_TABS_KEYS.chat]: showNotice
+                        [CHAT_TABS_KEYS.chat]: isTabShowChatNotice
                     }
                 }
             };
@@ -180,10 +183,16 @@ const reducer = (state = defaultState, action) => {
         case 'SAVE_QA_MESSAGE':
             const qaList = state.messages.qaList
             let qaMsgs;
+            let isShowRedNotice;
+            let isTabShowRedNotice;
             if (action.options.isHistory) {
                 qaMsgs = [data, ...(qaList[qaSender]?.msg || [])]
+                isShowRedNotice = qaList[qaSender]?.showRedNotice;
+                isTabShowRedNotice = state.messages.notification[CHAT_TABS_KEYS.qa];
             } else {
                 qaMsgs = [...(qaList[qaSender]?.msg || []), data]
+                isShowRedNotice = action.options.showNotice;
+                isTabShowRedNotice = action.options.showNotice;
             }
             return {
                 ...state,
@@ -193,13 +202,13 @@ const reducer = (state = defaultState, action) => {
                         ...qaList,
                         [qaSender]: {
                             msg: qaMsgs,
-                            showRedNotice: action.options.showNotice,
+                            showRedNotice: isShowRedNotice,
                             time: qaList[qaSender]?.time || action.time
                         }
                     },
                     notification: {
                         ...state.messages.notification,
-                        [CHAT_TABS_KEYS.qa]: action.options.showNotice
+                        [CHAT_TABS_KEYS.qa]: isTabShowRedNotice
                     }
                 }
             };
