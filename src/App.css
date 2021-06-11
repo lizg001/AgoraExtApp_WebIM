@@ -1,5 +1,6 @@
 * {
     box-sizing: border-box;
+    outline: 0;
 }
 
 /*---滚动条默认显示样式--*/
@@ -51,12 +52,12 @@
 
 .app {
     position: absolute;
-    width: 296px;
+    width: 280px;
     background: #14161A;
     display: flex;
     flex-direction: column;
     height: 100%;
-    padding: 8px 8px 8px;
+    padding: 0;
 }
 
 .ant-alert-with-description .ant-alert-message {

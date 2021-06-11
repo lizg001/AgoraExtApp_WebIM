@@ -2,11 +2,11 @@
     margin-top: 10px;
     background: #1D2026;
     border-radius: 8px;
-    height: calc(100% - 109px);
+    height: calc(100% - 104px);
 }
 
 .message>.ant-tabs.ant-tabs-top {
-    height: calc(100% - 182px);
+    height: calc(100% - 192px);
 }
 
 .message>.ant-tabs.ant-tabs-top>.ant-tabs-content-holder {
@@ -22,7 +22,7 @@
 }
 
 .message>.member-msg {
-    height: calc(100% - 172px);
+    height: calc(100% - 192px);
 }
 
 .message-list,

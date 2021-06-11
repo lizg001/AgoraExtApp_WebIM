@@ -1,13 +1,12 @@
 .footer {
     height: 192px;
     border-radius: 4px 4px 0px 0px;
-    /* overflow: hidden; */
+    background: #1D2026;
 }
 
 .footer-toolBar {
     width: auto;
     height: 36px;
-    background: #1D2026;
     box-shadow: 0px -4px 4px 0px rgba(0, 0, 0, 0.1);
 }
 
