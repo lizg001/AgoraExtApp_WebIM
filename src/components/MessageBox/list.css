@@ -51,6 +51,7 @@
     padding: 16px 12px;
     overflow-y: scroll;
     height: calc(130%);
+    background: #1D2026;
 }
 
 .user-border {

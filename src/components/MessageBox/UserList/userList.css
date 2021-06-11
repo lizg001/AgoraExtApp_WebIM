@@ -115,3 +115,7 @@
 .user-item:hover .voice-img-box {
     visibility: visible;
 }
+
+div .user-item:last-child{
+    padding-bottom: 16px;
+}
