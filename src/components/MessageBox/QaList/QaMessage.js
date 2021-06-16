@@ -2,6 +2,7 @@ import { Text, Image, Flex } from "rebass";
 import { useState, useEffect } from 'react'
 import { useSelector } from 'react-redux'
 import { Tag } from 'antd'
+import scrollElementToBottom from '../../../utils/scrollElementToBottom'
 
 // 助教端 提问消息列表
 const QaMessage = (props) => {
@@ -11,8 +12,13 @@ const QaMessage = (props) => {
         setNewUser(qaList[props.currentUser]?.msg)
     }, [qaList[props.currentUser]])
 
+    useEffect(() => {
+        let scrollElement = document.getElementById('qa-box-tag')
+        scrollElementToBottom(scrollElement)
+    }, [qaList[props.currentUser]])
+
     return (
-        <div className='qa'>
+        <div className='qa' id='qa-box-tag'>
             {
                 newUser && newUser.map((message, index) => {
                     let isText = message.type === "txt" || message.contentsType === "TEXT"

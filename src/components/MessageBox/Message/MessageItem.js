@@ -57,7 +57,7 @@ const MessageItem = ({ message, setShowModal, setRecallMsgId }) => {
             {
                 isCmdMsg && (
                     <div style={{
-                        display: 'flex', justifyContent: 'center'
+                        display: 'flex', justifyContent: 'center', margin: '5px 0'
                     }}>
                         <Text fontSize='12px' color='#7C848C'>{message.ext.nickName || '您'}删除了一条消息</Text>
                     </div>
@@ -72,7 +72,7 @@ const MessageItem = ({ message, setShowModal, setRecallMsgId }) => {
                             {/* 是否禁言的状态标志 */}
                             <img className="mute-status" src={iconForbid} style={{display: !roomMuteList.includes(message.from) ? 'none' : 'block'}}></img>
                         </div>
-                        <Flex flexDirection="column">
+                        <Flex flexDirection="column" className="flex-1">
                             <Flex alignItems="center">
                                 {/* 主讲/辅导tag */}
                                 {(message.ext.role === 1 || message.ext.role === 3) && <Tag className='tags'>

@@ -24,6 +24,8 @@
 
 .notice .more-content {
   min-height: 300px;
+  max-height: calc(100% - 80px);
+  overflow-y: scroll;
 }
 
 .notice .content .content-box {
@@ -32,7 +34,6 @@
   font-weight: 400;
   color: #a8adb2;
   line-height: 18px;
-  height: 40px;
   padding-top: 6px;
   word-break: break-all;
   white-space: pre-wrap;
@@ -88,10 +89,12 @@
   background: linear-gradient(90deg, #1DB4FE 0%, #028CFF 100%);
   width: 100%;
   cursor: pointer;
-  font-weight: 400;
-  font-size: 14px;
+  font-weight: 400 !important;
+  font-size: 14px !important;
+  margin-top: 10px !important;
 }
 
 button.save-btn:disabled {
   background: #7ECBFF;
+  cursor: not-allowed;
 }

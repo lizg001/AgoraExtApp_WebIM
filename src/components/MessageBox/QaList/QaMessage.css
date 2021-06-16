@@ -63,3 +63,8 @@
     color: #626773;
     padding-right: 10px;
 }
+
+.student-qa-list {
+    flex: 1;
+    overflow: scroll;
+}

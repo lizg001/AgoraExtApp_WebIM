@@ -12,6 +12,7 @@ import store from '../../redux/store'
 import { roomMessages, qaMessages, removeChatNotification, moreHistory, loadGif } from '../../redux/aciton'
 import { getUserInfo } from '../../api/userInfo'
 import { getHistoryMessages } from '../../api/historyMessages'
+import scrollElementToBottom from '../../utils/scrollElementToBottom'
 
 
 import './list.css'
@@ -55,6 +56,7 @@ const MessageList = ({ activeKey, setActiveKey }) => {
   let bool = _.find(qaList, (v, k) => {
     return v.showRedNotice
   })
+
   // 加载默认展示
   useEffect(() => {
     if (activeKey === 'USER') {
@@ -111,6 +113,11 @@ const MessageList = ({ activeKey, setActiveKey }) => {
     // eslint-disable-next-line react-hooks/exhaustive-deps
   }, [roomUsers])
 
+  useEffect(() => {
+    let scrollElement = document.getElementById('chat-box-tag')
+    scrollElementToBottom(scrollElement)
+  }, [messageList])
+
   // 遍历成员列表，拿到成员数据，结构和 roomAdmin 统一
   roomUsers.map((item) => {
     let val
@@ -159,14 +166,15 @@ const MessageList = ({ activeKey, setActiveKey }) => {
                   <div className="msg-red-dot"></div>
                 )}
               </Flex>} key={key}>
-                <div className={className}>
+                <div className={className} id={key === CHAT_TABS_KEYS.chat ? "chat-box-tag" : ""}>
                   {name !== '成员' && !isLoadGif && (isMoreHistory ? <div className='more-msg' onClick={() => { getHistoryMessages(name === '提问') }}>加载更多</div> : <div className='more-msg'>没有更多消息啦~</div>)}
                   {isLoadGif && <div className='load'></div>}
                   <Component {
                     ...key === CHAT_TABS_KEYS.chat && {
                       messageList,
                       isHiedReward,
-                      activeKey
+                      activeKey,
+                      id: 'chat-box-tag'
                     }
                   } {...key === CHAT_TABS_KEYS.qa && {
                     getClickUser,
@@ -182,16 +190,16 @@ const MessageList = ({ activeKey, setActiveKey }) => {
       ) : (
           isHiedQuestion 
           ? (
-            <div className="member-msg">
+            <Flex flexDirection="column" className="member-msg">
               {Number(isTeacher) === 2 && <div className="qa-student-tips">
                 提示：提问内容仅你和老师可见
               </div>}
               {isLoadGif && <div className='load'></div>}
               <QuestionMessage userName={userName} isLoadGif={isLoadGif} isMoreHistory={isMoreHistory} getHistoryMessages={getHistoryMessages} />
-            </div>
+            </Flex>
           ) :  (
               <>
-                <div className="member-msg">
+                <div className="member-msg" id="chat-box-tag">
                   {isLoadGif && <div className='load'></div>}
                   {!isLoadGif && (isMoreHistory ? <div className='more-msg' onClick={() => { getHistoryMessages(false) }}>加载更多</div> : <div className='more-msg'>没有更多消息啦~</div>)}
 

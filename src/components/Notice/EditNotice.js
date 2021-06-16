@@ -4,6 +4,7 @@ import { Input } from 'antd'
 import { Flex, Text, Button, Image } from 'rebass'
 import { LeftOutlined } from '@ant-design/icons'
 import { updateRoomNotice } from '../../api/chatroom'
+import checkInputStringRealLength from '../../utils/checkStringRealLength';
 import backImg from '../../themes/img/left-back.png'
 
 const { TextArea } = Input;
@@ -19,7 +20,8 @@ const EditNotice = ({ hasEditPermisson, roomAnnouncement, onView}) => {
     // 公告内容修改
     const changeContent = (e) => {
         let content = e.target.value;
-        setCount(content.length);
+        let tempCount = checkInputStringRealLength(content);
+        setCount(tempCount);
         setNewContent(content);
     }
 
@@ -31,17 +33,15 @@ const EditNotice = ({ hasEditPermisson, roomAnnouncement, onView}) => {
                 <span></span>
             </Flex>
             <TextArea placeholder="请输入公告..." onChange={changeContent}
-                className='update-content' maxLength={300} defaultValue={roomAnnouncement}
+                className='update-content' defaultValue={roomAnnouncement} value={newContent}
             ></TextArea>
             {
                 hasEditPermisson && <div>
                     <Flex justifyContent='flex-end' mb='16px' fontSize={12} color='#626773'>{count}/300</Flex>
-                    <Button disabled={count === 0} variant='primary' className='save-btn' onClick={() => {
+                    <Button disabled={count === 0 || count > 300} variant='primary' className='save-btn' onClick={() => {
                         updateRoomNotice(roomId, newContent);
                         onView();
                     }}
-                    fontSize={14}
-                    fontWeight={400}
                     >保存</Button>
                 </div>
             }

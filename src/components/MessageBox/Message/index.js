@@ -6,7 +6,6 @@ import store from '../../../redux/store'
 import { roomMessages } from '../../../redux/aciton'
 import WebIM from '../../../utils/WebIM'
 import MessageItem from './MessageItem'
-
 import './MessageList.css'
 
 
@@ -66,6 +65,13 @@ const Message = ({ messageList, isHiedReward, hasEditPermisson, activeKey, isLoa
         {/* 弹窗 */}
         <div style={{ display: `${showModal}` }}>
             <div className='mask'>
+            </div>
+            <div className='card'>
+                <div className='card-txt'>确定要删除此消息吗？</div>
+                <Flex justifyContent='center' >
+                    <div className='cancle-btn' onClick={() => { setShowModal('none') }}>取消</div>
+                    <div className='ok-btn' onClick={() => { deleteMsg(roomId, recallMsgId, activeKey) }}>确定</div>
+                </Flex>
             </div>
         </div>
         </>

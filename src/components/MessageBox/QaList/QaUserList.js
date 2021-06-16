@@ -40,7 +40,7 @@ const QaUserList = ({ getClickUser, tabKey }) => {
         }
     }, [_.get(qaList[currentUser], 'msg')])
     return (
-        <Flex style={{ height: '100%' }}>
+        <Flex style={{ height: 'calc(100% - 25px)' }}>
             {
                 isQaList ? (
                     <div className='qa-mark'></div>
