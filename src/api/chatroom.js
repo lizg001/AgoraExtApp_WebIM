@@ -12,6 +12,7 @@ export const joinRoom = async () => {
         roomId: roomId,   // 聊天室id
         message: 'reason'   // 原因（可选参数）
     }
+    await setUserInfo();
     await WebIM.conn.joinChatRoom(options).then((res) => {
         message.success('已成功加入聊天室！');
         setTimeout(() => {
@@ -19,7 +20,6 @@ export const joinRoom = async () => {
         }, 3000);
         getRoomInfo(options.roomId);
         getHistoryMessages(false);
-        setUserInfo();
     })
 
 };
