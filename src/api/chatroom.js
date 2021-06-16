@@ -1,6 +1,6 @@
 import WebIM from "../utils/WebIM";
 import { message } from 'antd'
-import { roomInfo, roomNotice, roomAdmins, roomUsers, roomMuteUsers, roomAllMute, loadGif } from '../redux/aciton'
+import { roomInfo, roomNotice, roomAdmins, roomUsers, roomMuteUsers, roomAllMute, loadGif, userMute } from '../redux/aciton'
 import store from '../redux/store'
 import { setUserInfo } from './userInfo'
 import { getHistoryMessages } from './historyMessages'
@@ -8,6 +8,8 @@ import { getHistoryMessages } from './historyMessages'
 // 加入聊天室
 export const joinRoom = async () => {
     const roomId = store.getState().extData.chatRoomId;
+    const userUuid = store.getState().extData.userUuid;
+    const roleType = store.getState().extData.roleType;
     let options = {
         roomId: roomId,   // 聊天室id
         message: 'reason'   // 原因（可选参数）
@@ -18,6 +20,9 @@ export const joinRoom = async () => {
         setTimeout(() => {
             message.destroy();
         }, 3000);
+        if (Number(roleType) === 2 || Number(roleType) === 0) {
+            isChatRoomWhiteUser(roomId, userUuid)
+        }
         getRoomInfo(options.roomId);
         getHistoryMessages(false);
     })
@@ -117,12 +122,24 @@ export const getRoomMuteList = (roomId) => {
     })
 }
 
-// 获取聊天室白名单，为了保证禁言时可以提问，使用白名单做完禁言列表
+// 获取聊天室白名单，为了保证禁言时可以提问，使用白名单做禁言列表
 export const getRoomWhileList = (roomId) => {
     let options = {
         chatRoomId: roomId  // 聊天室id
     }
     WebIM.conn.getChatRoomWhitelist(options).then((res) => {
         store.dispatch(roomMuteUsers(res.data));
+    });
+}
+
+// 判断当前登陆账号是否在白名单
+export const isChatRoomWhiteUser = (roomId, userId) => {
+    let options = {
+        chatRoomId: roomId, // 聊天室id
+        userName: userId         // 要查询的成员
+    }
+    WebIM.conn.isChatRoomWhiteUser(options).then((res) => {
+        console.log('isChatRoomWhiteUser', res);
+        store.dispatch(userMute(res.data.white))
     });
 }
