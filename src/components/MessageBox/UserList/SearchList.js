@@ -30,10 +30,15 @@ const SearchList = ({ roomListInfo, searchUser, onSetMute, muteMembers }) => {
     let speakerTeacher = []
     let coachTeacher = []
     let student = []
+    let audience = []
 
     _.forIn(aryList, (val, key) => {
         let newVal = {}
         switch (val[3]) {
+            case '0':
+                newVal = _.assign(val, { id: val[2] })
+                audience.push(newVal)
+                break;
             case '1':
                 newVal = _.assign(val, { id: val[2] })
                 speakerTeacher.push(newVal)
@@ -50,7 +55,7 @@ const SearchList = ({ roomListInfo, searchUser, onSetMute, muteMembers }) => {
                 break;
         }
     })
-    const roomUserList = _.concat(speakerTeacher, coachTeacher, student)
+    const roomUserList = _.concat(speakerTeacher, coachTeacher,audience, student)
     return (
         <div>
             {

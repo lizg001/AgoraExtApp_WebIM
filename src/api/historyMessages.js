@@ -26,7 +26,7 @@ export const getHistoryMessages = async (isQA) => {
                     counts--;
                     store.dispatch(roomMessages(val, { showNotice: false, isHistory: true }))
                 } else if ([1, 2].includes(msgtype)) {
-                    store.dispatch(qaMessages(val, asker, { showNotice: true, isHistory: true }, time))
+                    store.dispatch(qaMessages(val, asker, { showNotice: false, isHistory: true }, time))
                 }
             })
         },

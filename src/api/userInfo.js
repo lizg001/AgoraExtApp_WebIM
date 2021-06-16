@@ -5,9 +5,10 @@ import WebIM from "../utils/WebIM";
 
 // 设置自己的用户属性
 export const setUserInfo = () => {
+    
     const userAvatarUrl = store.getState().extData.avatarUrl;
-    const userNickName = store.getState().extData.nickName;
     const userRoleType = Number(store.getState().extData.roleType);
+    const userNickName = userRoleType === 0 ? "录制机器人":store.getState().extData.nickName;
     let options = {
         nickname: userNickName,
         avatarurl: userAvatarUrl,

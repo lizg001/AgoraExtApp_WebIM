@@ -95,6 +95,7 @@ const MessageList = ({ activeKey, setActiveKey }) => {
   let speakerTeacher = []
   let coachTeacher = []
   let student = []
+  let audience = []
 
   // 遍历群组成员，过滤owner
   const newRoomUsers = []
@@ -120,6 +121,10 @@ const MessageList = ({ activeKey, setActiveKey }) => {
     }
     let newVal = {}
     switch (val && val.ext) {
+      case '0':
+        newVal = _.assign(val, { id: item.member })
+        audience.push(newVal)
+        break;
       case '1':
         newVal = _.assign(val, { id: item.member })
         speakerTeacher.push(newVal)
@@ -136,7 +141,7 @@ const MessageList = ({ activeKey, setActiveKey }) => {
         break;
     }
   })
-  const roomUserList = _.concat(speakerTeacher, coachTeacher, student)
+  const roomUserList = _.concat(speakerTeacher, coachTeacher,audience, student)
 
   return (
     <div className='message'>

@@ -12,11 +12,14 @@ import iconChat from '../../../themes/img/icon-chat.svg'
 import iconDelete from '../../../themes/img/icon-delete.svg'
 import avatarUrl from '../../../themes/img/avatar-big@2x.png'
 import iconForbid from '../../../themes/img/icon-forbid.svg'
+import _ from 'lodash'
 
 // 消息渲染
 const MessageItem = ({ message, setShowModal, setRecallMsgId }) => {
     const isTeacher = useSelector(state => state.loginInfo.ext)
-    const roomMuteList = useSelector(state => state.room.muteList)
+    let roomMuteList = useSelector(state => state.room.muteList)
+    const admins = useSelector(state => state.room.admins);
+    roomMuteList = _.difference(roomMuteList,admins);
     // 聊天框禁言
     const onSetMute = (message) => {
         let options = {
