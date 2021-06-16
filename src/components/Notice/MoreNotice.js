@@ -45,8 +45,6 @@ const EditNotice = ({ hasEditPermisson, roomAnnouncement, onView, onEdit }) => {
                         variant='primary' 
                         className='save-btn' 
                         onClick={() => {updateRoomNotice(roomId, ""); onView();}} 
-                        fontSize={14} 
-                        fontWeight={400}
                     >删除</Button>
                 </div>
             }

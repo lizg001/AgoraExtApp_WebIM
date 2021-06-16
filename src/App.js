@@ -39,9 +39,9 @@ const App = function () {
   WebIM.conn.listen({
     onOpened: () => {
       joinRoom();
-      setTimeout(() => {
-        history.push(`/chatroom?chatRoomId=${iframeData.chatRoomId}&roomUuid=${iframeData.roomUuid}&roleType=${iframeData.roleType}&userUuid=${iframeData.userUuid}&avatarUrl=${iframeData.avatarUrl}&org=${iframeData.org}&apk=${iframeData.apk}&nickName=${iframeData.nickName}`)
-      }, 500);
+      // setTimeout(() => {
+      //   history.push(`/chatroom?chatRoomId=${iframeData.chatRoomId}&roomUuid=${iframeData.roomUuid}&roleType=${iframeData.roleType}&userUuid=${iframeData.userUuid}&avatarUrl=${iframeData.avatarUrl}&org=${iframeData.org}&apk=${iframeData.apk}&nickName=${iframeData.nickName}`)
+      // }, 500);
     },
     // 文本消息
     onTextMessage: (message) => {

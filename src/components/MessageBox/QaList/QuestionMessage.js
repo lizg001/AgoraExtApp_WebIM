@@ -1,7 +1,9 @@
 
+import { useEffect } from 'react'
 import { useSelector } from 'react-redux'
 import { Flex, Image, Text } from 'rebass'
 import { Tag } from 'antd'
+import scrollElementToBottom from '../../../utils/scrollElementToBottom'
 import './QaMessage.css'
 import avatarUrl from '../../../themes/img/avatar-big@2x.png'
 
@@ -9,8 +11,14 @@ import avatarUrl from '../../../themes/img/avatar-big@2x.png'
 const QuestionMessage = ({ userName, isLoadGif, isMoreHistory, getHistoryMessages }) => {
     const qaList = useSelector(state => state.messages.qaList) || [];
     const idQaList = qaList[userName] !== undefined;
+
+    useEffect(() => {
+        let scrollElement = document.getElementById('qa-box-tag')
+        scrollElementToBottom(scrollElement)
+    }, [qaList[userName]])
+
     return (
-        <>
+        <div className="student-qa-list" id="qa-box-tag">
             {!isLoadGif && (isMoreHistory ? <div className='more-msg' onClick={() => { getHistoryMessages(true) }}>加载更多</div> : <div className='more-msg'>没有更多消息啦~</div>)}
             {
                 idQaList ? (
@@ -20,7 +28,7 @@ const QuestionMessage = ({ userName, isLoadGif, isMoreHistory, getHistoryMessage
                         return (
                             <Flex className="msg-list-item">
                                 <img className='msg-img' src={message.ext.avatarUrl || avatarUrl} />
-                                <Flex flexDirection="column">
+                                <Flex flexDirection="column" className="flex-1">
                                     <div style={{ marginBottom: 5 }}>
                                         <Flex alignItems="center" >
                                             {/* 主讲/辅导tag */}
@@ -41,7 +49,7 @@ const QuestionMessage = ({ userName, isLoadGif, isMoreHistory, getHistoryMessage
                         <></>
                     )
             }
-        </>
+        </div>
     )
 }
 

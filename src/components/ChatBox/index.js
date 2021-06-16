@@ -1,4 +1,4 @@
-import React, { useState, useRef } from 'react'
+import React, { useState, useRef, useEffect } from 'react'
 import { useSelector } from "react-redux";
 import { Button, Input, message } from 'antd'
 import { SmileOutlined, CloseCircleOutlined } from '@ant-design/icons';
@@ -14,6 +14,7 @@ import msgAvatarUrl from '../../themes/img/avatar-big@2x.png'
 import './index.css'
 import RcTooltip from 'rc-tooltip'
 import 'rc-tooltip/assets/bootstrap_white.css'
+import checkInputStringRealLength from '../../utils/checkStringRealLength'
 
 // 展示表情
 const ShowEomji = ({ getEmoji, hideEmoji }) => {
@@ -50,7 +51,8 @@ const ChatBox = ({ isTool, qaUser, activeKey }) => {
     const [count, setCount] = useState(0);
     const [content, setContent] = useState('');
     const [isEmoji, setIsEmoji] = useState(false);
-    const [isShow, setIsShow] = useState(false)
+    const [isShow, setIsShow] = useState(false);
+    const [sendBtnDisabled, setSendBtnDisabled] = useState(true);
 
 
     // 整体都要改
@@ -90,26 +92,34 @@ const ChatBox = ({ isTool, qaUser, activeKey }) => {
 
     // 获取到点击的表情，加入到输入框
     const getEmoji = (e) => {
-        let emojiMsg = content + e.target.innerText;
-        if (emojiMsg.length <= INPUT_SIZE) {
-            setContent(emojiMsg)
-            setCount(emojiMsg.length);
-        }
+
+        let emojiContent = content + e.target.innerText;
+        let tempCount = checkInputStringRealLength(emojiContent);
+        setCount(tempCount);
+        setContent(emojiContent);
+        setSendBtnDisabled(tempCount === 0 ? true : false)
     }
     // 输入框消息
     const changeMsg = (e) => {
-        let msgCentent = e.target.value;
-        if (msgCentent.length <= INPUT_SIZE) {
-            setCount(msgCentent.length);
-            setContent(msgCentent);
-        }
+
+        let msgContent = e.target.value;
+        let tempCount = checkInputStringRealLength(msgContent);
+        setCount(tempCount);
+        setContent(msgContent);
+        setSendBtnDisabled(tempCount === 0 ? true : false)
     }
+    
     // 发送消息
     const sendMessage = (roomId, content) => (e) => {
-        e.preventDefault()
+        e.preventDefault();
+        // 禁止发送状态下 不允许发送
+        if (sendBtnDisabled === true){
+            return false;
+        }
+
         // 消息为空不发送
-        if (content === '' || content.length > 500) {
-            message.error('消息内容不能为空且字符不能超过500！')
+        if (content === '' || count > INPUT_SIZE) {
+            message.error(`消息内容不能为空且字符不能超过${INPUT_SIZE}！`)
             setTimeout(() => {
                 message.destroy();
             }, 2000);
@@ -117,12 +127,13 @@ const ChatBox = ({ isTool, qaUser, activeKey }) => {
         }
         // 老师回复时必须选中提问学生才能发言
         if (msgType === 2 && requestUser === '') {
-            message.error('请选择提问学生!')
+            message.error('请选择提问学生！')
             setTimeout(() => {
                 message.destroy();
             }, 2000);
             return
         }
+        setSendBtnDisabled(true);// 发送消息，设置按钮为禁止点击
         let id = WebIM.conn.getUniqueId();         // 生成本地消息id
         let msg = new WebIM.message('txt', id); // 创建文本消息
         let option = {
@@ -286,7 +297,7 @@ const ChatBox = ({ isTool, qaUser, activeKey }) => {
                 </div>
                 <Flex justifyContent='flex-end' className='btn-tool'>
                     <Text color="#626773" fontSize="12px">{count}/{INPUT_SIZE}</Text>
-                    <button disabled={count === 0} onClick={sendMessage(roomId, content)} className="msg-btn">
+                    <button disabled={sendBtnDisabled} onClick={sendMessage(roomId, content)} className="msg-btn">
                         发送
                     </button>
                 </Flex>

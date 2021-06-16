@@ -365,3 +365,7 @@
 .ant-switch-rtl.ant-switch-small.ant-switch-checked .ant-switch-handle {
     right: calc(100% - 12px - 2px);
 }
+
+.flex-1 {
+    flex: 1;
+}
