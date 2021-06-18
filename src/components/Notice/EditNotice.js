@@ -4,12 +4,12 @@ import { Input } from 'antd'
 import { Flex, Text, Button, Image } from 'rebass'
 import { LeftOutlined } from '@ant-design/icons'
 import { updateRoomNotice } from '../../api/chatroom'
-import checkInputStringRealLength from '../../utils/checkStringRealLength';
 import backImg from '../../themes/img/left-back.png'
 
 const { TextArea } = Input;
 
 const EditNotice = ({ hasEditPermisson, roomAnnouncement, onView}) => {
+    const NOTICE_INPUT_LENGTH = 300;
     const roomId = useSelector((state) => state.room.info.id);
 
     // 公告栏内容
@@ -19,13 +19,17 @@ const EditNotice = ({ hasEditPermisson, roomAnnouncement, onView}) => {
 
     // 公告内容修改
     const changeContent = (e) => {
-        console.log(e.target.value);
 
         let content = e.target.value;
-        // let tempCount = Array.from(content).length;
-        let tempCount = checkInputStringRealLength(content);
-        setCount(tempCount);
-        setNewContent(content);
+        let tempTotalContent = Array.from(content);
+
+        // 输入内容长于限制数 做截取
+        if (tempTotalContent.length > NOTICE_INPUT_LENGTH) {
+            tempTotalContent = tempTotalContent.slice(0, NOTICE_INPUT_LENGTH);
+        }
+
+        setCount(tempTotalContent.length);
+        setNewContent(tempTotalContent.join(""));
     }
 
     return (
@@ -40,7 +44,7 @@ const EditNotice = ({ hasEditPermisson, roomAnnouncement, onView}) => {
             ></TextArea>
             {
                 hasEditPermisson && <div>
-                    <Flex justifyContent='flex-end' mb='16px' fontSize={12} color='#626773'>{count}/300</Flex>
+                    <Flex justifyContent='flex-end' mb='16px' fontSize={12} color='#626773'>{count}/{NOTICE_INPUT_LENGTH}</Flex>
                     <Button disabled={count === 0 || count > 300} variant='primary' className='save-btn' onClick={() => {
                         updateRoomNotice(roomId, newContent);
                         onView();

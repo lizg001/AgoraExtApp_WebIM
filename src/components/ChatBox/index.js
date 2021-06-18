@@ -94,19 +94,46 @@ const ChatBox = ({ isTool, qaUser, activeKey }) => {
 
     // 获取到点击的表情，加入到输入框
     const getEmoji = (e) => {
-        let emojiContent = content + e.target.innerText;
-        let tempCount = checkInputStringRealLength(emojiContent);
+        /*
+         * 处理逻辑：A 允许输入总长度   B 还可输入长度
+         * 1、判断进来的字符串长度 C
+         *      如果C 大于 B 做截取操作
+         *      如果C 小于 B 直接输入
+         */
+
+        // 本次输入的内容
+        let tempContent = e.target.innerText;
+        // 本次输入的内容切割为数组
+        let tempContentArr = Array.from(tempContent);
+        // 剩余可输入字数
+        let surplusCount = INPUT_SIZE - count;
+        
+        // 输入的字数大于剩余字数时，做裁减
+        if (tempContentArr.length > surplusCount) {
+            tempContentArr = tempContentArr.slice(0, surplusCount)
+        }
+        
+        // 更新内容和长度
+        let totalContent = content + tempContentArr.join("");
+        let tempCount = Array.from(totalContent).length;
         setCount(tempCount);
-        setContent(emojiContent);
+        setContent(totalContent);
         setSendBtnDisabled(tempCount === 0 || tempCount > INPUT_SIZE ? true : false)
     }
     // 输入框消息
     const changeMsg = (e) => {
-
         let msgContent = e.target.value;
-        let tempCount = checkInputStringRealLength(msgContent);
+        // let tempCount = checkInputStringRealLength(msgContent);
+        let tempContent = Array.from(msgContent);
+
+        if (tempContent.length > INPUT_SIZE) {
+            tempContent = tempContent.slice(0, INPUT_SIZE);
+        }
+
+        // 更新内容和长度
+        let tempCount = tempContent.length;
         setCount(tempCount);
-        setContent(msgContent);
+        setContent(tempContent.join(""));
         setSendBtnDisabled(tempCount === 0 || tempCount > INPUT_SIZE ? true : false)
     }
     
