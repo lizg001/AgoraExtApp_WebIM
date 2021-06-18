@@ -19,7 +19,10 @@ const EditNotice = ({ hasEditPermisson, roomAnnouncement, onView}) => {
 
     // 公告内容修改
     const changeContent = (e) => {
+        console.log(e.target.value);
+
         let content = e.target.value;
+        // let tempCount = Array.from(content).length;
         let tempCount = checkInputStringRealLength(content);
         setCount(tempCount);
         setNewContent(content);

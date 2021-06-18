@@ -15,6 +15,8 @@ import './index.css'
 import RcTooltip from 'rc-tooltip'
 import 'rc-tooltip/assets/bootstrap_white.css'
 import checkInputStringRealLength from '../../utils/checkStringRealLength'
+import iconMute from '../../themes/img/icon-mute.svg'
+
 
 // 展示表情
 const ShowEomji = ({ getEmoji, hideEmoji }) => {
@@ -92,12 +94,11 @@ const ChatBox = ({ isTool, qaUser, activeKey }) => {
 
     // 获取到点击的表情，加入到输入框
     const getEmoji = (e) => {
-
         let emojiContent = content + e.target.innerText;
         let tempCount = checkInputStringRealLength(emojiContent);
         setCount(tempCount);
         setContent(emojiContent);
-        setSendBtnDisabled(tempCount === 0 ? true : false)
+        setSendBtnDisabled(tempCount === 0 || tempCount > INPUT_SIZE ? true : false)
     }
     // 输入框消息
     const changeMsg = (e) => {
@@ -106,7 +107,7 @@ const ChatBox = ({ isTool, qaUser, activeKey }) => {
         let tempCount = checkInputStringRealLength(msgContent);
         setCount(tempCount);
         setContent(msgContent);
-        setSendBtnDisabled(tempCount === 0 ? true : false)
+        setSendBtnDisabled(tempCount === 0 || tempCount > INPUT_SIZE ? true : false)
     }
     
     // 发送消息
@@ -246,12 +247,14 @@ const ChatBox = ({ isTool, qaUser, activeKey }) => {
     return (
         <div className='chat-box'>
             {/* 是否全局禁言 */}
-            {!isTeacher && isAllMute && !isQa && <Flex className='msg-box-mute'>
+            {!isTeacher && isAllMute && !isQa && <Flex className='msg-box-mute' flexDirection="column">
+                <img src={iconMute} className="mute-state-icon"/>
                 <Text className='mute-msg'>全员禁言中</Text>
             </Flex>}
             {/* 是否被禁言 */}
-            {(!isTeacher && isUserMute) && !isQa && <Flex className='msg-box-mute'>
-                <Text className='mute-msg'>您已被禁言</Text>
+            {(!isTeacher && isUserMute) && !isQa && <Flex className='msg-box-mute' flexDirection="column">
+                <img src={iconMute} className="mute-state-icon"/>
+                <Text className='mute-msg'>你已被老师禁言，请谨慎发言哦</Text>
             </Flex>}
             {/* 不禁言展示发送框 */}
             {(isQa || (isTeacher || (!isUserMute && !isAllMute))) && <div >
@@ -284,12 +287,16 @@ const ChatBox = ({ isTool, qaUser, activeKey }) => {
                     </RcTooltip>}
                 </Flex>
                 <div>
+                    {/* 输入框中placeholder：
+                        教师端/助教端 聊天框显示：‘说点什么呗’；提问框显示：‘为他解答吧’； 
+                        学生端 聊天框显示：‘说点什么呗’；提问框显示：‘开始提问吧’
+                    */}
                     <Input.TextArea
-                        placeholder={activeKey === CHAT_TABS_KEYS.chat ? '说点什么呗~' : '为Ta解答吧~'}
+                        placeholder={activeKey === CHAT_TABS_KEYS.chat ? (isQa ? '开始提问吧~' : '说点什么呗~') : '为Ta解答吧~'}
                         onChange={(e) => changeMsg(e)}
                         className="msg-box"
-                        maxLength={INPUT_SIZE}
                         autoFocus
+                        // maxLength={INPUT_SIZE}
                         value={content}
                         onClick={hideEmoji}
                         onPressEnter={sendMessage(roomId, content)}
